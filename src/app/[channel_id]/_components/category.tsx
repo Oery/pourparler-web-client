@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { type Category } from "./definitions";
 import ChannelComponent from "./channel";
@@ -7,7 +9,7 @@ interface Props {
 }
 
 export default function CategoryComponent({ category }: Props) {
-    const [showChannels, setShowChannels] = useState(false);
+    const [showChannels, setShowChannels] = useState(true);
 
     return (
         <div className="flex select-none flex-col gap-2 pt-2">
