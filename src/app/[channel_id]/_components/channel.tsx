@@ -1,12 +1,10 @@
 import HashIcon from "./icon-hash";
 import MicIcon from "./icon-mic";
 
+import type { Channel as ChannelType } from "./definitions";
+
 interface Props {
-    channel: {
-        id: number;
-        name: string;
-        type: "text" | "voice";
-    };
+    channel: ChannelType;
 }
 
 export default function Channel({ channel }: Props) {
