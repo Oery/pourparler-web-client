@@ -1,13 +1,13 @@
 import HashIcon from "./icon-hash";
 import MicIcon from "./icon-mic";
 
-import type { Channel as ChannelType } from "./definitions";
+import { type Channel } from "./definitions";
 
 interface Props {
-    channel: ChannelType;
+    channel: Channel;
 }
 
-export default function Channel({ channel }: Props) {
+export default function ChannelComponent({ channel }: Props) {
     return (
         <div className="flex cursor-pointer items-center gap-3 truncate rounded-md px-4 py-1 text-base font-light transition-all hover:translate-x-2 hover:bg-stone-200">
             {channel.type === "voice" ? (

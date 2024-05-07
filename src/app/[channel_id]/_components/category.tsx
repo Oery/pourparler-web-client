@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Channel from "./channel";
 import { type Category } from "./definitions";
+import ChannelComponent from "./channel";
 
 interface Props {
     category: Category;
@@ -20,7 +20,7 @@ export default function CategoryComponent({ category }: Props) {
 
             {showChannels &&
                 category.channels.map((channel) => (
-                    <Channel key={channel.id} channel={channel} />
+                    <ChannelComponent key={channel.id} channel={channel} />
                 ))}
         </div>
     );
