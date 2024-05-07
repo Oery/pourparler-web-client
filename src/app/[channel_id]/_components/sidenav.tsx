@@ -12,6 +12,8 @@ export default async function SideNav() {
             (channel) => channel.categoryId === category.id,
         );
 
+        categoryChannels.sort((a, b) => a.id - b.id);
+
         return {
             id: category.id,
             name: category.name,
