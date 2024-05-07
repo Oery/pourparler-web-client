@@ -4,6 +4,7 @@
 import { sql } from "drizzle-orm";
 import {
   index,
+  pgEnum,
   pgTableCreator,
   serial,
   timestamp,
@@ -16,19 +17,38 @@ import {
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const createTable = pgTableCreator((name) => `pourparler-web-client_${name}`);
+export const createTable = pgTableCreator((name) => `pourparler_${name}`);
 
-export const posts = createTable(
-  "post",
+export const channelsTypes = pgEnum("CHANNEL_TYPES", ["text", "voice"]);
+
+export const channels = createTable(
+  "channel",
   {
     id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
+    name: varchar("name", { length: 256 }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    type: channelsTypes("type").notNull(),
+  },
+  (example) => ({
+    nameIndex: index("name_idx").on(example.name),
+  }),
+);
+
+export const messages = createTable(
+  "message",
+  {
+    id: serial("id").primaryKey(),
+    channelId: serial("channel_id").notNull(),
+    content: varchar("content", { length: 256 }).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     updatedAt: timestamp("updatedAt", { withTimezone: true }),
+    authorId: serial("author_id").notNull(),
   },
   (example) => ({
-    nameIndex: index("name_idx").on(example.name),
-  })
+    channelIdIndex: index("channel_id_idx").on(example.channelId),
+  }),
 );
