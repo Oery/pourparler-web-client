@@ -19,12 +19,16 @@ export default async function SideNav() {
         };
     });
 
+    // TODO: Add Open/Close feature
+
     return (
-        <div className="flex h-screen flex-col gap-4 bg-stone-300">
-            <h2 className="truncate">Château d&apos;Oery</h2>
-            {channelsByCategory.map((category) => (
-                <CategoryComponent category={category} key={category.id} />
-            ))}
+        <div className="flex h-screen w-52 flex-col gap-4 bg-stone-300 p-4">
+            <div>
+                <h2 className="truncate">Château d&apos;Oery</h2>
+                {channelsByCategory.map((category) => (
+                    <CategoryComponent category={category} key={category.id} />
+                ))}
+            </div>
         </div>
     );
 }
