@@ -3,3 +3,8 @@ export interface Channel {
     name: string;
     type: "text" | "voice";
 }
+
+export interface Category {
+    name: string;
+    channels: Channel[];
+}
