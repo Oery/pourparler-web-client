@@ -78,6 +78,7 @@ export const users = createTable(
         createdAt: timestamp("created_at", { withTimezone: true })
             .default(sql`CURRENT_TIMESTAMP`)
             .notNull(),
+        discordId: varchar("discord_id", { length: 256 }).notNull(),
     },
     (example) => ({
         nameIndex: index("user_idx").on(example.name),
