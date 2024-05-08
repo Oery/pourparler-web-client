@@ -1,7 +1,7 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
     bigint,
     index,
@@ -54,6 +54,13 @@ export const messages = createTable(
         channelIdIndex: index("message_idx").on(example.channelId),
     }),
 );
+
+export const messagesRelations = relations(messages, ({ one }) => ({
+    author: one(users, {
+        fields: [messages.authorId],
+        references: [users.id],
+    }),
+}));
 
 export const categories = createTable(
     "category",
