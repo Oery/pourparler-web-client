@@ -1,3 +1,10 @@
+export interface User {
+    id: number;
+    name: string;
+    avatarUrl: string;
+    discordId: string;
+}
+
 export interface Channel {
     id: number;
     name: string;
@@ -7,4 +14,14 @@ export interface Channel {
 export interface Category {
     name: string;
     channels: Channel[];
+}
+
+export interface Message {
+    id: number;
+    content: string;
+    createdAt: Date;
+}
+
+interface MessageWithAuthor extends Message {
+    author: User;
 }
