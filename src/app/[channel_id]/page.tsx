@@ -2,6 +2,8 @@ import { db } from "~/server/db";
 import ChannelBar from "./_components/channel-bar";
 import Chat from "./_components/chat";
 
+export const dynamic = "force-dynamic";
+
 interface Props {
     params: { channel_id: number };
 }
