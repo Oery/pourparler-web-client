@@ -3,6 +3,7 @@
 
 import { sql } from "drizzle-orm";
 import {
+    bigint,
     index,
     pgEnum,
     pgTableCreator,
@@ -47,7 +48,7 @@ export const messages = createTable(
             .default(sql`CURRENT_TIMESTAMP`)
             .notNull(),
         updatedAt: timestamp("updatedAt", { withTimezone: true }),
-        authorId: serial("author_id").notNull(),
+        authorId: bigint("author_id", { mode: "number" }).notNull(),
     },
     (example) => ({
         channelIdIndex: index("message_idx").on(example.channelId),
