@@ -1,5 +1,6 @@
 import { db } from "~/server/db";
 import ChannelBar from "./_components/channel-bar";
+import Chat from "./_components/chat";
 
 interface Props {
     params: { channel_id: number };
@@ -19,10 +20,9 @@ export default async function ChannelPage({ params }: Props) {
     }
 
     return (
-        <main>
+        <>
             <ChannelBar channel={channel} />
-            <h1>Channel {params.channel_id}</h1>
-            <h1>Channel {channel.name}</h1>
-        </main>
+            <Chat channel={channel} />
+        </>
     );
 }
