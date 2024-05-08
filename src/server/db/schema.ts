@@ -47,7 +47,7 @@ export const messages = createTable(
         createdAt: timestamp("created_at", { withTimezone: true })
             .default(sql`CURRENT_TIMESTAMP`)
             .notNull(),
-        updatedAt: timestamp("updatedAt", { withTimezone: true }),
+        updatedAt: timestamp("updated_at", { withTimezone: true }),
         authorId: bigint("author_id", { mode: "number" }).notNull(),
     },
     (example) => ({
@@ -74,7 +74,7 @@ export const users = createTable(
     {
         id: serial("id").primaryKey(),
         name: varchar("name", { length: 256 }).notNull(),
-        avatar_url: varchar("avatar_url", { length: 256 }).notNull(),
+        avatarUrl: varchar("avatar_url", { length: 256 }).notNull(),
         createdAt: timestamp("created_at", { withTimezone: true })
             .default(sql`CURRENT_TIMESTAMP`)
             .notNull(),
