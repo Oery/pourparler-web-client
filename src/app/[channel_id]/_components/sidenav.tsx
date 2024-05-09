@@ -21,6 +21,9 @@ export default async function SideNav() {
         };
     });
 
+    // TEMP FIX TO SORT CATEGORIES
+    channelsByCategory.sort((a, b) => a.id - b.id);
+
     // TODO: Add Open/Close feature
 
     return (
