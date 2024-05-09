@@ -1,19 +1,12 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useSocket } from "../_hooks/use-socket";
 
 export default function ChatInput() {
     const [message, setMessage] = useState("");
 
-    const handleKeyDown = useCallback(
-        (e: React.KeyboardEvent) => {
-            if (e.key === "Enter" && message) {
-                e.preventDefault();
-                setMessage("");
-            }
-        },
-        [message],
-    );
+    const socket = useSocket();
 
     const handleChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,10 +15,27 @@ export default function ChatInput() {
         [],
     );
 
+    const handleSubmit = useCallback(
+        (e: React.FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
+            if (!socket) {
+                console.log("no socket");
+                return;
+            }
+            socket.emit("message:send", {
+                channel: 1,
+                content: message,
+                sendAt: new Date(),
+            });
+            setMessage("");
+        },
+        [message, socket],
+    );
+
     return (
         <form
             className="shrink-0 grow-0 basis-auto pb-3"
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={handleSubmit}
         >
             <input
                 className="w-full rounded-lg border-none p-3 outline-none"
@@ -33,7 +43,6 @@ export default function ChatInput() {
                 placeholder="Type a message..."
                 value={message}
                 onChange={handleChange}
-                onKeyDown={handleKeyDown}
             />
         </form>
     );
