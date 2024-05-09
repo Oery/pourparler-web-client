@@ -26,3 +26,7 @@ export interface Message {
 interface MessageWithAuthor extends Message {
     author: User;
 }
+
+interface ChannelWithMessages extends Channel {
+    messages: MessageWithAuthor[];
+}
