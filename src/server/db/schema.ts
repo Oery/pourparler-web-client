@@ -47,6 +47,7 @@ export const messages = createTable(
             .default(sql`CURRENT_TIMESTAMP`)
             .notNull(),
         updatedAt: timestamp("updated_at", { withTimezone: true }),
+        sendAt: timestamp("send_at", { withTimezone: true }).notNull(),
         authorId: serial("author_id").notNull(),
     },
     (example) => ({
