@@ -21,10 +21,22 @@ export default async function ChannelPage({ params }: Props) {
         return <h1>Channel not found</h1>;
     }
 
+    const chatMessages = await db.query.messages.findMany({
+        where: (messages, { eq }) => eq(messages.channelId, params.channel_id),
+        with: {
+            author: true,
+        },
+    });
+
+    const channelWithMessages = {
+        ...channel,
+        messages: chatMessages,
+    };
+
     return (
         <>
             <ChannelBar channel={channel} />
-            <Chat channel={channel} />
+            <Chat channel={channelWithMessages} />
         </>
     );
 }

@@ -1,19 +1,17 @@
-import { db } from "~/server/db";
+"use client";
+
 import ChatInput from "./chat-input";
 import ChatMessageContainer from "./chat-message-container";
-import { type MessageWithAuthor, type Channel } from "./definitions";
+import type { MessageWithAuthor, ChannelWithMessages } from "./definitions";
 
 interface Props {
-    channel: Channel;
+    channel: ChannelWithMessages;
 }
 
-export default async function Chat({ channel }: Props) {
-    const messages: MessageWithAuthor[] = await db.query.messages.findMany({
-        where: (messages, { eq }) => eq(messages.channelId, channel.id),
-        with: {
-            author: true,
-        },
-    });
+export default function Chat({ channel }: Props) {
+    const [messages, setMessages] = useState<MessageWithAuthor[]>(
+        channel.messages,
+    );
 
     return (
         <div className="flex grow flex-col">
