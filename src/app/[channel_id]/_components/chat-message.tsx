@@ -21,7 +21,7 @@ export default function ChatMessage({ message }: Props) {
                 <div className="flex flex-row items-center gap-1 font-semibold text-red-600">
                     {message.author.name}
                     <span className="align-baseline text-xs font-normal leading-5 text-gray-400">
-                        {message.createdAt.toLocaleTimeString()}
+                        {new Date(message.sendAt).toLocaleTimeString()}
                     </span>
                 </div>
                 <div className="overflow-hidden text-base text-stone-600">
