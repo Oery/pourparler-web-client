@@ -13,6 +13,8 @@ export default function ChatMessage({ message }: Props) {
                     className="h-10 min-w-10 rounded-full"
                     src={message.author.avatarUrl}
                     alt={message.author.name}
+                    width={40}
+                    height={40}
                 />
             </aside>
             <div>
