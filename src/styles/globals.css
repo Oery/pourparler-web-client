@@ -5,3 +5,14 @@
 :root {
     font-family: Lexend;
 }
+
+@layer utilities {
+    .scrollbar-hide {
+        /* Hide scrollbar for Webkit, Internet Explorer, Edge */
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera*/
+    }
+}
