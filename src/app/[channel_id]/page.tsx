@@ -1,6 +1,7 @@
 import { db } from "~/server/db";
 import ChannelBar from "./_components/channel-bar";
 import Chat from "./_components/chat";
+import { SocketProvider } from "./_hooks/use-socket";
 
 export const dynamic = "force-dynamic";
 
@@ -35,8 +36,10 @@ export default async function ChannelPage({ params }: Props) {
 
     return (
         <>
-            <ChannelBar channel={channel} />
-            <Chat channel={channelWithMessages} />
+            <SocketProvider>
+                <ChannelBar channel={channel} />
+                <Chat channel={channelWithMessages} />
+            </SocketProvider>
         </>
     );
 }
