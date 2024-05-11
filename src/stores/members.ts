@@ -8,7 +8,7 @@ export const memberSlice = createSlice({
         addMember: (state, action: PayloadAction<User>) => {
             state.push(action.payload);
         },
-        removeMember: (state, action: PayloadAction<number>) => {
+        removeMember: (state, action: PayloadAction<string>) => {
             state = state.filter((member) => member.id !== action.payload);
         },
     },

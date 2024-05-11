@@ -110,7 +110,7 @@ export const categories = createTable(
 export const users = createTable(
     "user",
     {
-        id: serial("id").primaryKey(),
+        id: varchar("id", { length: 256 }).primaryKey().unique(),
         name: varchar("name", { length: 256 }).notNull(),
         avatarUrl: varchar("avatar_url", { length: 256 }).notNull(),
         createdAt: timestamp("created_at", { withTimezone: true })
