@@ -36,7 +36,7 @@ export default function ChatInput({ channelId }: { channelId: number }) {
                 return;
             }
             socket.emit("message:send", {
-                channel: channelId,
+                channelId,
                 content: message,
                 sendAt: new Date(),
             });

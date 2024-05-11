@@ -7,6 +7,7 @@ export interface Message {
     sendAt: Date;
     wasEdited?: boolean;
     editAt?: Date;
+    channelId: number;
 }
 
 interface MessageWithAuthor extends Message {

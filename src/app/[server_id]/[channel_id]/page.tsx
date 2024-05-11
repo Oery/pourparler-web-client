@@ -38,7 +38,7 @@ export default async function ChannelPage({ params }: Props) {
         <>
             <SocketProvider>
                 <ChannelBar channel={channel} />
-                <Chat channel={channelWithMessages} />
+                <Chat channelId={channel.id} />
             </SocketProvider>
         </>
     );

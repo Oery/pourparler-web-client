@@ -43,7 +43,7 @@ export default function Chat({ channel }: Props) {
     return (
         <div className="flex grow flex-col">
             <ChatMessageContainer messages={messages} />
-            <ChatInput channelId={channel.id} />
+            <ChatInput channelId={channelId} />
         </div>
     );
 }
