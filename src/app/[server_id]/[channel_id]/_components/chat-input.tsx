@@ -13,7 +13,7 @@ function getTypingString(usersTyping: string[]) {
             return "";
     }
 }
-export default function ChatInput() {
+export default function ChatInput({ channelId }: { channelId: number }) {
     const [message, setMessage] = useState("");
     const [usersTyping, setUsersTyping] = useState<string[]>([]);
     const [wasTyping, setWasTyping] = useState(false);
@@ -36,13 +36,13 @@ export default function ChatInput() {
                 return;
             }
             socket.emit("message:send", {
-                channel: 1,
+                channel: channelId,
                 content: message,
                 sendAt: new Date(),
             });
             setMessage("");
         },
-        [message, socket],
+        [message, socket, channelId],
     );
 
     const handleUserStartTyping = useCallback(
