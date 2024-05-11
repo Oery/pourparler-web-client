@@ -6,18 +6,19 @@ import ChatInput from "./chat-input";
 import ChatMessageContainer from "./chat-message-container";
 import type { ChannelWithMessages } from "~/app/_types/channel";
 import type { MessageWithAuthor } from "~/app/_types/message";
-import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addMessage, messagesSelector } from "~/stores/messages";
 
 interface Props {
     channel: ChannelWithMessages;
 }
 
-export default function Chat({ channel }: Props) {
-    const [messages, setMessages] = useState<MessageWithAuthor[]>(
-        channel.messages,
-    );
+    
     const socket = useSocket();
     const { session } = useSession();
+    const messages = useSelector(messagesSelector);
+    const dispatch = useDispatch();
+
     const channelMessages = messages.filter(
         (message) => message.channelId == channelId,
     );
