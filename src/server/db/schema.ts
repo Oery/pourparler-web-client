@@ -35,6 +35,10 @@ export const servers = createTable(
     }),
 );
 
+export const serversRelations = relations(servers, ({ many }) => ({
+    channels: many(channels),
+}));
+
 export const channels = createTable(
     "channel",
     {
