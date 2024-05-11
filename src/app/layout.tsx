@@ -15,11 +15,11 @@ export const metadata = {
     icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
-    children,
-}: {
+interface Props {
     children: React.ReactNode;
-}) {
+}
+
+export default function RootLayout({ children }: Props) {
     return (
         <ClerkProvider>
             <html lang="en">
