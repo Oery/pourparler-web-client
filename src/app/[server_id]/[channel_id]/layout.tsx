@@ -1,4 +1,3 @@
-import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import SideNav from "./_components/sidenav";
 
 interface Props {
@@ -7,22 +6,13 @@ interface Props {
 
 export default function ChannelLayout({ children }: Props) {
     return (
-        <>
-            <SignedOut>
-                <h1>You are not logged in</h1>
-                <p>Please log in to continue</p>
-                <SignInButton />
-            </SignedOut>
-            <SignedIn>
-                <div className="flex h-screen w-screen flex-row overflow-y-hidden bg-stone-300">
-                    <SideNav />
-                    <main className="flex w-full flex-1 flex-col">
-                        <div className="flex w-full grow flex-col rounded-tl-lg bg-stone-200 px-4">
-                            {children}
-                        </div>
-                    </main>
+        <div className="flex h-screen w-screen flex-row overflow-y-hidden bg-stone-300">
+            <SideNav />
+            <main className="flex w-full flex-1 flex-col">
+                <div className="flex w-full grow flex-col rounded-tl-lg bg-stone-200 px-4">
+                    {children}
                 </div>
-            </SignedIn>
-        </>
+            </main>
+        </div>
     );
 }
