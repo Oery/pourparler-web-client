@@ -5,6 +5,9 @@ export const messageSlice = createSlice({
     name: "messages",
     initialState: [] as MessageWithAuthor[],
     reducers: {
+        setMessages: (state, action: PayloadAction<MessageWithAuthor[]>) => {
+            state = action.payload;
+        },
         addMessage: (state, action: PayloadAction<MessageWithAuthor>) => {
             state.push(action.payload);
         },
