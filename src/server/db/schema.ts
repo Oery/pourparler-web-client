@@ -21,6 +21,20 @@ export const createTable = pgTableCreator((name) => `pourparler_${name}`);
 
 export const channelsTypes = pgEnum("CHANNEL_TYPES", ["text", "voice"]);
 
+export const servers = createTable(
+    "server",
+    {
+        id: serial("id").primaryKey(),
+        name: varchar("name", { length: 256 }).notNull(),
+        createdAt: timestamp("created_at", { withTimezone: true })
+            .default(sql`CURRENT_TIMESTAMP`)
+            .notNull(),
+    },
+    (example) => ({
+        nameIndex: index("server_idx").on(example.name),
+    }),
+);
+
 export const channels = createTable(
     "channel",
     {
@@ -31,11 +45,19 @@ export const channels = createTable(
             .notNull(),
         type: channelsTypes("type").notNull(),
         categoryId: serial("category_id"),
+        serverId: serial("server_id"),
     },
     (example) => ({
         nameIndex: index("channel_idx").on(example.name),
     }),
 );
+
+export const channelsRelations = relations(channels, ({ one }) => ({
+    server: one(servers, {
+        fields: [channels.serverId],
+        references: [servers.id],
+    }),
+}));
 
 export const messages = createTable(
     "message",
