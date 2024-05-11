@@ -56,11 +56,12 @@ export const channels = createTable(
     }),
 );
 
-export const channelsRelations = relations(channels, ({ one }) => ({
+export const channelsRelations = relations(channels, ({ one, many }) => ({
     server: one(servers, {
         fields: [channels.serverId],
         references: [servers.id],
     }),
+    messages: many(messages),
 }));
 
 export const messages = createTable(
@@ -85,6 +86,10 @@ export const messagesRelations = relations(messages, ({ one }) => ({
     author: one(users, {
         fields: [messages.authorId],
         references: [users.id],
+    }),
+    channel: one(channels, {
+        fields: [messages.channelId],
+        references: [channels.id],
     }),
 }));
 
