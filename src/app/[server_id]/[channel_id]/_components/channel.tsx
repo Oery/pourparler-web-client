@@ -14,7 +14,7 @@ export default function ChannelComponent({ channel }: Props) {
     const isActive = pathname === `/${channel.id}`;
 
     return (
-        <Link href={`/${channel.id}`}>
+        <Link href={`./${channel.id}`}>
             <div
                 className={`${isActive && "bg-stone-200"} flex cursor-pointer items-center gap-3 truncate rounded-md px-4 py-1 text-base font-light transition-all hover:translate-x-2 hover:bg-stone-200`}
             >
