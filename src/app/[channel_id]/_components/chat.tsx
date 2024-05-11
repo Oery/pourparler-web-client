@@ -1,5 +1,6 @@
 "use client";
 
+import { useSession } from "@clerk/nextjs";
 import { useSocket } from "../_hooks/use-socket";
 import ChatInput from "./chat-input";
 import ChatMessageContainer from "./chat-message-container";
@@ -15,6 +16,7 @@ export default function Chat({ channel }: Props) {
         channel.messages,
     );
     const socket = useSocket();
+    const { session } = useSession();
 
     const handleMessageReception = useCallback((message: MessageWithAuthor) => {
         setMessages((prev) => [...prev, message]);
@@ -28,6 +30,14 @@ export default function Chat({ channel }: Props) {
             socket.off("message:send");
         };
     }, [handleMessageReception, socket]);
+
+    useEffect(() => {
+        if (!socket || !session) return;
+        socket.emit("clerk:auth", {
+            sessionId: session.id,
+            userId: session.user.id,
+        });
+    }, [socket, session]);
 
     return (
         <div className="flex grow flex-col">
