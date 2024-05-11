@@ -2,7 +2,6 @@ export interface User {
     id: number;
     name: string;
     avatarUrl: string;
-    discordId: string;
 }
 
 export interface Channel {
