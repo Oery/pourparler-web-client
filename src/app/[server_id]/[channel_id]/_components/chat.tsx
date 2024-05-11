@@ -23,6 +23,12 @@ interface Props {
         (message) => message.channelId == channelId,
     );
 
+    const handleMessageReception = useCallback(
+        (message: MessageWithAuthor) => {
+            dispatch(addMessage(message));
+        },
+        [dispatch],
+    );
 
     useEffect(() => {
         if (!socket) return;
