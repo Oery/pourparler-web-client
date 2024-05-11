@@ -75,7 +75,7 @@ export const messages = createTable(
             .notNull(),
         updatedAt: timestamp("updated_at", { withTimezone: true }),
         sendAt: timestamp("send_at", { withTimezone: true }).notNull(),
-        authorId: serial("author_id").notNull(),
+        authorId: varchar("author_id", { length: 256 }).notNull(),
     },
     (example) => ({
         channelIdIndex: index("message_idx").on(example.channelId),
