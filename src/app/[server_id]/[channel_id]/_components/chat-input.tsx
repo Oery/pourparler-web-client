@@ -31,10 +31,7 @@ export default function ChatInput({ channelId }: { channelId: number }) {
     const handleSubmit = useCallback(
         (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            if (!socket) {
-                console.log("no socket");
-                return;
-            }
+            if (!socket) return;
             socket.emit("message:send", {
                 channelId,
                 content: message,
