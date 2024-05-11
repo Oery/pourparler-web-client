@@ -18,10 +18,10 @@ export default function Chat({ channel }: Props) {
     );
     const socket = useSocket();
     const { session } = useSession();
+    const channelMessages = messages.filter(
+        (message) => message.channelId == channelId,
+    );
 
-    const handleMessageReception = useCallback((message: MessageWithAuthor) => {
-        setMessages((prev) => [...prev, message]);
-    }, []);
 
     useEffect(() => {
         if (!socket) return;
@@ -42,7 +42,7 @@ export default function Chat({ channel }: Props) {
 
     return (
         <div className="flex grow flex-col">
-            <ChatMessageContainer messages={messages} />
+            <ChatMessageContainer messages={channelMessages} />
             <ChatInput channelId={channelId} />
         </div>
     );
