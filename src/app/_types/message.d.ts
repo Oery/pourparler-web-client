@@ -5,8 +5,16 @@ export interface Message {
     content: string;
     createdAt: Date;
     sendAt: Date;
+    wasEdited?: boolean;
+    editAt?: Date;
 }
 
 interface MessageWithAuthor extends Message {
     author: User;
+}
+
+export interface MessageEdit {
+    id: number;
+    content: string;
+    editAt: Date;
 }
