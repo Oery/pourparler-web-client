@@ -31,3 +31,7 @@ export const messageSlice = createSlice({
         },
     },
 });
+
+export const { setMessages, addMessage, removeMessage, editMessage } =
+    messageSlice.actions;
+
