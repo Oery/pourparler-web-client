@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import ChatMessage from "./chat-message";
-import { type MessageWithAuthor } from "./definitions";
+import { type MessageWithAuthor } from "~/app/_types/message";
 
 interface Props {
     messages: MessageWithAuthor[];

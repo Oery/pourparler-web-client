@@ -4,7 +4,8 @@ import { useSession } from "@clerk/nextjs";
 import { useSocket } from "../_hooks/use-socket";
 import ChatInput from "./chat-input";
 import ChatMessageContainer from "./chat-message-container";
-import type { MessageWithAuthor, ChannelWithMessages } from "./definitions";
+import type { ChannelWithMessages } from "~/app/_types/channel";
+import type { MessageWithAuthor } from "~/app/_types/message";
 import { useCallback, useEffect, useState } from "react";
 
 interface Props {

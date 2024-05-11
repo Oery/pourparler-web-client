@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { type Category } from "./definitions";
+import { type Category } from "~/app/_types/category";
 import ChannelComponent from "./channel";
 
 interface Props {

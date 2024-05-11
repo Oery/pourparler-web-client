@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { type MessageWithAuthor } from "./definitions";
+import { type MessageWithAuthor } from "~/app/_types/message";
 
 interface Props {
     message: MessageWithAuthor;

@@ -1,4 +1,4 @@
-import { type Channel } from "./definitions";
+import { type Channel } from "~/app/_types/channel";
 
 interface Props {
     channel: Channel;

@@ -1,7 +1,7 @@
 import HashIcon from "./icon-hash";
 import MicIcon from "./icon-mic";
 
-import { type Channel } from "./definitions";
+import { type Channel } from "~/app/_types/channel";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
