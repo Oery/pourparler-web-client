@@ -8,6 +8,7 @@ import type { MessageWithAuthor } from "~/app/_types/message";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage, messagesSelector } from "~/stores/messages";
+import { serializeMessage } from "~/utils/serialize";
 
 interface Props {
     channelId: number;
@@ -25,7 +26,8 @@ export default function Chat({ channelId }: Props) {
 
     const handleMessageReception = useCallback(
         (message: MessageWithAuthor) => {
-            dispatch(addMessage(message));
+            const serializedMessage = serializeMessage(message);
+            dispatch(addMessage(serializedMessage));
         },
         [dispatch],
     );

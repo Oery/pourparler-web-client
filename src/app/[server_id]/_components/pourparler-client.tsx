@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import type { ServerWithChannels } from "~/app/_types/server";
 import { makeStore, type AppStore } from "~/stores/_store";
 import { setMessages } from "~/stores/messages";
+import { serializeMessage } from "~/utils/serialize";
 
 interface Props {
     children: React.ReactNode;
@@ -18,7 +19,11 @@ export default function PourparlerClient({ children, server }: Props) {
 
     if (!storeRef.current) {
         storeRef.current = makeStore();
-        storeRef.current.dispatch(setMessages(messages));
+
+        const serializedMessages = messages.map((message) =>
+            serializeMessage(message),
+        );
+        storeRef.current.dispatch(setMessages(serializedMessages));
     }
 
     return <Provider store={storeRef.current}>{children}</Provider>;

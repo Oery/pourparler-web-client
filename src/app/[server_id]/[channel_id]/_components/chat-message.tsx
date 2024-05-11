@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { type MessageWithAuthor } from "~/app/_types/message";
+import { type SerializedMessageWithAuthor } from "~/app/_types/message";
 
 interface Props {
-    message: MessageWithAuthor;
+    message: SerializedMessageWithAuthor;
 }
 
 export default function ChatMessage({ message }: Props) {

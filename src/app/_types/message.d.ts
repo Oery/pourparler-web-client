@@ -3,10 +3,8 @@ import { type User } from "./user";
 export interface Message {
     id: number;
     content: string;
-    createdAt: Date;
     sendAt: Date;
     wasEdited?: boolean;
-    editAt?: Date;
     channelId: number;
 }
 
@@ -17,5 +15,15 @@ interface MessageWithAuthor extends Message {
 export interface MessageEdit {
     id: number;
     content: string;
-    editAt: Date;
+    editAt: string;
+}
+
+export interface SerializedMessage extends Message {
+    // createdAt: string;
+    sendAt: string;
+    // editAt?: string;
+}
+
+interface SerializedMessageWithAuthor extends SerializedMessage {
+    author: User;
 }

@@ -1,15 +1,18 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { MessageEdit, MessageWithAuthor } from "~/app/_types/message";
+import type {
+    MessageEdit,
+    SerializedMessageWithAuthor as SMWA,
+} from "~/app/_types/message";
 import type { RootState } from "./_store";
 
 export const messageSlice = createSlice({
     name: "messages",
-    initialState: [] as MessageWithAuthor[],
+    initialState: [] as SMWA[],
     reducers: {
-        setMessages: (state, action: PayloadAction<MessageWithAuthor[]>) => {
+        setMessages: (_state, action: PayloadAction<SMWA[]>) => {
             return action.payload;
         },
-        addMessage: (state, action: PayloadAction<MessageWithAuthor>) => {
+        addMessage: (state, action: PayloadAction<SMWA>) => {
             state.push(action.payload);
             return state;
         },
@@ -24,7 +27,6 @@ export const messageSlice = createSlice({
             if (!message) return;
 
             message.content = action.payload.content;
-            message.editAt = action.payload.editAt;
             message.wasEdited = true;
 
             return state.map((message) =>
