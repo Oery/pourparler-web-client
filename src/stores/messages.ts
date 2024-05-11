@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { MessageEdit, MessageWithAuthor } from "~/app/_types/message";
+import type { RootState } from "./_store";
 
 export const messageSlice = createSlice({
     name: "messages",
@@ -35,3 +36,4 @@ export const messageSlice = createSlice({
 export const { setMessages, addMessage, removeMessage, editMessage } =
     messageSlice.actions;
 
+export const messagesSelector = (state: RootState) => state.messages;
