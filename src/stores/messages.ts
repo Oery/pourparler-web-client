@@ -7,13 +7,14 @@ export const messageSlice = createSlice({
     initialState: [] as MessageWithAuthor[],
     reducers: {
         setMessages: (state, action: PayloadAction<MessageWithAuthor[]>) => {
-            state = action.payload;
+            return action.payload;
         },
         addMessage: (state, action: PayloadAction<MessageWithAuthor>) => {
             state.push(action.payload);
+            return state;
         },
         removeMessage: (state, action: PayloadAction<number>) => {
-            state = state.filter((message) => message.id !== action.payload);
+            return state.filter((message) => message.id !== action.payload);
         },
         editMessage: (state, action: PayloadAction<MessageEdit>) => {
             const message = state.find(
@@ -26,7 +27,7 @@ export const messageSlice = createSlice({
             message.editAt = action.payload.editAt;
             message.wasEdited = true;
 
-            state = state.map((message) =>
+            return state.map((message) =>
                 message.id === action.payload.id ? message : message,
             );
         },
