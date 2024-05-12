@@ -7,9 +7,10 @@ export const channelSlice = createSlice({
     reducers: {
         addChannel: (state, action: PayloadAction<Channel>) => {
             state.push(action.payload);
+            return state;
         },
         removeChannel: (state, action: PayloadAction<number>) => {
-            state = state.filter((channel) => channel.id !== action.payload);
+            return state.filter((channel) => channel.id !== action.payload);
         },
     },
 });
