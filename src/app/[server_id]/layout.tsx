@@ -1,12 +1,15 @@
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import { db } from "~/server/db";
 import PourparlerClient from "./_components/pourparler-client";
+import { auth } from "@clerk/nextjs/server";
 
 interface Props {
     children: React.ReactNode;
 }
 
 export default async function ServerLayout({ children }: Props) {
+    auth().protect();
+
     const server = await db.query.servers.findFirst({
         columns: { createdAt: false },
         with: {
