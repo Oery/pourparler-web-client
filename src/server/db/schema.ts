@@ -10,6 +10,7 @@ import {
     timestamp,
     varchar,
 } from "drizzle-orm/pg-core";
+import { createInsertSchema } from "drizzle-zod";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -68,6 +69,18 @@ export const channelsRelations = relations(channels, ({ one, many }) => ({
     }),
     messages: many(messages),
 }));
+
+export const insertChannelSchema = createInsertSchema(channels);
+
+export const createChannelSchema = insertChannelSchema.omit({
+    id: true,
+    createdAt: true,
+});
+
+export const deleteChannelSchema = insertChannelSchema.pick({
+    id: true,
+    serverId: true,
+});
 
 export const messages = createTable(
     "message",
