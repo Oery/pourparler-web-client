@@ -11,7 +11,7 @@ import { addMessage, messagesSelector } from "~/stores/messages";
 import { serializeMessage } from "~/utils/serialize";
 
 interface Props {
-    channelId: number;
+    channelId: string;
 }
 
 export default function Chat({ channelId }: Props) {

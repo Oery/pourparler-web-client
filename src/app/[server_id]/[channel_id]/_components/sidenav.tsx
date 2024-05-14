@@ -12,7 +12,7 @@ export default async function SideNav() {
             (channel) => channel.categoryId === category.id,
         );
 
-        categoryChannels.sort((a, b) => a.id - b.id);
+        categoryChannels.sort((a, b) => a.id.localeCompare(b.id));
 
         return {
             id: category.id,
@@ -22,7 +22,7 @@ export default async function SideNav() {
     });
 
     // TEMP FIX TO SORT CATEGORIES
-    channelsByCategory.sort((a, b) => a.id - b.id);
+    channelsByCategory.sort((a, b) => a.id.localeCompare(b.id));
 
     // TODO: Add Open/Close feature
 

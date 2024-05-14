@@ -1,7 +1,7 @@
 import type { ChannelWithMessages } from "./channel";
 
 export interface Server {
-    id: number;
+    id: string;
     name: string;
 }
 

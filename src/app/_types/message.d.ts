@@ -1,11 +1,11 @@
 import { type User } from "./user";
 
 export interface Message {
-    id: number;
+    id: string;
     content: string;
     sendAt: Date;
     wasEdited?: boolean;
-    channelId: number;
+    channelId: string;
 }
 
 interface MessageWithAuthor extends Message {
@@ -13,7 +13,7 @@ interface MessageWithAuthor extends Message {
 }
 
 export interface MessageEdit {
-    id: number;
+    id: string;
     content: string;
     editAt: string;
 }

@@ -16,10 +16,10 @@ function getTypingString(usersTyping: TypingUser[]) {
 
 interface TypingUser {
     name: string;
-    channel: number;
+    channel: string;
 }
 
-export default function ChatInput({ channelId }: { channelId: number }) {
+export default function ChatInput({ channelId }: { channelId: string }) {
     const [message, setMessage] = useState("");
     const [usersTyping, setUsersTyping] = useState<TypingUser[]>([]);
     const [wasTyping, setWasTyping] = useState(false);

@@ -6,8 +6,8 @@ import {
     index,
     pgEnum,
     pgTableCreator,
-    serial,
     timestamp,
+    uuid,
     varchar,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
@@ -25,7 +25,7 @@ export const channelsTypes = pgEnum("CHANNEL_TYPES", ["text", "voice"]);
 export const servers = createTable(
     "server",
     {
-        id: serial("id").primaryKey(),
+        id: uuid("id").defaultRandom().primaryKey(),
         name: varchar("name", { length: 256 }).notNull(),
         createdAt: timestamp("created_at", { withTimezone: true })
             .default(sql`CURRENT_TIMESTAMP`)
@@ -48,14 +48,14 @@ export const serversRelations = relations(servers, ({ one, many }) => ({
 export const channels = createTable(
     "channel",
     {
-        id: serial("id").primaryKey(),
+        id: uuid("id").defaultRandom().primaryKey(),
         name: varchar("name", { length: 256 }).notNull(),
         createdAt: timestamp("created_at", { withTimezone: true })
             .default(sql`CURRENT_TIMESTAMP`)
             .notNull(),
         type: channelsTypes("type").notNull(),
-        categoryId: serial("category_id"),
-        serverId: serial("server_id"),
+        categoryId: uuid("category_id").notNull(),
+        serverId: uuid("server_id").notNull(),
     },
     (example) => ({
         nameIndex: index("channel_idx").on(example.name),
@@ -85,8 +85,8 @@ export const deleteChannelSchema = insertChannelSchema.pick({
 export const messages = createTable(
     "message",
     {
-        id: serial("id").primaryKey(),
-        channelId: serial("channel_id").notNull(),
+        id: uuid("id").defaultRandom().primaryKey(),
+        channelId: uuid("channel_id").notNull(),
         content: varchar("content", { length: 256 }).notNull(),
         createdAt: timestamp("created_at", { withTimezone: true })
             .default(sql`CURRENT_TIMESTAMP`)
@@ -114,7 +114,7 @@ export const messagesRelations = relations(messages, ({ one }) => ({
 export const categories = createTable(
     "category",
     {
-        id: serial("id").primaryKey(),
+        id: uuid("id").defaultRandom().primaryKey(),
         name: varchar("name", { length: 256 }).notNull(),
         createdAt: timestamp("created_at", { withTimezone: true })
             .default(sql`CURRENT_TIMESTAMP`)

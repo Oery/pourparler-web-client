@@ -1,5 +1,5 @@
 interface Props {
-    params: { server_id: number };
+    params: { server_id: string };
 }
 
 export default function ServerPage({ params }: Props) {

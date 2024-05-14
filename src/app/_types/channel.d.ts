@@ -1,7 +1,7 @@
 import { type MessageWithAuthor } from "./message";
 
 export interface Channel {
-    id: number;
+    id: string;
     name: string;
     type: "text" | "voice";
 }
