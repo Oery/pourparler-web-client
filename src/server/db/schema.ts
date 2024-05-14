@@ -29,14 +29,19 @@ export const servers = createTable(
         createdAt: timestamp("created_at", { withTimezone: true })
             .default(sql`CURRENT_TIMESTAMP`)
             .notNull(),
+        ownerId: varchar("owner_id", { length: 256 }),
     },
     (example) => ({
         nameIndex: index("server_idx").on(example.name),
     }),
 );
 
-export const serversRelations = relations(servers, ({ many }) => ({
+export const serversRelations = relations(servers, ({ one, many }) => ({
     channels: many(channels),
+    owner: one(users, {
+        fields: [servers.ownerId],
+        references: [users.id],
+    }),
 }));
 
 export const channels = createTable(
