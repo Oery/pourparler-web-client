@@ -1,7 +1,8 @@
 import { db } from "~/server/db";
 import CategoryComponent from "./category";
+import ChannelInput from "./channel-input";
 
-export default async function SideNav() {
+export default async function SideNav({ serverId }: { serverId: string }) {
     const [categories, channels] = await Promise.all([
         db.query.categories.findMany(),
         db.query.channels.findMany(),
@@ -34,6 +35,7 @@ export default async function SideNav() {
                     <CategoryComponent category={category} key={category.id} />
                 ))}
             </div>
+            <ChannelInput serverId={serverId} />
         </div>
     );
 }
