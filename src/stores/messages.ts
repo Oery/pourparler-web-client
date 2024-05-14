@@ -16,7 +16,7 @@ export const messageSlice = createSlice({
             state.push(action.payload);
             return state;
         },
-        removeMessage: (state, action: PayloadAction<number>) => {
+        removeMessage: (state, action: PayloadAction<string>) => {
             return state.filter((message) => message.id !== action.payload);
         },
         editMessage: (state, action: PayloadAction<MessageEdit>) => {

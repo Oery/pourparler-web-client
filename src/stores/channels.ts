@@ -9,7 +9,7 @@ export const channelSlice = createSlice({
             state.push(action.payload);
             return state;
         },
-        removeChannel: (state, action: PayloadAction<number>) => {
+        removeChannel: (state, action: PayloadAction<string>) => {
             return state.filter((channel) => channel.id !== action.payload);
         },
     },
