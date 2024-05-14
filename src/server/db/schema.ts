@@ -30,7 +30,7 @@ export const servers = createTable(
         createdAt: timestamp("created_at", { withTimezone: true })
             .default(sql`CURRENT_TIMESTAMP`)
             .notNull(),
-        ownerId: varchar("owner_id", { length: 256 }),
+        ownerId: varchar("owner_id", { length: 32 }).notNull(),
     },
     (example) => ({
         nameIndex: index("server_idx").on(example.name),
@@ -93,7 +93,7 @@ export const messages = createTable(
             .notNull(),
         updatedAt: timestamp("updated_at", { withTimezone: true }),
         sendAt: timestamp("send_at", { withTimezone: true }).notNull(),
-        authorId: varchar("author_id", { length: 256 }).notNull(),
+        authorId: varchar("author_id", { length: 32 }).notNull(),
     },
     (example) => ({
         channelIdIndex: index("message_idx").on(example.channelId),
@@ -128,7 +128,7 @@ export const categories = createTable(
 export const users = createTable(
     "user",
     {
-        id: varchar("id", { length: 256 }).primaryKey().unique(),
+        id: varchar("id", { length: 32 }).primaryKey().unique(),
         name: varchar("name", { length: 256 }).notNull(),
         avatarUrl: varchar("avatar_url", { length: 256 }).notNull(),
         createdAt: timestamp("created_at", { withTimezone: true })
