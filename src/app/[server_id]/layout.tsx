@@ -8,27 +8,14 @@ interface Props {
 
 export default async function ServerLayout({ children }: Props) {
     const server = await db.query.servers.findFirst({
-        columns: {
-            createdAt: false,
-        },
+        columns: { createdAt: false },
         with: {
             channels: {
-                columns: {
-                    createdAt: false,
-                },
+                columns: { createdAt: false },
                 with: {
                     messages: {
-                        columns: {
-                            createdAt: false,
-                            updatedAt: false,
-                        },
-                        with: {
-                            author: {
-                                columns: {
-                                    createdAt: false,
-                                },
-                            },
-                        },
+                        columns: { createdAt: false, updatedAt: false },
+                        with: { author: { columns: { createdAt: false } } },
                     },
                 },
             },
