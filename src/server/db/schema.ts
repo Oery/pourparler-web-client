@@ -55,7 +55,9 @@ export const channels = createTable(
             .default(sql`CURRENT_TIMESTAMP`)
             .notNull(),
         type: channelsTypes("type").notNull(),
-        categoryId: uuid("category_id").notNull(),
+        categoryId: uuid("category_id")
+            .default("00000000-0000-0000-0000-000000000000")
+            .notNull(),
         serverId: uuid("server_id").notNull(),
     },
     (example) => ({
