@@ -39,6 +39,7 @@ export const servers = createTable(
 
 export const serversRelations = relations(servers, ({ one, many }) => ({
     channels: many(channels),
+    categories: many(categories),
     owner: one(users, {
         fields: [servers.ownerId],
         references: [users.id],
@@ -119,11 +120,20 @@ export const categories = createTable(
         createdAt: timestamp("created_at", { withTimezone: true })
             .default(sql`CURRENT_TIMESTAMP`)
             .notNull(),
+        serverId: uuid("server_id").notNull(),
     },
     (example) => ({
         nameIndex: index("category_idx").on(example.name),
     }),
 );
+
+export const categoriesRelations = relations(categories, ({ one, many }) => ({
+    channels: many(channels),
+    servers: one(servers, {
+        fields: [categories.serverId],
+        references: [servers.id],
+    }),
+}));
 
 export const users = createTable(
     "user",
