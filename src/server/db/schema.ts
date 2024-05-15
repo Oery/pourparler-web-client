@@ -69,6 +69,10 @@ export const channelsRelations = relations(channels, ({ one, many }) => ({
         references: [servers.id],
     }),
     messages: many(messages),
+    category: one(categories, {
+        fields: [channels.categoryId],
+        references: [categories.id],
+    }),
 }));
 
 export const insertChannelSchema = createInsertSchema(channels);
