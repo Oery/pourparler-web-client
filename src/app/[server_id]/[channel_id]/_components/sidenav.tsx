@@ -3,6 +3,7 @@
 import CategoryComponent from "./category";
 import { useSelector } from "react-redux";
 import { serversSelector } from "~/stores/servers";
+import SideNavContextMenu from "~/app/components/context-menus/sidenav-cm";
 import ChannelComponent from "./channel";
 
 export default function SideNav({ serverId }: { serverId: string }) {
@@ -35,6 +36,7 @@ export default function SideNav({ serverId }: { serverId: string }) {
     // TODO: Add Open/Close feature
 
     return (
+        <SideNavContextMenu serverId={serverId}>
             <div className="flex h-screen w-52 flex-col gap-4 bg-stone-300 p-4">
                 <div>
                     <h2 className="truncate">Château d&apos;Oery</h2>
@@ -49,6 +51,6 @@ export default function SideNav({ serverId }: { serverId: string }) {
                     ))}
                 </div>
             </div>
-        </div>
+        </SideNavContextMenu>
     );
 }
