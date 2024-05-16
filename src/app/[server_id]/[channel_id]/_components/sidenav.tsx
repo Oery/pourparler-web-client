@@ -1,14 +1,16 @@
-import { db } from "~/server/db";
+"use client";
+
 import CategoryComponent from "./category";
-import ChannelInput from "./channel-input";
+import { useSelector } from "react-redux";
+import { serversSelector } from "~/stores/servers";
+import ChannelComponent from "./channel";
 
-export default async function SideNav({ serverId }: { serverId: string }) {
-    const [categories, channels] = await Promise.all([
-        db.query.categories.findMany(),
-        db.query.channels.findMany(),
-    ]);
+export default function SideNav({ serverId }: { serverId: string }) {
+    const { categories, channels } = useSelector(serversSelector).find(
+        (server) => server.id === serverId,
+    )!;
 
-    const channelsByCategory = categories.map((category) => {
+    const channelsByCategory = categories.map((category: Category) => {
         const categoryChannels = channels.filter(
             (channel) => channel.categoryId === category.id,
         );
@@ -16,11 +18,16 @@ export default async function SideNav({ serverId }: { serverId: string }) {
         categoryChannels.sort((a, b) => a.id.localeCompare(b.id));
 
         return {
-            id: category.id,
-            name: category.name,
+            ...category,
             channels: categoryChannels,
         };
     });
+
+    // Add a "No category" category
+    const uncategorizedChannels = channels.filter(
+        (channel) =>
+            channel.categoryId === "00000000-0000-0000-0000-000000000000",
+    );
 
     // TEMP FIX TO SORT CATEGORIES
     channelsByCategory.sort((a, b) => a.id.localeCompare(b.id));
@@ -28,14 +35,20 @@ export default async function SideNav({ serverId }: { serverId: string }) {
     // TODO: Add Open/Close feature
 
     return (
-        <div className="flex h-screen w-52 flex-col gap-4 bg-stone-300 p-4">
-            <div>
-                <h2 className="truncate">Château d&apos;Oery</h2>
-                {channelsByCategory.map((category) => (
-                    <CategoryComponent category={category} key={category.id} />
-                ))}
+            <div className="flex h-screen w-52 flex-col gap-4 bg-stone-300 p-4">
+                <div>
+                    <h2 className="truncate">Château d&apos;Oery</h2>
+                    {uncategorizedChannels.map((channel) => (
+                        <ChannelComponent key={channel.id} channel={channel} />
+                    ))}
+                    {channelsByCategory.map((category) => (
+                        <CategoryComponent
+                            category={category}
+                            key={category.id}
+                        />
+                    ))}
+                </div>
             </div>
-            <ChannelInput serverId={serverId} />
         </div>
     );
 }
