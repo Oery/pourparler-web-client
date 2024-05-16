@@ -1,5 +1,5 @@
-import SideNav from "./_components/sidenav";
-import { SocketProvider } from "./_hooks/use-socket";
+import SideNav from "~/app/components/app/sidenav";
+import { SocketProvider } from "~/app/context/use-socket";
 
 interface Props {
     children: React.ReactNode;

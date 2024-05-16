@@ -1,7 +1,7 @@
 "use client";
 
-import ChannelBar from "./_components/channel-bar";
-import Chat from "./_components/chat";
+import ChannelBar from "~/app/components/app/channel-bar";
+import Chat from "~/app/components/chat/chat";
 import { useSelector } from "react-redux";
 import { serversSelector } from "~/stores/servers";
 

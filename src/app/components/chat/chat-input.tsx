@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useSocket } from "../_hooks/use-socket";
+import { useSocket } from "~/app/context/use-socket";
 
 function getTypingString(usersTyping: TypingUser[]) {
     switch (usersTyping.length) {

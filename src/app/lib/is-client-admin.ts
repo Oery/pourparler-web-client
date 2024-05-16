@@ -1,4 +1,4 @@
-import type { Server } from "~/app/_types/server";
+// import type { Server } from "~/app/_types/server";
 
 // export default function isAdmin(server: Server, userId: string) {
 //     const { ownerId } = server;

@@ -7,7 +7,7 @@ import type { Server } from "~/app/_types/server";
 import { makeStore, type AppStore } from "~/stores/_store";
 import { setMessages } from "~/stores/messages";
 import { setServers } from "~/stores/servers";
-import { serializeMessage } from "~/utils/serialize";
+import { serializeMessage } from "~/app/lib/utils/serialize";
 
 interface Props {
     children: React.ReactNode;

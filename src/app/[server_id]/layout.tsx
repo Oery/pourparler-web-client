@@ -1,7 +1,7 @@
+import { auth } from "@clerk/nextjs/server";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import { db } from "~/server/db";
-import PourparlerClient from "./_components/pourparler-client";
-import { auth } from "@clerk/nextjs/server";
+import PourparlerClient from "~/app/components/app/pourparler-client";
 
 interface Props {
     children: React.ReactNode;

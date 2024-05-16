@@ -1,14 +1,14 @@
 "use client";
 
 import { useSession } from "@clerk/nextjs";
-import { useSocket } from "../_hooks/use-socket";
+import { useSocket } from "~/app/context/use-socket";
 import ChatInput from "./chat-input";
 import ChatMessageContainer from "./chat-message-container";
 import type { MessageWithAuthor } from "~/app/_types/message";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage, messagesSelector } from "~/stores/messages";
-import { serializeMessage } from "~/utils/serialize";
+import { serializeMessage } from "~/app/lib/utils/serialize";
 
 interface Props {
     channelId: string;
