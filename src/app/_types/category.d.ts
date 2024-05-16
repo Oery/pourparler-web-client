@@ -1,6 +1,5 @@
-import { type Channel } from "./channel";
-
-export interface Category {
+interface Category {
+    id: string;
     name: string;
-    channels: Channel[];
+    serverId: string;
 }

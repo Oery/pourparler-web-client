@@ -1,10 +1,15 @@
-import type { ChannelWithMessages } from "./channel";
+import type { Channel } from "./channel";
+import type { Category } from "./category";
 
-export interface Server {
+interface Server {
     id: string;
     name: string;
+    channels: Channel[];
+    categories: Category[];
+    ownerId: string;
 }
 
-interface ServerWithChannels extends Server {
-    channels: ChannelWithMessages[];
+interface ServerEdit {
+    id: string;
+    name?: string;
 }

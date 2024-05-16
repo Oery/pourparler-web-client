@@ -1,6 +1,6 @@
 import { type User } from "./user";
 
-export interface Message {
+interface Message {
     id: string;
     content: string;
     sendAt: Date;
@@ -12,13 +12,13 @@ interface MessageWithAuthor extends Message {
     author: User;
 }
 
-export interface MessageEdit {
+interface MessageEdit {
     id: string;
     content: string;
     editAt: string;
 }
 
-export interface SerializedMessage extends Message {
+interface SerializedMessage extends Message {
     // createdAt: string;
     sendAt: string;
     // editAt?: string;
