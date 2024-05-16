@@ -13,7 +13,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addChannel } from "~/stores/servers";
 import { useRouter } from "next/navigation";
-import { Category } from "~/app/_types/category";
+import type { Category } from "~/app/_types/category";
 
 interface Props {
     category: Category;

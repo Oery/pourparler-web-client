@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { serversSelector } from "~/stores/servers";
 import SideNavContextMenu from "~/app/components/context-menus/sidenav-cm";
 import ChannelComponent from "./channel";
-import { Category } from "~/app/_types/category";
+import type { Category } from "~/app/_types/category";
 
 export default function SideNav({ serverId }: { serverId: string }) {
     const { categories, channels } = useSelector(serversSelector).find(

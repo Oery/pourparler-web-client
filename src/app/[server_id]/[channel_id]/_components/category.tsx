@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { serversSelector } from "~/stores/servers";
 import CreateChannelModal from "~/app/components/modals/create-channel";
 import isAdmin from "~/app/lib/is-client-admin";
-import { Category } from "~/app/_types/category";
+import type { Category } from "~/app/_types/category";
 
 interface Props {
     category: Category;

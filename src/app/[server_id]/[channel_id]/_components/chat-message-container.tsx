@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import ChatMessage from "./chat-message";
-import { SerializedMessageWithAuthor } from "~/app/_types/message";
+import type { SerializedMessageWithAuthor } from "~/app/_types/message";
 
 interface Props {
     messages: SerializedMessageWithAuthor[];
