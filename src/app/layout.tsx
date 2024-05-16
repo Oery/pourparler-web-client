@@ -1,4 +1,9 @@
-import { ClerkProvider } from "@clerk/nextjs";
+import {
+    ClerkProvider,
+    SignedIn,
+    SignedOut,
+    SignInButton,
+} from "@clerk/nextjs";
 import "~/styles/globals.css";
 
 import { Lexend } from "next/font/google";
@@ -24,7 +29,11 @@ export default function RootLayout({ children }: Props) {
         <ClerkProvider>
             <html lang="en">
                 <body className={`font-sans ${lexend.variable}`}>
-                    {children}
+                    <SignedIn>{children}</SignedIn>
+                    <SignedOut>
+                        Please connect your account to continue
+                        <SignInButton />
+                    </SignedOut>
                 </body>
             </html>
         </ClerkProvider>
