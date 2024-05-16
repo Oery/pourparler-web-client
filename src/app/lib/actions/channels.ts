@@ -4,10 +4,8 @@ import { db } from "~/server/db";
 import { channels } from "~/server/db/schema";
 
 import isAdmin from "../admin";
-import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
-import { redirect } from "next/navigation";
 
 const createChannelSchema = z.object({
     name: z.coerce.string(),
@@ -37,41 +35,89 @@ export async function createChannel(formData: FormData) {
     const results = await db
         .insert(channels)
         .values({ name, type, serverId, categoryId })
-        .returning({ id: channels.id });
+        .returning({
+            id: channels.id,
+            name: channels.name,
+            type: channels.type,
+            serverId: channels.serverId,
+            categoryId: channels.categoryId,
+        });
 
     if (!results[0]) return { message: "Channel creation failed" };
 
-    console.log("Channel created");
-    console.log(results[0].id);
+    fetch("http://localhost:8000/event/channel/create", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.WEBSOCKET_API_KEY}`,
+        },
+        body: JSON.stringify(results[0]),
+    }).catch((error) => console.log(error));
 
-    // revalidatePath(`/${serverId}/`);
-    redirect(`/${serverId}/${results[0].id}`);
+    return { data: results[0] };
 }
 
 const deleteChannelSchema = z.object({
-    id: z.coerce.string(),
+    channelId: z.coerce.string(),
     serverId: z.coerce.string(),
 });
 
 export async function deleteChannel(formData: FormData) {
     console.log("Deleting channel");
 
-    const { id, serverId } = deleteChannelSchema.parse({
-        id: formData.get("id"),
+    const startTotalTime = Date.now();
+    const startParseSchemaTime = Date.now();
+
+    const { channelId, serverId } = deleteChannelSchema.parse({
+        channelId: formData.get("channelId"),
         serverId: formData.get("serverId"),
     });
 
+    const endParseSchemaTime = Date.now();
+    console.log(
+        `Schema parsed in ${endParseSchemaTime - startParseSchemaTime}ms`,
+    );
+
+    const startIsAdminTime = Date.now();
+    console.log("Checking admin status");
+
     if (!(await isAdmin(serverId))) return { message: "You must be an admin" };
+
+    const endIsAdminTime = Date.now();
+    console.log(
+        `Admin check completed in ${endIsAdminTime - startIsAdminTime}ms`,
+    );
 
     try {
         console.log("Deleting channel");
-        await db.delete(channels).where(eq(channels.id, id));
-        console.log("Channel deleted");
+        const startDbDeleteTime = Date.now();
+        await db.delete(channels).where(eq(channels.id, channelId));
+        const endDbDeleteTime = Date.now();
+        console.log(
+            `Channel deleted in ${endDbDeleteTime - startDbDeleteTime}ms`,
+        );
     } catch (error) {
         console.log(error);
         return { message: "Channel deletion failed" };
     }
 
-    revalidatePath(`/${serverId}/`);
-    redirect(`/${serverId}/`);
+    console.log("Starting to send delete event");
+    const startEventPostTime = Date.now();
+
+    fetch("http://localhost:8000/event/channel/delete", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.WEBSOCKET_API_KEY}`,
+        },
+        body: JSON.stringify({ channelId, serverId }),
+    }).catch((error) => console.log(error));
+
+    const endEventPostTime = Date.now();
+    console.log(
+        `Delete event posted in ${endEventPostTime - startEventPostTime}ms`,
+    );
+
+    const endTotalTime = Date.now();
+    console.log(`Total time taken: ${endTotalTime - startTotalTime}ms`);
 }
