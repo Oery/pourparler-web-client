@@ -1,5 +1,3 @@
-import { type User } from "./user";
-
 interface Message {
     id: string;
     content: string;
