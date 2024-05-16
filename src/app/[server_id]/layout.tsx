@@ -22,6 +22,7 @@ export default async function ServerLayout({ children }: Props) {
                     },
                 },
             },
+            categories: { columns: { createdAt: false } },
         },
     });
 
