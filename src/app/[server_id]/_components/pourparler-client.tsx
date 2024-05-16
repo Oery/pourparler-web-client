@@ -17,13 +17,13 @@ interface Props {
 export default function PourparlerClient({ children, server }: Props) {
     const storeRef = useRef<AppStore | null>(null);
 
-    const messages = server.channels.flatMap((channel) => channel?.messages);
+    const messages = server.channels.flatMap((channel) => channel.messages!);
 
     if (!storeRef.current) {
         storeRef.current = makeStore();
 
-        const serializedMessages = messages.map((message: MessageWithAuthor) =>
-            serializeMessage(message),
+        const serializedMessages = messages.map((message) =>
+            serializeMessage(message as MessageWithAuthor),
         );
 
         // Remove messages from channels

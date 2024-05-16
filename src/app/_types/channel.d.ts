@@ -1,6 +1,6 @@
-import { type MessageWithAuthor } from "./message";
+import type { MessageWithAuthor, Message } from "./message";
 
-interface Channel {
+export interface Channel {
     id: string;
     name: string;
     type: "text" | "voice";
@@ -9,11 +9,11 @@ interface Channel {
     messages?: Message[];
 }
 
-interface ChannelDelete {
+export interface ChannelDelete {
     channelId: string;
     serverId: string;
 }
 
-interface ChannelWithMessages extends Channel {
+export interface ChannelWithMessages extends Channel {
     messages: MessageWithAuthor[];
 }

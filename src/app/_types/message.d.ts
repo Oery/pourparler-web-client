@@ -1,4 +1,6 @@
-interface Message {
+import type { User } from "./user";
+
+export interface Message {
     id: string;
     content: string;
     sendAt: Date;
@@ -6,22 +8,22 @@ interface Message {
     channelId: string;
 }
 
-interface MessageWithAuthor extends Message {
+export interface MessageWithAuthor extends Message {
     author: User;
 }
 
-interface MessageEdit {
+export interface MessageEdit {
     id: string;
     content: string;
     editAt: string;
 }
 
-interface SerializedMessage extends Message {
+export interface SerializedMessage extends Message {
     // createdAt: string;
     sendAt: string;
     // editAt?: string;
 }
 
-interface SerializedMessageWithAuthor extends SerializedMessage {
+export interface SerializedMessageWithAuthor extends SerializedMessage {
     author: User;
 }

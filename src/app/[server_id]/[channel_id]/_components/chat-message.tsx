@@ -1,5 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
+import { SerializedMessageWithAuthor } from "~/app/_types/message";
+
 interface Props {
     message: SerializedMessageWithAuthor;
 }

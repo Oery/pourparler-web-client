@@ -1,7 +1,7 @@
 import type { Channel } from "./channel";
 import type { Category } from "./category";
 
-interface Server {
+export interface Server {
     id: string;
     name: string;
     channels: Channel[];
@@ -9,7 +9,7 @@ interface Server {
     ownerId: string;
 }
 
-interface ServerEdit {
+export interface ServerEdit {
     id: string;
     name?: string;
 }
