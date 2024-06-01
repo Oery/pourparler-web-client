@@ -85,16 +85,10 @@ export default function ChatInput({ channelId }: { channelId: string }) {
         if (!socket) return;
         const isTyping = message.length > 0;
 
-        if (isTyping && !wasTyping) {
-            socket.emit("typing:start", {
-                channel: channelId,
-            });
-            setWasTyping(true);
-        } else if (!isTyping && wasTyping) {
-            socket.emit("typing:stop", {
-                channel: channelId,
-            });
-            setWasTyping(false);
+        if (isTyping != wasTyping) {
+            const event = isTyping ? "typing:start" : "typing:stop";
+            socket.emit(event, { channel: channelId });
+            setWasTyping(isTyping);
         }
     }, [message, socket, wasTyping, channelId]);
 
