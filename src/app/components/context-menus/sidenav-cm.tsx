@@ -9,23 +9,30 @@ import {
 interface Props {
     children: React.ReactNode;
     serverId: string;
+    isAdmin: boolean;
 }
 
-export default function SideNavContextMenu({ children, serverId }: Props) {
+function SideNavContextMenu({ children, serverId, isAdmin }: Props) {
     return (
         <ContextMenu>
             <ContextMenuTrigger>{children}</ContextMenuTrigger>
 
             <ContextMenuContent>
-                <ContextMenuItem onClick={() => console.log("Clicked")}>
-                    Create Channel
-                </ContextMenuItem>
-                <ContextMenuItem>
-                    <CreateCategoryModal serverId={serverId}>
-                        Create Category
-                    </CreateCategoryModal>
-                </ContextMenuItem>
+                {isAdmin && ( // Admin Actions
+                    <>
+                        <ContextMenuItem onClick={() => console.log("Clicked")}>
+                            Create Channel
+                        </ContextMenuItem>
+                        <ContextMenuItem>
+                            <CreateCategoryModal serverId={serverId}>
+                                Create Category
+                            </CreateCategoryModal>
+                        </ContextMenuItem>
+                    </>
+                )}
             </ContextMenuContent>
         </ContextMenu>
     );
 }
+
+export default SideNavContextMenu;

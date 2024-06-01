@@ -7,6 +7,7 @@ import SideNavContextMenu from "~/app/components/context-menus/sidenav-cm";
 import ChannelComponent from "./channel";
 import type { Category } from "~/app/_types/category";
 import type { Server } from "~/app/_types/server";
+import { useAuth } from "@clerk/nextjs";
 
 export default function SideNav({ serverId }: { serverId: string }) {
     const server = useSelector<any, Server[]>(serversSelector).find(
@@ -33,8 +34,11 @@ export default function SideNav({ serverId }: { serverId: string }) {
 
     // TODO: Add Open/Close feature
 
+    const { userId } = useAuth();
+    const isAdmin = userId === server.ownerId;
+
     return (
-        <SideNavContextMenu serverId={serverId}>
+        <SideNavContextMenu serverId={serverId} isAdmin={isAdmin}>
             <div className="flex h-screen w-52 flex-col gap-4 bg-stone-300 p-4">
                 <div>
                     <h2 className="truncate">{server.name}</h2>
