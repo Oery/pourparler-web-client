@@ -60,13 +60,11 @@ export default function ChatInput({ channelId }: { channelId: string }) {
         setUsersTyping((prev) => prev.filter((u) => u.name !== user.name));
     }, []);
 
+    // Update typing string when the list changes
     useEffect(() => {
-        const newTypingString = getTypingString(
-            usersTyping.filter((u) => u.channel == channelId),
-        );
-        if (newTypingString.length > 0) {
-            setTypingString(newTypingString);
-        }
+        const filteredUsers = usersTyping.filter((u) => u.channel == channelId);
+        const newTypingString = getTypingString(filteredUsers);
+        if (newTypingString.length > 0) setTypingString(newTypingString);
     }, [channelId, usersTyping]);
 
     useEffect(() => {
