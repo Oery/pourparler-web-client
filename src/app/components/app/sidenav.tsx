@@ -8,25 +8,21 @@ import ChannelComponent from "./channel";
 import type { Category } from "~/app/_types/category";
 
 export default function SideNav({ serverId }: { serverId: string }) {
-    const { categories, channels } = useSelector(serversSelector).find(
+    const server = useSelector(serversSelector).find(
         (server) => server.id === serverId,
     )!;
 
-    const channelsByCategory = categories.map((category: Category) => {
-        const categoryChannels = channels.filter(
+    const channelsByCategory = server.categories.map((category: Category) => {
+        const thisCategoryChannels = server.channels.filter(
             (channel) => channel.categoryId === category.id,
         );
 
-        categoryChannels.sort((a, b) => a.id.localeCompare(b.id));
-
-        return {
-            ...category,
-            channels: categoryChannels,
-        };
+        thisCategoryChannels.sort((a, b) => a.id.localeCompare(b.id));
+        return { ...category, channels: thisCategoryChannels };
     });
 
     // Add a "No category" category
-    const uncategorizedChannels = channels.filter(
+    const uncategorizedChannels = server.channels.filter(
         (channel) =>
             channel.categoryId === "00000000-0000-0000-0000-000000000000",
     );
@@ -40,7 +36,7 @@ export default function SideNav({ serverId }: { serverId: string }) {
         <SideNavContextMenu serverId={serverId}>
             <div className="flex h-screen w-52 flex-col gap-4 bg-stone-300 p-4">
                 <div>
-                    <h2 className="truncate">Château d&apos;Oery</h2>
+                    <h2 className="truncate">{server.name}</h2>
                     {uncategorizedChannels.map((channel) => (
                         <ChannelComponent key={channel.id} channel={channel} />
                     ))}
