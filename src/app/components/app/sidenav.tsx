@@ -6,9 +6,10 @@ import { serversSelector } from "~/stores/servers";
 import SideNavContextMenu from "~/app/components/context-menus/sidenav-cm";
 import ChannelComponent from "./channel";
 import type { Category } from "~/app/_types/category";
+import type { Server } from "~/app/_types/server";
 
 export default function SideNav({ serverId }: { serverId: string }) {
-    const server = useSelector(serversSelector).find(
+    const server = useSelector<any, Server[]>(serversSelector).find(
         (server) => server.id === serverId,
     )!;
 
