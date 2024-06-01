@@ -2,28 +2,11 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useSocket } from "~/app/context/use-socket";
-
-function getTypingString(usersTyping: TypingUser[]) {
-    switch (usersTyping.length) {
-        case 1:
-            return `${usersTyping[0]?.name} is typing...`;
-        case 2:
-            return `${usersTyping[0]?.name} and ${usersTyping[1]?.name} are typing...`;
-        default:
-            return "";
-    }
-}
-
-interface TypingUser {
-    name: string;
-    channel: string;
-}
+import ChatTypingIndicator from "./chat-typing-indicator";
 
 export default function ChatInput({ channelId }: { channelId: string }) {
     const [message, setMessage] = useState("");
-    const [usersTyping, setUsersTyping] = useState<TypingUser[]>([]);
     const [wasTyping, setWasTyping] = useState(false);
-    const [typingString, setTypingString] = useState("");
 
     const socket = useSocket();
 
@@ -48,37 +31,6 @@ export default function ChatInput({ channelId }: { channelId: string }) {
         [message, socket, channelId],
     );
 
-    const handleUserStartTyping = useCallback(
-        (user: TypingUser) => {
-            if (usersTyping.includes(user)) return;
-            setUsersTyping((prev) => [...prev, user]);
-        },
-        [usersTyping],
-    );
-
-    const handleUserStopTyping = useCallback((user: TypingUser) => {
-        setUsersTyping((prev) => prev.filter((u) => u.name !== user.name));
-    }, []);
-
-    // Update typing string when the list changes
-    useEffect(() => {
-        const filteredUsers = usersTyping.filter((u) => u.channel == channelId);
-        const newTypingString = getTypingString(filteredUsers);
-        if (newTypingString.length > 0) setTypingString(newTypingString);
-    }, [channelId, usersTyping]);
-
-    useEffect(() => {
-        if (!socket) return;
-
-        socket.on("typing:start", handleUserStartTyping);
-        socket.on("typing:stop", handleUserStopTyping);
-
-        return () => {
-            socket?.off("typing:start");
-            socket?.off("typing:stop");
-        };
-    }, [handleUserStartTyping, handleUserStopTyping, socket]);
-
     useEffect(() => {
         if (!socket) return;
         const isTyping = message.length > 0;
@@ -95,13 +47,7 @@ export default function ChatInput({ channelId }: { channelId: string }) {
             className="relative shrink-0 grow-0 basis-auto pb-3"
             onSubmit={handleSubmit}
         >
-            <div
-                className={`absolute bottom-14 z-0 w-full transition-transform ${usersTyping.filter((u) => u.channel == channelId).length > 0 ? "translate-y-0" : "translate-y-10"}`}
-            >
-                <p className="h-7 w-full rounded-md bg-stone-200 px-2 text-sm text-stone-600">
-                    {typingString}
-                </p>
-            </div>
+            <ChatTypingIndicator channelId={channelId} />
             <input
                 className="relative z-10 w-full rounded-lg border-none p-3 outline-none"
                 type="text"
