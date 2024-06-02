@@ -106,6 +106,12 @@ export const messages = createTable(
     }),
 );
 
+export const insertMessageSchema = createInsertSchema(messages);
+
+export const deleteMessageSchema = insertMessageSchema.pick({
+    id: true,
+});
+
 export const messagesRelations = relations(messages, ({ one }) => ({
     author: one(users, {
         fields: [messages.authorId],
