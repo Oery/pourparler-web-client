@@ -37,8 +37,6 @@ export default function ChatTypingIndicator({ channelId }: Props) {
         (user: TypingUser) => {
             if (usersTyping.includes(user)) return;
             if (user.id == userId) return;
-            console.log("User typing", user);
-            console.log("User ID", userId);
             setUsersTyping((prev) => [...prev, user]);
         },
         [usersTyping],
