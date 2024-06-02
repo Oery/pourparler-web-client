@@ -7,25 +7,18 @@ export const serverSlice = createSlice({
     name: "servers",
     initialState: [] as Server[],
     reducers: {
-        setServers: (_state, action: PayloadAction<Server[]>) => {
-            return action.payload;
-        },
-        addServer: (state, action: PayloadAction<Server>) => {
-            state.push(action.payload);
-            return state;
-        },
-        removeServer: (state, action: PayloadAction<string>) => {
-            return state.filter((server) => server.id !== action.payload);
-        },
+        setServers: (_state, action: PayloadAction<Server[]>) => action.payload,
+        addServer: (state, action: PayloadAction<Server>) =>
+            void state.push(action.payload),
+        removeServer: (state, action: PayloadAction<string>) =>
+            void state.filter((server) => server.id !== action.payload),
         editServer: (state, action: PayloadAction<ServerEdit>) => {
-            const server = state.find(
-                (server) => server.id === action.payload.id,
-            );
-
-            if (!server) return state;
-
-            server.name = action.payload.name ?? server.name;
-            return state;
+            state.map((server) => {
+                if (server.id === action.payload.id) {
+                    server = { ...server, ...action.payload };
+                }
+                return server;
+            });
         },
         addChannel: (state, action: PayloadAction<Channel>) => {
             console.log("Adding channel", action.payload);
