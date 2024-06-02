@@ -13,6 +13,18 @@ export const messageSlice = createSlice({
             return action.payload;
         },
         addMessage: (state, action: PayloadAction<SMWA>) => {
+            const message = state.find(
+                (message) => message.clientId === action.payload.clientId,
+            );
+
+            if (message) {
+                return state.map((message) =>
+                    message.clientId === action.payload.clientId
+                        ? action.payload
+                        : message,
+                );
+            }
+
             state.push(action.payload);
             return state;
         },

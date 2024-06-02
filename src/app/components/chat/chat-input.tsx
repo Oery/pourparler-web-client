@@ -3,12 +3,19 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSocket } from "~/app/context/use-socket";
 import ChatTypingIndicator from "./chat-typing-indicator";
+import { useDispatch } from "react-redux";
+import { addMessage } from "~/stores/messages";
+import { serializeMessage } from "~/app/lib/utils/serialize";
+import { useUser } from "@clerk/nextjs";
+import { v4 as uuidv4 } from "uuid";
 
 export default function ChatInput({ channelId }: { channelId: string }) {
     const [message, setMessage] = useState("");
     const [wasTyping, setWasTyping] = useState(false);
 
     const socket = useSocket();
+    const { user } = useUser();
+    const dispatch = useDispatch();
 
     const handleChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,12 +27,34 @@ export default function ChatInput({ channelId }: { channelId: string }) {
     const handleSubmit = useCallback(
         (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            if (!socket) return;
+            if (!socket || !user || !message) return;
+
+            const sendAt = new Date();
+            const clientId = uuidv4();
+
             socket.emit("message:send", {
                 channelId,
+                sendAt,
+                clientId,
                 content: message,
-                sendAt: new Date(),
             });
+
+            const serializedMessage = serializeMessage({
+                id: "",
+                clientId,
+                isSending: true,
+                content: message,
+                sendAt,
+                channelId,
+                author: {
+                    id: user.id,
+                    name: user.firstName ?? "",
+                    avatarUrl: user.imageUrl,
+                },
+            });
+
+            dispatch(addMessage(serializedMessage));
+
             setMessage("");
         },
         [message, socket, channelId],

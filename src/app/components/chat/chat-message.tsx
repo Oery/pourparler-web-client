@@ -17,7 +17,7 @@ export default function ChatMessage({ message }: Props) {
                     height={40}
                 />
             </aside>
-            <div>
+            <div className={message.isSending ? "opacity-50" : ""}>
                 <div className="flex flex-row items-center gap-1 font-semibold text-red-600">
                     {message.author.name}
                     <span className="align-baseline text-xs font-normal leading-5 text-gray-400">
