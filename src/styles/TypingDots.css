@@ -1,0 +1,28 @@
+.typing-dots {
+    display: inline-block;
+}
+
+@keyframes typing {
+    0%,
+    20% {
+        content: "";
+    }
+    25%,
+    45% {
+        content: ".";
+    }
+    50%,
+    70% {
+        content: "..";
+    }
+    75%,
+    95% {
+        content: "...";
+    }
+}
+
+.typing-dots::before {
+    content: "";
+    display: inline-block;
+    animation: typing 1.2s steps(1, end) infinite; /* Adjust timing as needed */
+}

@@ -1,16 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSocket } from "~/app/context/use-socket";
+import TypingDots from "./chat-typing-dots";
 
 function getTypingString(usersTyping: TypingUser[]) {
     switch (usersTyping.length) {
         case 0:
             return "";
         case 1:
-            return `${usersTyping[0]?.name} is typing...`;
+            return `${usersTyping[0]?.name} is typing`;
         case 2:
-            return `${usersTyping[0]?.name} and ${usersTyping[1]?.name} are typing...`;
+            return `${usersTyping[0]?.name} and ${usersTyping[1]?.name} are typing`;
         default:
-            return "Multiple users are typing...";
+            return "Multiple users are typing";
     }
 }
 
@@ -65,6 +66,7 @@ export default function ChatTypingIndicator({ channelId }: Props) {
         >
             <p className="h-7 w-full rounded-md bg-stone-200 px-2 text-sm text-stone-600">
                 {typingString}
+                <TypingDots />
             </p>
         </div>
     );
