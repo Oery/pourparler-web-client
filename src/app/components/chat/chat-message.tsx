@@ -6,6 +6,17 @@ interface Props {
 }
 
 export default function ChatMessage({ message }: Props) {
+    let media = null;
+
+    if (message.content.startsWith("https://c.tenor.com/")) {
+        media = (
+            <img
+                src={message.content}
+                className="mt-2 aspect-auto h-56 rounded-lg"
+            />
+        );
+    }
+
     return (
         <div className="flex flex-row gap-4 first:mt-auto">
             <aside>
@@ -25,7 +36,7 @@ export default function ChatMessage({ message }: Props) {
                     </span>
                 </div>
                 <div className="overflow-hidden text-base text-stone-600">
-                    {message.content}
+                    {media ?? message.content}
                 </div>
             </div>
         </div>
