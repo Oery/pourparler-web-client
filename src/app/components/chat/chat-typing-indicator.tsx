@@ -3,12 +3,14 @@ import { useSocket } from "~/app/context/use-socket";
 
 function getTypingString(usersTyping: TypingUser[]) {
     switch (usersTyping.length) {
+        case 0:
+            return "";
         case 1:
             return `${usersTyping[0]?.name} is typing...`;
         case 2:
             return `${usersTyping[0]?.name} and ${usersTyping[1]?.name} are typing...`;
         default:
-            return "";
+            return "Multiple users are typing...";
     }
 }
 
