@@ -44,7 +44,10 @@ export default function ChatMessageContainer({ messages }: Props) {
             <div className="flex flex-col gap-4" ref={containerRef}>
                 {/* This is a hack to make the last message scroll into view */}
                 {messages.map((message) => (
-                    <ChatMessage key={message.id} message={message} />
+                    <ChatMessage
+                        key={message.id ?? message.clientId}
+                        message={message}
+                    />
                 ))}
             </div>
             <div ref={lastMessageRef} />
