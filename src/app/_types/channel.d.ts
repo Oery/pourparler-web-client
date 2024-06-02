@@ -11,7 +11,6 @@ export interface Channel {
 
 export interface ChannelDelete {
     channelId: string;
-    serverId: string;
 }
 
 export interface ChannelWithMessages extends Channel {

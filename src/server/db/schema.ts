@@ -86,7 +86,6 @@ export const createChannelSchema = insertChannelSchema.omit({
 
 export const deleteChannelSchema = insertChannelSchema.pick({
     id: true,
-    serverId: true,
 });
 
 export const messages = createTable(

@@ -1,6 +1,5 @@
 "use client";
 
-import { createChannel } from "~/app/lib/actions/channels";
 import {
     Dialog,
     DialogContent,
@@ -10,10 +9,10 @@ import {
     DialogTrigger,
 } from "../ui/dialog";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addChannel } from "~/stores/servers";
 import { useRouter } from "next/navigation";
 import type { Category } from "~/app/_types/category";
+import { createChannel } from "~/app/actions/channel";
+import { useSession } from "@clerk/nextjs";
 
 interface Props {
     category: Category;
@@ -21,21 +20,16 @@ interface Props {
 
 export default function CreateChannelModal({ category }: Props) {
     const [name, setName] = useState("");
-    const dispatch = useDispatch();
+    const { session } = useSession();
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (!session) return;
         const formData = new FormData(e.currentTarget);
-        const result = await createChannel(formData);
-        if (!result) return;
-        const { message, data } = result;
-        if (message ?? !data) {
-            console.error(message);
-            return;
-        }
-        dispatch(addChannel(data));
-        router.push(`/${category.serverId}/${data.id}`);
+        const { data, error } = await createChannel(formData, session.id);
+        if (error) return;
+        router.push(`/${category.serverId}/${data.channelId}`);
     };
 
     return (
