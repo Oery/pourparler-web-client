@@ -28,32 +28,28 @@ export const serverSlice = createSlice({
             return state;
         },
         addChannel: (state, action: PayloadAction<Channel>) => {
-            const server = state.find(
-                (server) => server.id === action.payload.serverId,
-            );
-
-            if (!server) return state;
-
-            const channelExists = server.channels.find(
-                (channel) => channel.id === action.payload.id,
-            );
-            if (channelExists) return state;
-
-            server.channels.push(action.payload);
-            return state;
+            console.log("Adding channel", action.payload);
+            state.map((server) => {
+                if (
+                    server.id !== action.payload.serverId &&
+                    server.channels.find(
+                        (channel) => channel.id === action.payload.id,
+                    )
+                )
+                    return server;
+                server.channels.push(action.payload);
+                return server;
+            });
         },
         removeChannel: (state, action: PayloadAction<ChannelDelete>) => {
-            const server = state.find(
-                (server) => server.id === action.payload.serverId,
-            );
+            console.log("Removing channel", action.payload);
 
-            if (!server) return state;
-
-            server.channels = server.channels.filter(
-                (channel) => channel.id !== action.payload.channelId,
-            );
-            console.log("state", state);
-            return state;
+            state.map((server) => {
+                server.channels = server.channels.filter(
+                    (channel) => channel.id !== action.payload.channelId,
+                );
+                return server;
+            });
         },
     },
 });
