@@ -8,9 +8,10 @@ import ChannelComponent from "./channel";
 import type { Category } from "~/app/_types/category";
 import type { Server } from "~/app/_types/server";
 import { useAuth } from "@clerk/nextjs";
+import type { RootState } from "~/stores/_store";
 
 export default function SideNav({ serverId }: { serverId: string }) {
-    const server = useSelector<any, Server[]>(serversSelector).find(
+    const server = useSelector<RootState, Server[]>(serversSelector).find(
         (server) => server.id === serverId,
     )!;
 

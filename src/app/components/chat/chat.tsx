@@ -12,6 +12,7 @@ import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage, messagesSelector } from "~/stores/messages";
 import { serializeMessage } from "~/app/lib/utils/serialize";
+import { RootState } from "~/stores/_store";
 
 interface Props {
     channelId: string;
@@ -20,7 +21,7 @@ interface Props {
 export default function Chat({ channelId }: Props) {
     const socket = useSocket();
     const { session } = useSession();
-    const messages = useSelector<any, SMWA[]>(messagesSelector);
+    const messages = useSelector<RootState, SMWA[]>(messagesSelector);
     const dispatch = useDispatch();
 
     const channelMessages = messages.filter(
