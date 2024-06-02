@@ -14,13 +14,10 @@ interface Props {
 
 export default function CategoryComponent({ category }: Props) {
     const [showChannels, setShowChannels] = useState(true);
-    const server = useSelector(serversSelector).find(
-        (server) => server.id === category.serverId,
-    )!;
 
-    const channels = server.channels.filter(
-        (channel) => channel.categoryId === category.id,
-    );
+    const channels = useSelector(serversSelector)
+        .find((server) => server.id === category.serverId)!
+        .channels.filter((channel) => channel.categoryId === category.id);
 
     return (
         <div className="flex select-none flex-col gap-2 pt-2">
