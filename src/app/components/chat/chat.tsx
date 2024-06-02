@@ -10,7 +10,7 @@ import type {
 } from "~/app/_types/message";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addMessage, messagesSelector } from "~/stores/messages";
+import { addMessage, messagesSelector, removeMessage } from "~/stores/messages";
 import { serializeMessage } from "~/app/lib/utils/serialize";
 import { RootState } from "~/stores/_store";
 
@@ -36,12 +36,19 @@ export default function Chat({ channelId }: Props) {
         [dispatch],
     );
 
+    const handleMessageDeletion = useCallback(
+        (messageId: string) => dispatch(removeMessage(messageId)),
+        [dispatch],
+    );
+
     useEffect(() => {
         if (!socket) return;
         socket.on("message:send", handleMessageReception);
+        socket.on("message:delete", handleMessageDeletion);
 
         return () => {
             socket.off("message:send");
+            socket.off("message:delete");
         };
     }, [handleMessageReception, socket]);
 
