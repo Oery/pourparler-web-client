@@ -37,7 +37,7 @@ export default function ChatMessage({ message }: Props) {
                             {new Date(message.sendAt).toLocaleTimeString()}
                         </span>
                     </div>
-                    <div className="overflow-hidden text-base text-stone-600">
+                    <div className="overflow-hidden text-wrap break-all text-base text-stone-600">
                         {media ?? message.content}
                     </div>
                 </div>
