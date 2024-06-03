@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { serversSelector } from "~/stores/servers";
 import { useAuth } from "@clerk/nextjs";
 import type { Server } from "~/app/_types/server";
+import { RootState } from "~/stores/_store";
 
 interface Props {
     channel: Channel;
@@ -19,7 +20,7 @@ export default function ChannelComponent({ channel }: Props) {
     const isActive = pathname === `/${channel.id}`;
     const { userId } = useAuth();
 
-    const serverOwner = useSelector<string, Server[]>(serversSelector).find(
+    const serverOwner = useSelector<RootState, Server[]>(serversSelector).find(
         (server) => server.id === channel.serverId,
     )?.ownerId;
 
