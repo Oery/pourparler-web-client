@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSocket } from "~/app/context/use-socket";
 import ChatTypingIndicator from "./chat-typing-indicator";
 import { useDispatch } from "react-redux";
@@ -8,37 +8,35 @@ import { addMessage } from "~/stores/messages";
 import { serializeMessage } from "~/app/lib/utils/serialize";
 import { useUser } from "@clerk/nextjs";
 import { v4 as uuidv4 } from "uuid";
+import { removeUselessNewlines } from "~/app/lib/utils/message";
 
 export default function ChatInput({ channelId }: { channelId: string }) {
     const [message, setMessage] = useState("");
     const [wasTyping, setWasTyping] = useState(false);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const socket = useSocket();
     const { user } = useUser();
     const dispatch = useDispatch();
 
     const handleChange = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>) => {
+        (e: React.ChangeEvent<HTMLTextAreaElement>) => {
             setMessage(e.target.value);
         },
         [],
     );
 
-    const handleSubmit = useCallback(
-        (e: React.FormEvent<HTMLFormElement>) => {
+    const handleKeyDown = useCallback(
+        (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+            if (!(e.key === "Enter" && !e.shiftKey)) return;
             e.preventDefault();
             if (!socket || !user || !message) return;
 
             const sendAt = new Date();
             const clientId = uuidv4();
 
-            let content = message;
-
-            if (message.startsWith("http")) {
-                const formats = ["png", "jpg", "jpeg", "gif", "webp"];
-                const ext = message.split(".").pop() ?? "";
-                if (formats.includes(ext)) content = `![](${message})`;
-            }
+            let content = removeUselessNewlines(message);
+            if (!content) return;
 
             socket.emit("message:send", {
                 channelId,
@@ -51,7 +49,7 @@ export default function ChatInput({ channelId }: { channelId: string }) {
                 id: "",
                 clientId,
                 isSending: true,
-                content: message,
+                content,
                 sendAt,
                 channelId,
                 author: {
@@ -79,18 +77,26 @@ export default function ChatInput({ channelId }: { channelId: string }) {
         }
     }, [message, socket, wasTyping, channelId]);
 
+    // Expand TextArea to fit new lines
+    useEffect(() => {
+        const textarea = textareaRef.current;
+        if (textarea) {
+            textarea.style.height = "auto"; // Reset height to calculate properly
+            const borderHeight = 24; // Calculate border/padding
+            textarea.style.height = `${textarea.scrollHeight - borderHeight}px`; // Set correct height including borders
+        }
+    }, [message]);
+
     return (
-        <form
-            className="relative shrink-0 grow-0 basis-auto pb-3"
-            onSubmit={handleSubmit}
-        >
+        <form className="relative shrink-0 grow-0 basis-auto pb-1.5">
             <ChatTypingIndicator channelId={channelId} />
-            <input
-                className="relative z-10 w-full rounded-lg border-none p-3 outline-none"
-                type="text"
-                placeholder="Type a message..."
+            <textarea
+                ref={textareaRef}
                 value={message}
+                placeholder="Type a message..."
+                onKeyDown={handleKeyDown}
                 onChange={handleChange}
+                className="relative z-10 h-12 w-full resize-none rounded-lg border-none p-3 outline-none"
             />
         </form>
     );
