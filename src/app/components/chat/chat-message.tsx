@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import type { SerializedMessageWithAuthor } from "~/app/_types/message";
 import MessageContextMenu from "../context-menus/message.cm";
+import Markdown from "react-markdown";
 
 interface Props {
     message: SerializedMessageWithAuthor;
@@ -9,14 +10,15 @@ interface Props {
 export default function ChatMessage({ message }: Props) {
     let media = null;
 
-    if (message.content.startsWith("https://c.tenor.com/")) {
-        media = (
-            <img
-                src={message.content}
-                className="mt-2 aspect-auto h-56 rounded-lg"
-            />
-        );
-    }
+    //  TODO: Turn this into a custom markdown component
+    // if (message.content.startsWith("https://c.tenor.com/")) {
+    //     media = (
+    //         <img
+    //             src={message.content}
+    //             className="mt-2 aspect-auto h-56 rounded-lg"
+    //         />
+    //     );
+    // }
 
     return (
         <MessageContextMenu message={message}>
@@ -41,7 +43,9 @@ export default function ChatMessage({ message }: Props) {
                         className="text-base text-stone-600"
                         style={{ wordBreak: "break-word" }}
                     >
-                        {media ?? message.content}
+                        <Markdown className={"markdown"}>
+                            {message.content}
+                        </Markdown>
                     </div>
                 </div>
             </div>
