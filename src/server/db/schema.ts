@@ -93,7 +93,7 @@ export const messages = createTable(
     {
         id: uuid("id").defaultRandom().primaryKey(),
         channelId: uuid("channel_id").notNull(),
-        content: varchar("content", { length: 256 }).notNull(),
+        content: varchar("content", { length: 2000 }).notNull(),
         createdAt: timestamp("created_at", { withTimezone: true })
             .default(sql`CURRENT_TIMESTAMP`)
             .notNull(),
