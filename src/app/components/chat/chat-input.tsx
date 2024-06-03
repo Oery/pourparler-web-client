@@ -32,11 +32,19 @@ export default function ChatInput({ channelId }: { channelId: string }) {
             const sendAt = new Date();
             const clientId = uuidv4();
 
+            let content = message;
+
+            if (message.startsWith("http")) {
+                const formats = ["png", "jpg", "jpeg", "gif", "webp"];
+                const ext = message.split(".").pop() ?? "";
+                if (formats.includes(ext)) content = `![](${message})`;
+            }
+
             socket.emit("message:send", {
                 channelId,
                 sendAt,
                 clientId,
-                content: message,
+                content,
             });
 
             const serializedMessage = serializeMessage({
