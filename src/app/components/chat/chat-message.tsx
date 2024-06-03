@@ -43,7 +43,7 @@ export default function ChatMessage({ message }: Props) {
                         className="text-base text-stone-600"
                         style={{ wordBreak: "break-word" }}
                     >
-                        <Markdown className={"markdown"}>
+                        <Markdown className={"markdown whitespace-pre-wrap"}>
                             {message.content}
                         </Markdown>
                     </div>
