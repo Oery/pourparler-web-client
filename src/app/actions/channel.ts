@@ -5,7 +5,15 @@ import {
     deleteChannelSchema,
 } from "../../server/db/schema";
 
-async function createChannel(formData: FormData, sessionId: string) {
+interface Response {
+    data?: { channelId: string };
+    error?: string;
+}
+
+async function createChannel(
+    formData: FormData,
+    sessionId: string,
+): Promise<Response> {
     const { serverId, name, type, categoryId } = createChannelSchema.parse({
         serverId: formData.get("serverId"),
         name: formData.get("name"),
@@ -22,7 +30,7 @@ async function createChannel(formData: FormData, sessionId: string) {
             },
             body: JSON.stringify({ serverId, name, type, categoryId }),
         });
-        return { data: await response.json() };
+        return { data: (await response.json()) as Response["data"] };
     } catch (error) {
         console.error(error);
         return { error: "Channel creation failed" };

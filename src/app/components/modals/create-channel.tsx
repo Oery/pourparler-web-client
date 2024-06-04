@@ -28,7 +28,7 @@ export default function CreateChannelModal({ category }: Props) {
         if (!session) return;
         const formData = new FormData(e.currentTarget);
         const { data, error } = await createChannel(formData, session.id);
-        if (error) return;
+        if (error ?? !data) return;
         router.push(`/${category.serverId}/${data.channelId}`);
     };
 

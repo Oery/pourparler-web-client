@@ -35,7 +35,7 @@ export default function ChatInput({ channelId }: { channelId: string }) {
             const sendAt = new Date();
             const clientId = uuidv4();
 
-            let content = removeUselessNewlines(message);
+            const content = removeUselessNewlines(message);
             if (!content) return;
 
             socket.emit("message:send", {
@@ -63,7 +63,7 @@ export default function ChatInput({ channelId }: { channelId: string }) {
 
             setMessage("");
         },
-        [message, socket, channelId],
+        [message, socket, channelId, dispatch, user],
     );
 
     useEffect(() => {

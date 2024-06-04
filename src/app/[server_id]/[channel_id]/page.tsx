@@ -5,7 +5,7 @@ import Chat from "~/app/components/chat/chat";
 import { useSelector } from "react-redux";
 import { serversSelector } from "~/stores/servers";
 import type { Server } from "~/app/_types/server";
-import { RootState } from "~/stores/_store";
+import type { RootState } from "~/stores/_store";
 
 interface Props {
     params: { channel_id: string; server_id: string };
