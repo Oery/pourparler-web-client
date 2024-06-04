@@ -9,7 +9,7 @@ import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage, messagesSelector, removeMessage } from "~/stores/messages";
 import { serializeMessage } from "~/app/lib/utils/serialize";
-import { RootState } from "~/stores/_store";
+import type { RootState } from "~/stores/_store";
 
 interface Props {
     channelId: string;
@@ -49,7 +49,7 @@ export default function Chat({ channelId }: Props) {
             socket.off("message:send");
             socket.off("message:delete");
         };
-    }, [handleMessageReception, socket]);
+    }, [socket, handleMessageReception, handleMessageDeletion]);
 
     useEffect(() => {
         if (!socket || !session) return;

@@ -37,7 +37,7 @@ function ChannelContextMenu({ children, channel, isAdmin }: Props) {
         const firstChannel =
             server.channels[server.channels[0]?.id === channel.id ? 1 : 0];
         router.push(`/${firstChannel?.serverId}/${firstChannel?.id}`);
-    }, [channel]);
+    }, [channel, router, server.channels, session]);
 
     return (
         <ContextMenu>

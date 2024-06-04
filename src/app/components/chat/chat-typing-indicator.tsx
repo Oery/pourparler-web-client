@@ -39,7 +39,7 @@ export default function ChatTypingIndicator({ channelId }: Props) {
             if (user.id == userId) return;
             setUsersTyping((prev) => [...prev, user]);
         },
-        [usersTyping],
+        [usersTyping, userId],
     );
 
     const handleUserStopTyping = (user: TypingUser) => {
