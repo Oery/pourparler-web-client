@@ -66,6 +66,7 @@ export const channels = createTable(
 );
 
 export const channelsRelations = relations(channels, ({ one, many }) => ({
+    users: many(users),
     server: one(servers, {
         fields: [channels.serverId],
         references: [servers.id],
@@ -156,8 +157,16 @@ export const users = createTable(
             .default(sql`CURRENT_TIMESTAMP`)
             .notNull(),
         discordId: varchar("discord_id", { length: 256 }).notNull(),
+        voiceChannelId: uuid("voice_channel_id"),
     },
     (example) => ({
         nameIndex: index("user_idx").on(example.name),
     }),
 );
+
+export const usersRelations = relations(users, ({ one }) => ({
+    voiceChannel: one(channels, {
+        fields: [users.voiceChannelId],
+        references: [channels.id],
+    }),
+}));

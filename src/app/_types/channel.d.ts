@@ -7,6 +7,7 @@ export interface Channel {
     categoryId?: string;
     serverId: string;
     messages?: Message[];
+    users?: string[];
 }
 
 export interface ChannelDelete {
