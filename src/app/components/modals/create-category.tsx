@@ -1,6 +1,5 @@
 "use client";
 
-import { createCategory } from "~/app/lib/actions/categories";
 import {
     Dialog,
     DialogContent,
@@ -9,15 +8,15 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../ui/dialog";
-import { useState } from "react";
+// import { useState } from "react";
 
 interface Props {
-    serverId: string;
+    _serverId: string;
     children: React.ReactNode;
 }
 
-export default function CreateCategoryModal({ serverId, children }: Props) {
-    const [name, setName] = useState("");
+export default function CreateCategoryModal({ _serverId, children }: Props) {
+    // const [name, setName] = useState("");
 
     return (
         <Dialog>
@@ -32,7 +31,7 @@ export default function CreateCategoryModal({ serverId, children }: Props) {
                     </DialogDescription>
                 </DialogHeader>
 
-                <form action={createCategory} className="flex flex-col gap-4">
+                {/* <form action={createCategory} className="flex flex-col gap-4">
                     <input type="hidden" name="serverId" value={serverId} />
                     <input
                         type="text"
@@ -42,7 +41,7 @@ export default function CreateCategoryModal({ serverId, children }: Props) {
                         onChange={(e) => setName(e.target.value)}
                     />
                     <button type="submit">Create</button>
-                </form>
+                </form> */}
             </DialogContent>
         </Dialog>
     );
