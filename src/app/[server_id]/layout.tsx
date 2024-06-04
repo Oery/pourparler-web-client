@@ -3,6 +3,7 @@ import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import { db } from "~/server/db";
 import PourparlerClient from "~/app/components/app/pourparler-client";
 import type { Server } from "../_types/server";
+import type { User } from "../_types/user";
 
 interface Props {
     children: React.ReactNode;
@@ -12,6 +13,7 @@ interface Props {
 export default async function ServerLayout({ children, params }: Props) {
     auth().protect();
     let server: Server | undefined = undefined;
+    let users: User[] = [];
 
     try {
         server = await db.query.servers.findFirst({
@@ -30,6 +32,7 @@ export default async function ServerLayout({ children, params }: Props) {
             },
             where: (servers, { eq }) => eq(servers.id, params.server_id),
         });
+        users = await db.query.users.findMany();
     } catch (err) {
         console.error("Error fetching server", err);
         return <h1>Server not found</h1>;
@@ -45,7 +48,9 @@ export default async function ServerLayout({ children, params }: Props) {
                 <SignInButton />
             </SignedOut>
             <SignedIn>
-                <PourparlerClient server={server}>{children}</PourparlerClient>
+                <PourparlerClient server={server} users={users}>
+                    {children}
+                </PourparlerClient>
             </SignedIn>
         </>
     );
