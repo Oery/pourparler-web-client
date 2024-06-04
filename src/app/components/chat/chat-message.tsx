@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import type { SerializedMessageWithAuthor } from "~/app/_types/message";
+import type { SerializedMessage } from "~/app/_types/message";
 import MessageContextMenu from "../context-menus/message.cm";
 import Markdown from "react-markdown";
 import { useMemo } from "react";
 
 interface Props {
-    message: SerializedMessageWithAuthor;
+    message: SerializedMessage;
 }
 
 export default function ChatMessage({ message }: Props) {
@@ -31,15 +31,15 @@ export default function ChatMessage({ message }: Props) {
                 <aside>
                     <img
                         className="h-10 min-w-10 rounded-full"
-                        src={message.author.avatarUrl}
-                        alt={message.author.name}
+                        src={message?.author?.avatarUrl}
+                        alt={message?.author?.name}
                         width={40}
                         height={40}
                     />
                 </aside>
                 <div className={message.isSending ? "opacity-50" : ""}>
                     <div className="flex flex-row items-center gap-1 font-semibold text-red-600">
-                        {message.author.name}
+                        {message?.author?.name ?? "Unknown User"}
                         <span className="align-baseline text-xs font-normal leading-5 text-gray-400">
                             {dateString}
                         </span>

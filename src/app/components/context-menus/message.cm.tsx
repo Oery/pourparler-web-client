@@ -9,16 +9,16 @@ import { useSession } from "@clerk/nextjs";
 import { serversSelector } from "~/stores/servers";
 import { deleteMessage } from "~/app/actions/message";
 import { useSelector } from "react-redux";
-import type { SerializedMessageWithAuthor } from "~/app/_types/message";
+import type { SerializedMessage } from "~/app/_types/message";
 
 interface Props {
     children: React.ReactNode;
-    message: SerializedMessageWithAuthor;
+    message: SerializedMessage;
 }
 
 function MessageContextMenu({ children, message }: Props) {
     const { session } = useSession();
-    const isAuthor = session?.user.id === message.author.id;
+    const isAuthor = session?.user.id === (message?.author?.id ?? "Author ID");
 
     const server = useSelector(serversSelector).find((server) =>
         server.channels.find((channel) => channel.id === message.channelId),

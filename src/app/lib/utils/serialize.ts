@@ -1,11 +1,6 @@
-import type {
-    MessageWithAuthor,
-    SerializedMessageWithAuthor,
-} from "~/app/_types/message";
+import type { Message, SerializedMessage } from "~/app/_types/message";
 
-export function serializeMessage(
-    message: MessageWithAuthor,
-): SerializedMessageWithAuthor {
+export function serializeMessage(message: Message): SerializedMessage {
     return {
         ...message,
         sendAt:

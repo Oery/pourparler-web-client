@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type {
     MessageEdit,
-    SerializedMessageWithAuthor as SMWA,
+    SerializedMessage as SMWA,
 } from "~/app/_types/message";
 import type { RootState } from "./_store";
 

@@ -4,10 +4,7 @@ import { useSession } from "@clerk/nextjs";
 import { useSocket } from "~/app/context/use-socket";
 import ChatInput from "./chat-input";
 import ChatMessageContainer from "./chat-message-container";
-import type {
-    MessageWithAuthor,
-    SerializedMessageWithAuthor as SMWA,
-} from "~/app/_types/message";
+import type { Message, SerializedMessage } from "~/app/_types/message";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage, messagesSelector, removeMessage } from "~/stores/messages";
@@ -21,7 +18,9 @@ interface Props {
 export default function Chat({ channelId }: Props) {
     const socket = useSocket();
     const { session } = useSession();
-    const messages = useSelector<RootState, SMWA[]>(messagesSelector);
+    const messages = useSelector<RootState, SerializedMessage[]>(
+        messagesSelector,
+    );
     const dispatch = useDispatch();
 
     const channelMessages = messages.filter(
@@ -29,7 +28,7 @@ export default function Chat({ channelId }: Props) {
     );
 
     const handleMessageReception = useCallback(
-        (message: MessageWithAuthor) => {
+        (message: Message) => {
             const serializedMessage = serializeMessage(message);
             dispatch(addMessage(serializedMessage));
         },

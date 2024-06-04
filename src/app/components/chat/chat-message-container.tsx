@@ -2,10 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import ChatMessage from "./chat-message";
-import type { SerializedMessageWithAuthor } from "~/app/_types/message";
+import type { SerializedMessage } from "~/app/_types/message";
 
 interface Props {
-    messages: SerializedMessageWithAuthor[];
+    messages: SerializedMessage[];
 }
 
 export default function ChatMessageContainer({ messages }: Props) {

@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { Provider } from "react-redux";
-import type { MessageWithAuthor } from "~/app/_types/message";
+import type { Message } from "~/app/_types/message";
 import type { Server } from "~/app/_types/server";
 import { makeStore, type AppStore } from "~/stores/_store";
 import { setMessages } from "~/stores/messages";
@@ -22,8 +22,8 @@ export default function PourparlerClient({ children, server }: Props) {
     if (!storeRef.current) {
         storeRef.current = makeStore();
 
-        const serializedMessages = messages.map((message) =>
-            serializeMessage(message as MessageWithAuthor),
+        const serializedMessages = messages.map((message: Message) =>
+            serializeMessage(message),
         );
 
         // Remove messages from channels
