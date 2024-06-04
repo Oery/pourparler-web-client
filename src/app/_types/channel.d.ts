@@ -17,3 +17,12 @@ export interface ChannelDelete {
 export interface ChannelWithMessages extends Channel {
     messages: MessageWithAuthor[];
 }
+
+export interface VoiceChannel extends Channel {
+    users: string[];
+}
+
+export interface VoiceChannelEvent {
+    userId: string;
+    channelId: string;
+}

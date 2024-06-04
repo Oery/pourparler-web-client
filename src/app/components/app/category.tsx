@@ -1,17 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import ChannelComponent from "./channel";
 import { useSelector } from "react-redux";
 import CreateChannelModal from "~/app/components/modals/create-channel";
 import type { Category } from "~/app/_types/category";
+import TextChannel from "./channel-text";
+import VoiceChannel from "./channel-voice";
 import { channelsSelector } from "~/stores/channels";
 
 interface Props {
     category: Category;
+    isAdmin: boolean;
 }
 
-export default function CategoryComponent({ category }: Props) {
+export default function CategoryComponent({ category, isAdmin }: Props) {
     const [showChannels, setShowChannels] = useState(true);
 
     const channels = useSelector(channelsSelector).filter(
@@ -28,13 +30,25 @@ export default function CategoryComponent({ category }: Props) {
                     {category.name.toUpperCase()}
                 </div>
 
-                {isAdmin() && <CreateChannelModal category={category} />}
+                {isAdmin && <CreateChannelModal category={category} />}
             </div>
 
             {showChannels &&
-                channels.map((channel) => (
-                    <ChannelComponent key={channel.id} channel={channel} />
-                ))}
+                channels.map((channel) =>
+                    channel.type === "voice" ? (
+                        <VoiceChannel
+                            key={channel.id}
+                            channel={channel}
+                            isAdmin={isAdmin}
+                        />
+                    ) : (
+                        <TextChannel
+                            key={channel.id}
+                            channel={channel}
+                            isAdmin={isAdmin}
+                        />
+                    ),
+                )}
         </div>
     );
 }
