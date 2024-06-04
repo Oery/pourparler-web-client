@@ -1,4 +1,4 @@
-import CreateCategoryModal from "../modals/create-category";
+// import CreateCategoryModal from "../modals/create-category";
 import {
     ContextMenu,
     ContextMenuContent,
@@ -24,9 +24,9 @@ function SideNavContextMenu({ children, serverId, isAdmin }: Props) {
                             Create Channel
                         </ContextMenuItem>
                         <ContextMenuItem>
-                            <CreateCategoryModal serverId={serverId}>
+                            {/* <CreateCategoryModal serverId={serverId}>
                                 Create Category
-                            </CreateCategoryModal>
+                            </CreateCategoryModal> */}
                         </ContextMenuItem>
                     </>
                 )}
