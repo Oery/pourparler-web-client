@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { messageSlice } from "./messages";
 import { memberSlice } from "./members";
 import { serverSlice } from "./servers";
+import { channelSlice } from "./channels";
 
 export const makeStore = () =>
     configureStore({
@@ -9,6 +10,7 @@ export const makeStore = () =>
             messages: messageSlice.reducer,
             members: memberSlice.reducer,
             servers: serverSlice.reducer,
+            channels: channelSlice.reducer,
         },
     });
 

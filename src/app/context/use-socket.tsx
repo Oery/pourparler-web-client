@@ -11,7 +11,7 @@ import {
 import { useDispatch } from "react-redux";
 import { io, type Socket } from "socket.io-client";
 import type { Channel, ChannelDelete } from "~/app/_types/channel";
-import { addChannel, removeChannel } from "~/stores/servers";
+import { addChannel, removeChannel } from "~/stores/channels";
 
 const SocketContext = createContext<Socket | null>(null);
 
@@ -31,12 +31,12 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
             dispatch(removeChannel(data));
 
             const stringParts = document.location.pathname.split("/");
-            const [_, serverId, channelId] = stringParts;
+            const [, serverId, channelId] = stringParts;
             console.log("Payload", channelId);
             console.log("Current", channelId);
             if (data.channelId === channelId) router.push(`/${serverId}`);
         },
-        [dispatch],
+        [dispatch, router],
     );
 
     const handleChannelCreate = useCallback(

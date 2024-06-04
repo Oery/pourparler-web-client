@@ -4,10 +4,12 @@ import { useRef } from "react";
 import { Provider } from "react-redux";
 import type { Message } from "~/app/_types/message";
 import type { Server } from "~/app/_types/server";
+import type { Channel } from "~/app/_types/channel";
 import { makeStore, type AppStore } from "~/stores/_store";
 import { setMessages } from "~/stores/messages";
 import { setServers } from "~/stores/servers";
 import { serializeMessage } from "~/app/lib/utils/serialize";
+import { setChannels } from "~/stores/channels";
 
 interface Props {
     children: React.ReactNode;
@@ -34,8 +36,15 @@ export default function PourparlerClient({ children, server }: Props) {
             }),
         };
 
+        const channelsWithoutMessages: Channel[] = server.channels.map(
+            (channel) => {
+                return { ...channel, messages: [] };
+            },
+        );
+
         storeRef.current.dispatch(setMessages(serializedMessages));
         storeRef.current.dispatch(setServers([serverWithoutMessages]));
+        storeRef.current.dispatch(setChannels(channelsWithoutMessages));
     }
 
     return <Provider store={storeRef.current}>{children}</Provider>;

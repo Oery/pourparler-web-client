@@ -3,10 +3,9 @@
 import { useState } from "react";
 import ChannelComponent from "./channel";
 import { useSelector } from "react-redux";
-import { serversSelector } from "~/stores/servers";
 import CreateChannelModal from "~/app/components/modals/create-channel";
-import isAdmin from "~/app/lib/is-client-admin";
 import type { Category } from "~/app/_types/category";
+import { channelsSelector } from "~/stores/channels";
 
 interface Props {
     category: Category;
@@ -15,9 +14,9 @@ interface Props {
 export default function CategoryComponent({ category }: Props) {
     const [showChannels, setShowChannels] = useState(true);
 
-    const channels = useSelector(serversSelector)
-        .find((server) => server.id === category.serverId)!
-        .channels.filter((channel) => channel.categoryId === category.id);
+    const channels = useSelector(channelsSelector).filter(
+        (channel) => channel.categoryId === category.id,
+    );
 
     return (
         <div className="flex select-none flex-col gap-2 pt-2">
