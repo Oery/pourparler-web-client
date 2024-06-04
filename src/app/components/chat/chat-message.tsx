@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function ChatMessage({ message }: Props) {
-    let media = null;
+    // let media = null;
 
     //  TODO: Turn this into a custom markdown component
     // if (message.content.startsWith("https://c.tenor.com/")) {
