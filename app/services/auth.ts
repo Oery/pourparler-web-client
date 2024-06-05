@@ -1,31 +1,31 @@
-import { db } from "@lib/db";
-import { sessions, users } from "@lib/db/schema";
-import type { User } from "@lib/types/user";
-import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
-import { Discord } from "arctic";
-import { Lucia, type Session } from "lucia";
-import { cookies } from "next/headers";
-import { cache } from "react";
+import { db } from '@lib/db';
+import { sessions, users } from '@lib/db/schema';
+import type { User } from '@lib/types/user';
+import { DrizzlePostgreSQLAdapter } from '@lucia-auth/adapter-drizzle';
+import { Discord } from 'arctic';
+import { Lucia, type Session } from 'lucia';
+import { cookies } from 'next/headers';
+import { cache } from 'react';
 
 export const adapter = new DrizzlePostgreSQLAdapter(db, sessions, users);
 
 export const lucia = new Lucia(adapter, {
     sessionCookie: {
         expires: false,
-        attributes: { secure: process.env.NODE_ENV === "production" },
+        attributes: { secure: process.env.NODE_ENV === 'production' },
     },
 });
 
-declare module "lucia" {
+declare module 'lucia' {
     interface Register {
         Lucia: typeof lucia;
     }
 }
 
 const baseUrl =
-    process.env.NODE_ENV === "production"
-        ? "https://pourparler.vercel.app"
-        : "http://localhost:3000";
+    process.env.NODE_ENV === 'production'
+        ? 'https://pourparler.vercel.app'
+        : 'http://localhost:3000';
 
 export const discord = new Discord(
     process.env.DISCORD_CLIENT_ID!,

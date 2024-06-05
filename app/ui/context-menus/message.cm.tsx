@@ -1,16 +1,16 @@
-import { deleteMessage } from "@lib/requests/message";
-import type { SerializedMessage } from "@lib/types/message";
-import { appStateSelector } from "@stores/app-state";
-import { channelsSelector } from "@stores/channels";
-import { serversSelector } from "@stores/servers";
+import { deleteMessage } from '@lib/requests/message';
+import type { SerializedMessage } from '@lib/types/message';
+import { appStateSelector } from '@stores/app-state';
+import { channelsSelector } from '@stores/channels';
+import { serversSelector } from '@stores/servers';
 import {
     ContextMenu,
     ContextMenuContent,
     ContextMenuItem,
     ContextMenuTrigger,
-} from "@ui/shadcn/context-menu";
-import { useCallback } from "react";
-import { useSelector } from "react-redux";
+} from '@ui/shadcn/context-menu';
+import { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 
 interface Props {
     children: React.ReactNode;
@@ -24,7 +24,7 @@ function MessageContextMenu({ children, message }: Props) {
     const handleDelete = useCallback(async () => {
         if (!session) return;
         const formData = new FormData();
-        formData.append("messageId", message.id);
+        formData.append('messageId', message.id);
         await deleteMessage(formData, session.id);
     }, [message, session]);
 

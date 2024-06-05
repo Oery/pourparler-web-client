@@ -1,9 +1,9 @@
-import type { MessageEdit, SerializedMessage } from "@lib/types/message";
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "@stores/_store";
+import type { MessageEdit, SerializedMessage } from '@lib/types/message';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '@stores/_store';
 
 export const messageSlice = createSlice({
-    name: "messages",
+    name: 'messages',
     initialState: [] as SerializedMessage[],
     reducers: {
         setMessages: (_state, action: PayloadAction<SerializedMessage[]>) => {

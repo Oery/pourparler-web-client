@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
     Dialog,
@@ -7,7 +7,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@ui/shadcn/dialog";
+} from '@ui/shadcn/dialog';
 
 // import { useState } from "react";
 
@@ -21,7 +21,7 @@ export default function CreateCategoryModal({ _serverId, children }: Props) {
 
     return (
         <Dialog>
-            <DialogTrigger className="cursor-pointer text-xs transition-all hover:text-stone-500">
+            <DialogTrigger className='cursor-pointer text-xs transition-all hover:text-stone-500'>
                 {children}
             </DialogTrigger>
             <DialogContent>

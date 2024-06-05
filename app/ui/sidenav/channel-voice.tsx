@@ -1,10 +1,10 @@
-import type { Channel, VoiceChannel } from "@lib/types/channel";
-import { appStateSelector } from "@stores/app-state";
-import { userLeftVoiceChannel, userJoinedVoiceChannel } from "@stores/channels";
-import { membersSelector } from "@stores/members";
-import ChannelContextMenu from "@ui/context-menus/channel-cm";
-import MicIcon from "@ui/icons/icon-mic";
-import { useDispatch, useSelector } from "react-redux";
+import type { Channel, VoiceChannel } from '@lib/types/channel';
+import { appStateSelector } from '@stores/app-state';
+import { userLeftVoiceChannel, userJoinedVoiceChannel } from '@stores/channels';
+import { membersSelector } from '@stores/members';
+import ChannelContextMenu from '@ui/context-menus/channel-cm';
+import MicIcon from '@ui/icons/icon-mic';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface Props {
     channel: Channel;
@@ -13,7 +13,7 @@ interface Props {
 
 export default function VoiceChannel({ channel, isAdmin }: Props) {
     const styles =
-        "flex cursor-pointer items-center gap-3 truncate rounded-md px-4 py-1 text-base font-light transition-all hover:translate-x-2 hover:bg-stone-200";
+        'flex cursor-pointer items-center gap-3 truncate rounded-md px-4 py-1 text-base font-light transition-all hover:translate-x-2 hover:bg-stone-200';
 
     const { user } = useSelector(appStateSelector);
     const dispatch = useDispatch();
@@ -25,7 +25,7 @@ export default function VoiceChannel({ channel, isAdmin }: Props) {
         if (!user) return;
 
         if (channel?.users?.find((userId) => userId === user.id)) {
-            console.log("Leaving voice channel");
+            console.log('Leaving voice channel');
             dispatch(
                 userLeftVoiceChannel({
                     channelId: channel.id,
@@ -33,7 +33,7 @@ export default function VoiceChannel({ channel, isAdmin }: Props) {
                 }),
             );
         } else {
-            console.log("Joining voice channel");
+            console.log('Joining voice channel');
             dispatch(
                 userJoinedVoiceChannel({
                     channelId: channel.id,
@@ -46,7 +46,7 @@ export default function VoiceChannel({ channel, isAdmin }: Props) {
     return (
         <ChannelContextMenu channel={channel} isAdmin={isAdmin}>
             <div className={styles} onClick={handleJoin}>
-                <MicIcon className="inline-block h-4 min-h-4 w-4 min-w-4" />
+                <MicIcon className='inline-block h-4 min-h-4 w-4 min-w-4' />
                 {channel.name}
             </div>
             {channel?.users?.map((userId) => {
@@ -55,10 +55,10 @@ export default function VoiceChannel({ channel, isAdmin }: Props) {
                 return (
                     <div
                         key={userId}
-                        className="flex items-center gap-2 truncate"
+                        className='flex items-center gap-2 truncate'
                     >
                         <img
-                            className="h-10 min-w-10 rounded-full"
+                            className='h-10 min-w-10 rounded-full'
                             src={member.avatarUrl}
                             alt={member.displayName}
                             width={10}

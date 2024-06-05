@@ -1,16 +1,16 @@
-import { deleteChannel } from "@lib/requests/channel";
-import type { Channel } from "@lib/types/channel";
-import { appStateSelector } from "@stores/app-state";
-import { channelsSelector } from "@stores/channels";
+import { deleteChannel } from '@lib/requests/channel';
+import type { Channel } from '@lib/types/channel';
+import { appStateSelector } from '@stores/app-state';
+import { channelsSelector } from '@stores/channels';
 import {
     ContextMenu,
     ContextMenuContent,
     ContextMenuItem,
     ContextMenuTrigger,
-} from "@ui/shadcn/context-menu";
-import { useRouter } from "next/navigation";
-import { useCallback } from "react";
-import { useSelector } from "react-redux";
+} from '@ui/shadcn/context-menu';
+import { useRouter } from 'next/navigation';
+import { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 
 interface Props {
     children: React.ReactNode;
@@ -29,8 +29,8 @@ function ChannelContextMenu({ children, channel, isAdmin }: Props) {
     const handleDelete = useCallback(async () => {
         if (!session) return;
         const formData = new FormData();
-        formData.append("serverId", channel.serverId);
-        formData.append("channelId", channel.id);
+        formData.append('serverId', channel.serverId);
+        formData.append('channelId', channel.id);
         await deleteChannel(formData, session.id);
 
         // REDIRECT TO FIRST CHANNEL

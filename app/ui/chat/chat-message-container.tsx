@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import type { SerializedMessage } from "@lib/types/message";
-import ChatMessage from "@ui/chat/chat-message";
-import { useEffect, useRef, useState } from "react";
+import type { SerializedMessage } from '@lib/types/message';
+import ChatMessage from '@ui/chat/chat-message';
+import { useEffect, useRef, useState } from 'react';
 
 interface Props {
     messages: SerializedMessage[];
@@ -25,23 +25,23 @@ export default function ChatMessageContainer({ messages }: Props) {
         };
 
         updateHeight();
-        window.addEventListener("resize", updateHeight);
+        window.addEventListener('resize', updateHeight);
 
-        lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+        lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
 
         return () => {
-            window.removeEventListener("resize", updateHeight);
+            window.removeEventListener('resize', updateHeight);
         };
     }, [messages]);
 
     return (
-        <div className="scrollbar-hide relative flex grow basis-px flex-col overflow-y-scroll p-5 pb-7">
+        <div className='scrollbar-hide relative flex grow basis-px flex-col overflow-y-scroll p-5 pb-7'>
             <div
                 style={{
                     minHeight: `calc(100% - ${height}px)`,
                 }}
             />
-            <div className="flex flex-col gap-4" ref={containerRef}>
+            <div className='flex flex-col gap-4' ref={containerRef}>
                 {/* This is a hack to make the last message scroll into view */}
                 {messages.map((message) => (
                     <ChatMessage

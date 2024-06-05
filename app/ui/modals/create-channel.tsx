@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { createChannel } from "@lib/requests/channel";
-import type { Category } from "@lib/types/category";
-import { appStateSelector } from "@stores/app-state";
+import { createChannel } from '@lib/requests/channel';
+import type { Category } from '@lib/types/category';
+import { appStateSelector } from '@stores/app-state';
 import {
     Dialog,
     DialogContent,
@@ -10,17 +10,17 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@ui/shadcn/dialog";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+} from '@ui/shadcn/dialog';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 interface Props {
     category: Category;
 }
 
 export default function CreateChannelModal({ category }: Props) {
-    const [name, setName] = useState("");
+    const [name, setName] = useState('');
     const { session } = useSelector(appStateSelector);
     const router = useRouter();
 
@@ -35,7 +35,7 @@ export default function CreateChannelModal({ category }: Props) {
 
     return (
         <Dialog>
-            <DialogTrigger className="cursor-pointer text-xs transition-all hover:text-stone-500">
+            <DialogTrigger className='cursor-pointer text-xs transition-all hover:text-stone-500'>
                 +
             </DialogTrigger>
             <DialogContent>
@@ -46,26 +46,26 @@ export default function CreateChannelModal({ category }: Props) {
                     </DialogDescription>
                 </DialogHeader>
 
-                <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-                    <input type="hidden" name="type" value="text" />
+                <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
+                    <input type='hidden' name='type' value='text' />
                     <input
-                        type="hidden"
-                        name="serverId"
+                        type='hidden'
+                        name='serverId'
                         value={category.serverId}
                     />
                     <input
-                        type="hidden"
-                        name="categoryId"
+                        type='hidden'
+                        name='categoryId'
                         value={category.id}
                     />
                     <input
-                        type="text"
-                        placeholder="Channel name"
-                        name="name"
+                        type='text'
+                        placeholder='Channel name'
+                        name='name'
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     />
-                    <button type="submit">Create</button>
+                    <button type='submit'>Create</button>
                 </form>
             </DialogContent>
         </Dialog>

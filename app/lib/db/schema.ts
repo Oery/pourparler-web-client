@@ -1,7 +1,6 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
-
-import { relations, sql } from "drizzle-orm";
+import { relations, sql } from 'drizzle-orm';
 import {
     pgEnum,
     pgTableCreator,
@@ -9,8 +8,8 @@ import {
     timestamp,
     uuid,
     varchar,
-} from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
+} from 'drizzle-orm/pg-core';
+import { createInsertSchema } from 'drizzle-zod';
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -20,15 +19,15 @@ import { createInsertSchema } from "drizzle-zod";
  */
 export const createTable = pgTableCreator((name) => `pourparler_${name}`);
 
-export const channelsTypes = pgEnum("CHANNEL_TYPES", ["text", "voice"]);
+export const channelsTypes = pgEnum('CHANNEL_TYPES', ['text', 'voice']);
 
-export const servers = createTable("server", {
-    id: uuid("id").defaultRandom().primaryKey(),
-    name: varchar("name", { length: 256 }).notNull(),
-    createdAt: timestamp("created_at", { withTimezone: true })
+export const servers = createTable('server', {
+    id: uuid('id').defaultRandom().primaryKey(),
+    name: varchar('name', { length: 256 }).notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
         .default(sql`CURRENT_TIMESTAMP`)
         .notNull(),
-    ownerId: uuid("owner_id").notNull(),
+    ownerId: uuid('owner_id').notNull(),
 });
 
 export const serversRelations = relations(servers, ({ one, many }) => ({
@@ -40,17 +39,17 @@ export const serversRelations = relations(servers, ({ one, many }) => ({
     }),
 }));
 
-export const channels = createTable("channel", {
-    id: uuid("id").defaultRandom().primaryKey(),
-    name: varchar("name", { length: 256 }).notNull(),
-    createdAt: timestamp("created_at", { withTimezone: true })
+export const channels = createTable('channel', {
+    id: uuid('id').defaultRandom().primaryKey(),
+    name: varchar('name', { length: 256 }).notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
         .default(sql`CURRENT_TIMESTAMP`)
         .notNull(),
-    type: channelsTypes("type").notNull(),
-    categoryId: uuid("category_id")
-        .default("00000000-0000-0000-0000-000000000000")
+    type: channelsTypes('type').notNull(),
+    categoryId: uuid('category_id')
+        .default('00000000-0000-0000-0000-000000000000')
         .notNull(),
-    serverId: uuid("server_id").notNull(),
+    serverId: uuid('server_id').notNull(),
 });
 
 export const channelsRelations = relations(channels, ({ one, many }) => ({
@@ -77,16 +76,16 @@ export const deleteChannelSchema = insertChannelSchema.pick({
     id: true,
 });
 
-export const messages = createTable("message", {
-    id: uuid("id").defaultRandom().primaryKey(),
-    channelId: uuid("channel_id").notNull(),
-    content: varchar("content", { length: 2000 }).notNull(),
-    createdAt: timestamp("created_at", { withTimezone: true })
+export const messages = createTable('message', {
+    id: uuid('id').defaultRandom().primaryKey(),
+    channelId: uuid('channel_id').notNull(),
+    content: varchar('content', { length: 2000 }).notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
         .default(sql`CURRENT_TIMESTAMP`)
         .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }),
-    sendAt: timestamp("send_at", { withTimezone: true }).notNull(),
-    authorId: uuid("author_id").notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }),
+    sendAt: timestamp('send_at', { withTimezone: true }).notNull(),
+    authorId: uuid('author_id').notNull(),
 });
 
 export const insertMessageSchema = createInsertSchema(messages);
@@ -106,13 +105,13 @@ export const messagesRelations = relations(messages, ({ one }) => ({
     }),
 }));
 
-export const categories = createTable("category", {
-    id: uuid("id").defaultRandom().primaryKey(),
-    name: varchar("name", { length: 256 }).notNull(),
-    createdAt: timestamp("created_at", { withTimezone: true })
+export const categories = createTable('category', {
+    id: uuid('id').defaultRandom().primaryKey(),
+    name: varchar('name', { length: 256 }).notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
         .default(sql`CURRENT_TIMESTAMP`)
         .notNull(),
-    serverId: uuid("server_id").notNull(),
+    serverId: uuid('server_id').notNull(),
 });
 
 export const categoriesRelations = relations(categories, ({ one, many }) => ({
@@ -123,16 +122,16 @@ export const categoriesRelations = relations(categories, ({ one, many }) => ({
     }),
 }));
 
-export const users = createTable("user", {
-    id: uuid("id").defaultRandom().primaryKey().unique(),
-    displayName: varchar("display_name", { length: 256 }).notNull(),
-    username: varchar("username", { length: 16 }).notNull(),
-    avatarUrl: varchar("avatar_url", { length: 256 }).notNull(),
-    createdAt: timestamp("created_at", { withTimezone: true })
+export const users = createTable('user', {
+    id: uuid('id').defaultRandom().primaryKey().unique(),
+    displayName: varchar('display_name', { length: 256 }).notNull(),
+    username: varchar('username', { length: 16 }).notNull(),
+    avatarUrl: varchar('avatar_url', { length: 256 }).notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
         .default(sql`CURRENT_TIMESTAMP`)
         .notNull(),
-    discordId: varchar("discord_id", { length: 18 }).notNull().unique(),
-    voiceChannelId: uuid("voice_channel_id"),
+    discordId: varchar('discord_id', { length: 18 }).notNull().unique(),
+    voiceChannelId: uuid('voice_channel_id'),
 });
 
 export const usersRelations = relations(users, ({ one }) => ({
@@ -142,13 +141,13 @@ export const usersRelations = relations(users, ({ one }) => ({
     }),
 }));
 
-export const sessions = createTable("session", {
-    id: text("id").primaryKey(),
-    userId: uuid("user_id")
+export const sessions = createTable('session', {
+    id: text('id').primaryKey(),
+    userId: uuid('user_id')
         .notNull()
         .references(() => users.id),
-    expiresAt: timestamp("expires_at", {
+    expiresAt: timestamp('expires_at', {
         withTimezone: true,
-        mode: "date",
+        mode: 'date',
     }).notNull(),
 });

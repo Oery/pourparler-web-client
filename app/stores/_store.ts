@@ -1,9 +1,9 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { appStateSlice } from "@stores/app-state";
-import { channelSlice } from "@stores/channels";
-import { memberSlice } from "@stores/members";
-import { messageSlice } from "@stores/messages";
-import { serverSlice } from "@stores/servers";
+import { configureStore } from '@reduxjs/toolkit';
+import { appStateSlice } from '@stores/app-state';
+import { channelSlice } from '@stores/channels';
+import { memberSlice } from '@stores/members';
+import { messageSlice } from '@stores/messages';
+import { serverSlice } from '@stores/servers';
 
 export const makeStore = () =>
     configureStore({
@@ -17,5 +17,5 @@ export const makeStore = () =>
     });
 
 export type AppStore = ReturnType<typeof makeStore>;
-export type RootState = ReturnType<AppStore["getState"]>;
-export type AppDispatch = AppStore["dispatch"];
+export type RootState = ReturnType<AppStore['getState']>;
+export type AppDispatch = AppStore['dispatch'];

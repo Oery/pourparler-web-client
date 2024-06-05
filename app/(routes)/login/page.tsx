@@ -1,8 +1,8 @@
-import { LoginForm } from "@ui/login/login-form";
+import { LoginForm } from '@ui/login/login-form';
 
 export default function LoginPage() {
     return (
-        <div className="flex h-screen flex-col items-center justify-center bg-stone-300">
+        <div className='flex h-screen flex-col items-center justify-center bg-stone-300'>
             {/* <div className="w-full max-w-md rounded-lg bg-stone-200 p-4">
                 <h1 className="text-center text-3xl font-semibold text-stone-900">
                     Sign In

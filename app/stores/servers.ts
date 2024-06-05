@@ -1,9 +1,9 @@
-import type { Server, ServerEdit } from "@lib/types/server";
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "@stores/_store";
+import type { Server, ServerEdit } from '@lib/types/server';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '@stores/_store';
 
 export const serverSlice = createSlice({
-    name: "servers",
+    name: 'servers',
     initialState: [] as Server[],
     reducers: {
         setServers: (_state, action: PayloadAction<Server[]>) => action.payload,

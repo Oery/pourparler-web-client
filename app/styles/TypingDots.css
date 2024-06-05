@@ -5,24 +5,24 @@
 @keyframes typing {
     0%,
     20% {
-        content: "";
+        content: '';
     }
     25%,
     45% {
-        content: ".";
+        content: '.';
     }
     50%,
     70% {
-        content: "..";
+        content: '..';
     }
     75%,
     95% {
-        content: "...";
+        content: '...';
     }
 }
 
 .typing-dots::before {
-    content: "";
+    content: '';
     display: inline-block;
     animation: typing 1.2s steps(1, end) infinite; /* Adjust timing as needed */
 }

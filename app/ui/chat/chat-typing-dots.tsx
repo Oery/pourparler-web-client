@@ -1,5 +1,5 @@
-import "@styles/TypingDots.css";
+import '@styles/TypingDots.css';
 
 export default function TypingDots() {
-    return <span className="typing-dots"></span>;
+    return <span className='typing-dots'></span>;
 }

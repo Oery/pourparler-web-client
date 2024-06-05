@@ -2,12 +2,12 @@ import type {
     Channel,
     ChannelDelete,
     VoiceChannelEvent,
-} from "@lib/types/channel";
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "@stores/_store";
+} from '@lib/types/channel';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '@stores/_store';
 
 export const channelSlice = createSlice({
-    name: "channels",
+    name: 'channels',
     initialState: [] as Channel[],
     reducers: {
         setChannels: (_state, action: PayloadAction<Channel[]>) => {

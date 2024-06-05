@@ -1,11 +1,11 @@
-import type { AppState } from "@lib/types/app-state";
-import type { User } from "@lib/types/user";
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "@stores/_store";
-import type { Session } from "lucia";
+import type { AppState } from '@lib/types/app-state';
+import type { User } from '@lib/types/user';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '@stores/_store';
+import type { Session } from 'lucia';
 
 export const appStateSlice = createSlice({
-    name: "appState",
+    name: 'appState',
     initialState: { user: undefined, session: undefined } as AppState,
     reducers: {
         setAppState: (state, action: PayloadAction<AppState>) => {

@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import type { Category } from "@lib/types/category";
-import { channelsSelector } from "@stores/channels";
-import CreateChannelModal from "@ui/modals/create-channel";
-import TextChannel from "@ui/sidenav/channel-text";
-import VoiceChannel from "@ui/sidenav/channel-voice";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import type { Category } from '@lib/types/category';
+import { channelsSelector } from '@stores/channels';
+import CreateChannelModal from '@ui/modals/create-channel';
+import TextChannel from '@ui/sidenav/channel-text';
+import VoiceChannel from '@ui/sidenav/channel-voice';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 interface Props {
     category: Category;
@@ -26,11 +26,11 @@ export default function CategoryComponent({ category, isAdmin }: Props) {
     );
 
     return (
-        <div className="flex select-none flex-col gap-2 pt-2">
-            <div className="flex justify-between text-xs">
+        <div className='flex select-none flex-col gap-2 pt-2'>
+            <div className='flex justify-between text-xs'>
                 <div
                     onClick={() => setShowChannels(!showChannels)}
-                    className="cursor-pointer transition-all hover:text-stone-500"
+                    className='cursor-pointer transition-all hover:text-stone-500'
                 >
                     {category.name.toUpperCase()}
                 </div>

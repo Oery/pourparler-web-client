@@ -1,4 +1,4 @@
-import type { Category } from "@lib/types/category";
+import type { Category } from '@lib/types/category';
 
 export interface Server {
     id: string;

@@ -4,7 +4,7 @@ import {
     ContextMenuContent,
     ContextMenuItem,
     ContextMenuTrigger,
-} from "@ui/shadcn/context-menu";
+} from '@ui/shadcn/context-menu';
 
 interface Props {
     children: React.ReactNode;
@@ -20,7 +20,7 @@ function SideNavContextMenu({ children, serverId, isAdmin }: Props) {
             <ContextMenuContent>
                 {isAdmin && ( // Admin Actions
                     <>
-                        <ContextMenuItem onClick={() => console.log("Clicked")}>
+                        <ContextMenuItem onClick={() => console.log('Clicked')}>
                             Create Channel
                         </ContextMenuItem>
                         <ContextMenuItem>

@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import type { AppState } from "@lib/types/app-state";
-import type { Channel } from "@lib/types/channel";
-import type { Message } from "@lib/types/message";
-import type { Server } from "@lib/types/server";
-import type { User } from "@lib/types/user";
-import { serializeMessage } from "@lib/utils/message";
-import { makeStore, type AppStore } from "@stores/_store";
-import { setAppState } from "@stores/app-state";
-import { setChannels } from "@stores/channels";
-import { setMembers } from "@stores/members";
-import { setMessages } from "@stores/messages";
-import { setServers } from "@stores/servers";
-import { useRef } from "react";
-import { Provider } from "react-redux";
+import type { AppState } from '@lib/types/app-state';
+import type { Channel } from '@lib/types/channel';
+import type { Message } from '@lib/types/message';
+import type { Server } from '@lib/types/server';
+import type { User } from '@lib/types/user';
+import { serializeMessage } from '@lib/utils/message';
+import { makeStore, type AppStore } from '@stores/_store';
+import { setAppState } from '@stores/app-state';
+import { setChannels } from '@stores/channels';
+import { setMembers } from '@stores/members';
+import { setMessages } from '@stores/messages';
+import { setServers } from '@stores/servers';
+import { useRef } from 'react';
+import { Provider } from 'react-redux';
 
 interface AppData {
     server: Server;

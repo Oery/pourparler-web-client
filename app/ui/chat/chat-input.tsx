@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { serializeMessage, removeUselessNewlines } from "@lib/utils/message";
-import { appStateSelector } from "@stores/app-state";
-import { addMessage } from "@stores/messages";
-import { useSocket } from "@stores/use-socket";
-import ChatTypingIndicator from "@ui/chat/chat-typing-indicator";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
+import { serializeMessage, removeUselessNewlines } from '@lib/utils/message';
+import { appStateSelector } from '@stores/app-state';
+import { addMessage } from '@stores/messages';
+import { useSocket } from '@stores/use-socket';
+import ChatTypingIndicator from '@ui/chat/chat-typing-indicator';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function ChatInput({ channelId }: { channelId: string }) {
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState('');
     const [wasTyping, setWasTyping] = useState(false);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -27,7 +27,7 @@ export default function ChatInput({ channelId }: { channelId: string }) {
 
     const handleKeyDown = useCallback(
         (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-            if (!(e.key === "Enter" && !e.shiftKey)) return;
+            if (!(e.key === 'Enter' && !e.shiftKey)) return;
             e.preventDefault();
             if (!socket || !user || !message) return;
 
@@ -37,7 +37,7 @@ export default function ChatInput({ channelId }: { channelId: string }) {
             const content = removeUselessNewlines(message);
             if (!content) return;
 
-            socket.emit("message:send", {
+            socket.emit('message:send', {
                 channelId,
                 sendAt,
                 clientId,
@@ -45,7 +45,7 @@ export default function ChatInput({ channelId }: { channelId: string }) {
             });
 
             const serializedMessage = serializeMessage({
-                id: "",
+                id: '',
                 clientId,
                 isSending: true,
                 content,
@@ -56,7 +56,7 @@ export default function ChatInput({ channelId }: { channelId: string }) {
 
             dispatch(addMessage(serializedMessage));
 
-            setMessage("");
+            setMessage('');
         },
         [message, socket, channelId, dispatch, user],
     );
@@ -66,7 +66,7 @@ export default function ChatInput({ channelId }: { channelId: string }) {
         const isTyping = message.length > 0;
 
         if (isTyping != wasTyping) {
-            const event = isTyping ? "typing:start" : "typing:stop";
+            const event = isTyping ? 'typing:start' : 'typing:stop';
             socket.emit(event, { channel: channelId });
             setWasTyping(isTyping);
         }
@@ -76,22 +76,22 @@ export default function ChatInput({ channelId }: { channelId: string }) {
     useEffect(() => {
         const textarea = textareaRef.current;
         if (textarea) {
-            textarea.style.height = "auto"; // Reset height to calculate properly
+            textarea.style.height = 'auto'; // Reset height to calculate properly
             const borderHeight = 24; // Calculate border/padding
             textarea.style.height = `${textarea.scrollHeight - borderHeight}px`; // Set correct height including borders
         }
     }, [message]);
 
     return (
-        <form className="relative shrink-0 grow-0 basis-auto pb-1.5">
+        <form className='relative shrink-0 grow-0 basis-auto pb-1.5'>
             <ChatTypingIndicator channelId={channelId} />
             <textarea
                 ref={textareaRef}
                 value={message}
-                placeholder="Type a message..."
+                placeholder='Type a message...'
                 onKeyDown={handleKeyDown}
                 onChange={handleChange}
-                className="relative z-10 h-12 w-full resize-none rounded-lg border-none p-3 outline-none"
+                className='relative z-10 h-12 w-full resize-none rounded-lg border-none p-3 outline-none'
             />
         </form>
     );

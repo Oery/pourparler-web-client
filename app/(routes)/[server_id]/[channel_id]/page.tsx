@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { channelsSelector } from "@stores/channels";
-import ChannelBar from "@ui/channel/channel-bar";
-import Chat from "@ui/chat/chat";
-import { useSelector } from "react-redux";
+import { channelsSelector } from '@stores/channels';
+import ChannelBar from '@ui/channel/channel-bar';
+import Chat from '@ui/chat/chat';
+import { useSelector } from 'react-redux';
 
 interface Props {
     params: { channel_id: string; server_id: string };

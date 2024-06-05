@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { createChannelSchema, deleteChannelSchema } from "@lib/db/schema";
+import { createChannelSchema, deleteChannelSchema } from '@lib/db/schema';
 
 interface Response {
     data?: { channelId: string };
@@ -12,38 +12,38 @@ async function createChannel(
     sessionId: string,
 ): Promise<Response> {
     const { serverId, name, type, categoryId } = createChannelSchema.parse({
-        serverId: formData.get("serverId"),
-        name: formData.get("name"),
-        type: formData.get("type"),
-        categoryId: formData.get("categoryId"),
+        serverId: formData.get('serverId'),
+        name: formData.get('name'),
+        type: formData.get('type'),
+        categoryId: formData.get('categoryId'),
     });
 
     try {
-        const response = await fetch("http://localhost:8000/event/channel", {
-            method: "POST",
+        const response = await fetch('http://localhost:8000/event/channel', {
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
                 Authorization: `Bearer ${sessionId}`,
             },
             body: JSON.stringify({ serverId, name, type, categoryId }),
         });
-        return { data: (await response.json()) as Response["data"] };
+        return { data: (await response.json()) as Response['data'] };
     } catch (error) {
         console.error(error);
-        return { error: "Channel creation failed" };
+        return { error: 'Channel creation failed' };
     }
 }
 
 async function deleteChannel(formData: FormData, sessionId: string) {
     const { id } = deleteChannelSchema.parse({
-        id: formData.get("channelId"),
+        id: formData.get('channelId'),
     });
 
     try {
-        await fetch("http://localhost:8000/event/channel", {
-            method: "DELETE",
+        await fetch('http://localhost:8000/event/channel', {
+            method: 'DELETE',
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
                 Authorization: `Bearer ${sessionId}`,
             },
             body: JSON.stringify({ id }),
@@ -51,7 +51,7 @@ async function deleteChannel(formData: FormData, sessionId: string) {
         return { success: true };
     } catch (error) {
         console.error(error);
-        return { error: "Channel deletion failed" };
+        return { error: 'Channel deletion failed' };
     }
 }
 
