@@ -3,6 +3,7 @@ import { messageSlice } from "./messages";
 import { memberSlice } from "./members";
 import { serverSlice } from "./servers";
 import { channelSlice } from "./channels";
+import { appStateSlice } from "./app-state";
 
 export const makeStore = () =>
     configureStore({
@@ -11,6 +12,7 @@ export const makeStore = () =>
             members: memberSlice.reducer,
             servers: serverSlice.reducer,
             channels: channelSlice.reducer,
+            appState: appStateSlice.reducer,
         },
     });
 
