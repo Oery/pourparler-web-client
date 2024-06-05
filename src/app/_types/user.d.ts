@@ -1,5 +1,7 @@
 export interface User {
     id: string;
-    name: string;
+    displayName: string;
+    username: string;
     avatarUrl: string;
+    discordId: string;
 }
