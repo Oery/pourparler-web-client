@@ -1,5 +1,3 @@
-import type { User } from "./user";
-
 export interface Message {
     id: string;
     content: string;
@@ -8,7 +6,7 @@ export interface Message {
     channelId: string;
     isSending?: boolean;
     clientId?: string;
-    author?: User;
+    authorId: string;
 }
 
 export interface MessageEdit {
