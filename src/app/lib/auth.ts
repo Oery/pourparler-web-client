@@ -24,10 +24,15 @@ declare module "lucia" {
     }
 }
 
+const baseUrl =
+    process.env.NODE_ENV === "production"
+        ? "https://pourparler.vercel.app"
+        : "http://localhost:3000";
+
 export const discord = new Discord(
     process.env.DISCORD_CLIENT_ID!,
     process.env.DISCORD_CLIENT_SECRET!,
-    "http://localhost:3000/login/discord/callback",
+    `${baseUrl}/login/discord/callback`,
 );
 
 export const validateRequest = cache(
