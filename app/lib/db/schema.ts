@@ -130,7 +130,7 @@ export const users = createTable('user', {
     createdAt: timestamp('created_at', { withTimezone: true })
         .default(sql`CURRENT_TIMESTAMP`)
         .notNull(),
-    discordId: varchar('discord_id', { length: 18 }).notNull().unique(),
+    discordId: varchar('discord_id', { length: 32 }).notNull().unique(),
     voiceChannelId: uuid('voice_channel_id'),
 });
 
