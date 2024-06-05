@@ -8,7 +8,7 @@ const lexend = Lexend({
 });
 
 export const metadata = {
-    title: 'Pourparler',
+    title: 'PourParler',
     description: 'High quality audio and video chat',
     icons: [{ rel: 'icon', url: '/favicon.ico' }],
 };
