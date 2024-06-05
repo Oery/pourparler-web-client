@@ -7,10 +7,10 @@ import {
 } from "../ui/context-menu";
 import { deleteChannel } from "~/app/actions/channel";
 import type { Channel } from "~/app/_types/channel";
-import { useSession } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
-import { serversSelector } from "~/stores/servers";
+import { channelsSelector } from "~/stores/channels";
+import { appStateSelector } from "~/stores/app-state";
 
 interface Props {
     children: React.ReactNode;
@@ -19,12 +19,12 @@ interface Props {
 }
 
 function ChannelContextMenu({ children, channel, isAdmin }: Props) {
-    const { session } = useSession();
     const router = useRouter();
 
-    const server = useSelector(serversSelector).find(
-        (server) => server.id === channel.serverId,
-    )!;
+    const { session } = useSelector(appStateSelector);
+    const channels = useSelector(channelsSelector).filter(
+        (channel) => channel.serverId === channel.serverId,
+    );
 
     const handleDelete = useCallback(async () => {
         if (!session) return;
@@ -34,10 +34,9 @@ function ChannelContextMenu({ children, channel, isAdmin }: Props) {
         await deleteChannel(formData, session.id);
 
         // REDIRECT TO FIRST CHANNEL
-        const firstChannel =
-            server.channels[server.channels[0]?.id === channel.id ? 1 : 0];
+        const firstChannel = channels[channels[0]?.id === channel.id ? 1 : 0];
         router.push(`/${firstChannel?.serverId}/${firstChannel?.id}`);
-    }, [channel, router, server.channels, session]);
+    }, [channel, router, channels, session]);
 
     return (
         <ContextMenu>

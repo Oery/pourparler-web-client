@@ -3,12 +3,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSocket } from "~/app/context/use-socket";
 import ChatTypingIndicator from "./chat-typing-indicator";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addMessage } from "~/stores/messages";
 import { serializeMessage } from "~/app/lib/utils/serialize";
-import { useUser } from "@clerk/nextjs";
 import { v4 as uuidv4 } from "uuid";
 import { removeUselessNewlines } from "~/app/lib/utils/message";
+import { appStateSelector } from "~/stores/app-state";
 
 export default function ChatInput({ channelId }: { channelId: string }) {
     const [message, setMessage] = useState("");
@@ -16,7 +16,7 @@ export default function ChatInput({ channelId }: { channelId: string }) {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const socket = useSocket();
-    const { user } = useUser();
+    const { user } = useSelector(appStateSelector);
     const dispatch = useDispatch();
 
     const handleChange = useCallback(
@@ -52,11 +52,7 @@ export default function ChatInput({ channelId }: { channelId: string }) {
                 content,
                 sendAt,
                 channelId,
-                author: {
-                    id: user.id,
-                    name: user.firstName ?? "",
-                    avatarUrl: user.imageUrl,
-                },
+                authorId: user.id,
             });
 
             dispatch(addMessage(serializedMessage));

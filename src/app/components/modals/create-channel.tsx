@@ -12,7 +12,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Category } from "~/app/_types/category";
 import { createChannel } from "~/app/actions/channel";
-import { useSession } from "@clerk/nextjs";
+import { appStateSelector } from "~/stores/app-state";
+import { useSelector } from "react-redux";
 
 interface Props {
     category: Category;
@@ -20,7 +21,7 @@ interface Props {
 
 export default function CreateChannelModal({ category }: Props) {
     const [name, setName] = useState("");
-    const { session } = useSession();
+    const { session } = useSelector(appStateSelector);
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

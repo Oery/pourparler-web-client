@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSocket } from "~/app/context/use-socket";
 import TypingDots from "./chat-typing-dots";
-import { useAuth } from "@clerk/nextjs";
+import { useSelector } from "react-redux";
+import { appStateSelector } from "~/stores/app-state";
+import type { AppState } from "~/app/_types/app-state";
 
 function getTypingString(usersTyping: TypingUser[]) {
     switch (usersTyping.length) {
@@ -29,14 +31,16 @@ interface Props {
 export default function ChatTypingIndicator({ channelId }: Props) {
     const [usersTyping, setUsersTyping] = useState<TypingUser[]>([]);
     const [typingString, setTypingString] = useState("");
-    const { userId } = useAuth();
 
     const socket = useSocket();
+    const { user } = useSelector(appStateSelector) as Required<AppState>;
+
+    const userId = user.id;
 
     const handleUserStartTyping = useCallback(
         (user: TypingUser) => {
             if (usersTyping.includes(user)) return;
-            if (user.id == userId) return;
+            if (!user || user.id == userId) return;
             setUsersTyping((prev) => [...prev, user]);
         },
         [usersTyping, userId],

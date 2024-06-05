@@ -5,11 +5,12 @@ import {
     ContextMenuItem,
     ContextMenuTrigger,
 } from "../ui/context-menu";
-import { useSession } from "@clerk/nextjs";
 import { serversSelector } from "~/stores/servers";
 import { deleteMessage } from "~/app/actions/message";
 import { useSelector } from "react-redux";
 import type { SerializedMessage } from "~/app/_types/message";
+import { channelsSelector } from "~/stores/channels";
+import { appStateSelector } from "~/stores/app-state";
 
 interface Props {
     children: React.ReactNode;
@@ -17,13 +18,8 @@ interface Props {
 }
 
 function MessageContextMenu({ children, message }: Props) {
-    const { session } = useSession();
-    const isAuthor = session?.user.id === (message?.author?.id ?? "Author ID");
-
-    const server = useSelector(serversSelector).find((server) =>
-        server.channels.find((channel) => channel.id === message.channelId),
-    )!;
-    const isAdmin = server.ownerId === session?.user.id;
+    const { user, session } = useSelector(appStateSelector);
+    const isAuthor = user?.id === message.authorId;
 
     const handleDelete = useCallback(async () => {
         if (!session) return;
@@ -31,6 +27,15 @@ function MessageContextMenu({ children, message }: Props) {
         formData.append("messageId", message.id);
         await deleteMessage(formData, session.id);
     }, [message, session]);
+
+    const channel = useSelector(channelsSelector).find(
+        (channel) => channel.id === message.channelId,
+    );
+    const server = useSelector(serversSelector).find(
+        (server) => server.id === channel?.serverId,
+    );
+
+    const isAdmin = server?.ownerId === session?.userId;
 
     return (
         <ContextMenu>

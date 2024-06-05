@@ -1,13 +1,13 @@
 import type { Channel, VoiceChannel } from "~/app/_types/channel";
 import ChannelContextMenu from "../context-menus/channel-cm";
 import MicIcon from "./icon-mic";
-import { useUser } from "@clerk/nextjs";
 import { useDispatch, useSelector } from "react-redux";
 import {
     userLeftVoiceChannel,
     userJoinedVoiceChannel,
 } from "~/stores/channels";
 import { membersSelector } from "~/stores/members";
+import { appStateSelector } from "~/stores/app-state";
 
 interface Props {
     channel: Channel;
@@ -18,7 +18,7 @@ export default function VoiceChannel({ channel, isAdmin }: Props) {
     const styles =
         "flex cursor-pointer items-center gap-3 truncate rounded-md px-4 py-1 text-base font-light transition-all hover:translate-x-2 hover:bg-stone-200";
 
-    const { user } = useUser();
+    const { user } = useSelector(appStateSelector);
     const dispatch = useDispatch();
 
     const members = useSelector(membersSelector);
@@ -52,20 +52,22 @@ export default function VoiceChannel({ channel, isAdmin }: Props) {
                 <MicIcon className="inline-block h-4 min-h-4 w-4 min-w-4" />
                 {channel.name}
             </div>
-            {/* {channel.users?.map((userId) => <div>{userId}</div>)} */}
             {channel?.users?.map((userId) => {
                 const member = members.find((member) => member.id === userId);
                 if (!member) return null;
                 return (
-                    <div className="flex items-center gap-2 truncate">
+                    <div
+                        key={userId}
+                        className="flex items-center gap-2 truncate"
+                    >
                         <img
                             className="h-10 min-w-10 rounded-full"
                             src={member.avatarUrl}
-                            alt={member.name}
+                            alt={member.displayName}
                             width={10}
                             height={10}
                         />
-                        <div>{member.name}</div>
+                        <div>{member.displayName}</div>
                     </div>
                 );
             })}

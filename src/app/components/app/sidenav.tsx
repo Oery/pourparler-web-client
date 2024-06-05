@@ -5,19 +5,21 @@ import { useSelector } from "react-redux";
 import { serversSelector } from "~/stores/servers";
 import SideNavContextMenu from "~/app/components/context-menus/sidenav-cm";
 import type { Category } from "~/app/_types/category";
-import type { Server } from "~/app/_types/server";
-import { useAuth } from "@clerk/nextjs";
-import type { RootState } from "~/stores/_store";
 import TextChannel from "./channel-text";
 import VoiceChannel from "./channel-voice";
+import { channelsSelector } from "~/stores/channels";
+import { appStateSelector } from "~/stores/app-state";
 
 export default function SideNav({ serverId }: { serverId: string }) {
-    const server = useSelector<RootState, Server[]>(serversSelector).find(
+    const server = useSelector(serversSelector).find(
         (server) => server.id === serverId,
     )!;
 
+    const channels = useSelector(channelsSelector);
+    const { user } = useSelector(appStateSelector);
+
     const channelsByCategory = server.categories.map((category: Category) => {
-        const thisCategoryChannels = server.channels.filter(
+        const thisCategoryChannels = channels.filter(
             (channel) => channel.categoryId === category.id,
         );
 
@@ -26,7 +28,7 @@ export default function SideNav({ serverId }: { serverId: string }) {
     });
 
     // Add a "No category" category
-    const uncategorizedChannels = server.channels.filter(
+    const uncategorizedChannels = channels.filter(
         (channel) =>
             channel.categoryId === "00000000-0000-0000-0000-000000000000",
     );
@@ -36,8 +38,7 @@ export default function SideNav({ serverId }: { serverId: string }) {
 
     // TODO: Add Open/Close feature
 
-    const { userId } = useAuth();
-    const isAdmin = userId === server.ownerId;
+    const isAdmin = user?.id === server.ownerId;
 
     return (
         <SideNavContextMenu serverId={serverId} isAdmin={isAdmin}>

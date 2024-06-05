@@ -170,3 +170,14 @@ export const usersRelations = relations(users, ({ one }) => ({
         references: [channels.id],
     }),
 }));
+
+export const sessions = createTable("session", {
+    id: text("id").primaryKey(),
+    userId: uuid("user_id")
+        .notNull()
+        .references(() => users.id),
+    expiresAt: timestamp("expires_at", {
+        withTimezone: true,
+        mode: "date",
+    }).notNull(),
+});

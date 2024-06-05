@@ -12,17 +12,25 @@ import { setServers } from "~/stores/servers";
 import { serializeMessage } from "~/app/lib/utils/serialize";
 import { setChannels } from "~/stores/channels";
 import { setMembers } from "~/stores/members";
+import type { AppState } from "~/app/_types/app-state";
+import { setAppState } from "~/stores/app-state";
+
+interface AppData {
+    server: Server;
+    channels: Channel[];
+    users: User[];
+    messages: Message[];
+    appState: AppState;
+}
 
 interface Props {
     children: React.ReactNode;
-    server: Server;
-    users: User[];
+    appData: AppData;
 }
 
-export default function PourparlerClient({ children, server, users }: Props) {
+export default function PourparlerClient({ children, appData }: Props) {
     const storeRef = useRef<AppStore | null>(null);
-
-    const messages = server.channels.flatMap((channel) => channel.messages!);
+    const { server, channels, users, messages, appState } = appData;
 
     if (!storeRef.current) {
         storeRef.current = makeStore();
@@ -31,23 +39,14 @@ export default function PourparlerClient({ children, server, users }: Props) {
             serializeMessage(message),
         );
 
-        // Remove messages from channels
-        const serverWithoutMessages: Server = {
-            ...server,
-            channels: server.channels.map((channel) => {
-                return { ...channel, messages: [] };
-            }),
-        };
+        const channelsWithoutMessages: Channel[] = channels.map((channel) => {
+            return { ...channel, messages: [] };
+        });
 
-        const channelsWithoutMessages: Channel[] = server.channels.map(
-            (channel) => {
-                return { ...channel, messages: [] };
-            },
-        );
-
+        storeRef.current.dispatch(setAppState(appState));
         storeRef.current.dispatch(setMembers(users));
         storeRef.current.dispatch(setMessages(serializedMessages));
-        storeRef.current.dispatch(setServers([serverWithoutMessages]));
+        storeRef.current.dispatch(setServers([server]));
         storeRef.current.dispatch(setChannels(channelsWithoutMessages));
     }
 
