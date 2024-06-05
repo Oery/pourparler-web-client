@@ -1,20 +1,24 @@
-import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 import { db } from "~/server/db";
 import { isWhitelisted } from "~/server/whitelist/whitelist";
+import { validateRequest } from "./lib/auth";
+import { redirect } from "next/navigation";
 
 export default async function HomePage() {
-    const { userId } = auth();
+    const { user } = await validateRequest();
 
-    if (!userId) return <div>User is not logged in</div>;
-    const whitelist = isWhitelisted(userId);
+    if (!user) return redirect("/login");
+    if (!isWhitelisted(user.discordId)) return redirect("/whitelist");
 
     const servers = await db.query.servers.findMany();
 
     return (
         <>
-            <div>User is logged in: {userId}</div>
-            <div>Is Whitelisted: {whitelist.toString()}</div>
+            <div>User is logged in: {user.id}</div>
+            <div>Discord ID: {user.discordId}</div>
+            <div>Username: {user.username}</div>
+            <div>Display Name: {user.displayName}</div>
+            <img src={user.avatarUrl} alt="Avatar" />
 
             <div>
                 {servers.map((server) => (
