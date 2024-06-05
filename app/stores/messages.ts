@@ -42,10 +42,20 @@ export const messageSlice = createSlice({
                 message.id === action.payload.id ? message : message,
             );
         },
+        purgeMessages: (state, action: PayloadAction<string>) => {
+            return state.filter(
+                (message) => message.channelId !== action.payload,
+            );
+        },
     },
 });
 
-export const { setMessages, addMessage, removeMessage, editMessage } =
-    messageSlice.actions;
+export const {
+    setMessages,
+    addMessage,
+    removeMessage,
+    editMessage,
+    purgeMessages,
+} = messageSlice.actions;
 
 export const messagesSelector = (state: RootState) => state.messages;

@@ -2,6 +2,7 @@
 
 import type { Channel, ChannelDelete } from '@lib/types/channel';
 import { addChannel, removeChannel } from '@stores/channels';
+import { purgeMessages } from '@stores/messages';
 import { useRouter } from 'next/navigation';
 import {
     createContext,
@@ -29,6 +30,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         (data: ChannelDelete) => {
             console.log('received delete event:', data);
             dispatch(removeChannel(data));
+            dispatch(purgeMessages(data.channelId));
 
             const stringParts = document.location.pathname.split('/');
             const [, serverId, channelId] = stringParts;
