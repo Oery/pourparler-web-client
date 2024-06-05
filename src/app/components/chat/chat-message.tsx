@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import type { SerializedMessage } from "~/app/_types/message";
 import MessageContextMenu from "../context-menus/message.cm";
 import Markdown from "react-markdown";
