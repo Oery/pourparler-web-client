@@ -26,7 +26,14 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"]
+      "@/*": ["./app/*"],
+      "@ui/*": ["./app/ui/*"],
+      "@lib/*": ["./app/lib/*"],
+      "@data/*": ["./app/data/*"],
+      "@server/*": ["./app/server/*"],
+      "@stores/*": ["./app/stores/*"],
+      "@services/*": ["./app/services/*"],
+      "@styles/*": ["./app/styles/*"],
     }
   },
   "include": [
@@ -37,6 +44,6 @@
     "**/*.cjs",
     "**/*.js",
     ".next/types/**/*.ts"
-  ],
+, "src/env.js"  ],
   "exclude": ["node_modules"]
 }
