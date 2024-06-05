@@ -3,9 +3,9 @@
 
 import { relations, sql } from "drizzle-orm";
 import {
-    index,
     pgEnum,
     pgTableCreator,
+    text,
     timestamp,
     uuid,
     varchar,
@@ -22,20 +22,14 @@ export const createTable = pgTableCreator((name) => `pourparler_${name}`);
 
 export const channelsTypes = pgEnum("CHANNEL_TYPES", ["text", "voice"]);
 
-export const servers = createTable(
-    "server",
-    {
-        id: uuid("id").defaultRandom().primaryKey(),
-        name: varchar("name", { length: 256 }).notNull(),
-        createdAt: timestamp("created_at", { withTimezone: true })
-            .default(sql`CURRENT_TIMESTAMP`)
-            .notNull(),
-        ownerId: varchar("owner_id", { length: 32 }).notNull(),
-    },
-    (example) => ({
-        nameIndex: index("server_idx").on(example.name),
-    }),
-);
+export const servers = createTable("server", {
+    id: uuid("id").defaultRandom().primaryKey(),
+    name: varchar("name", { length: 256 }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+        .default(sql`CURRENT_TIMESTAMP`)
+        .notNull(),
+    ownerId: uuid("owner_id").notNull(),
+});
 
 export const serversRelations = relations(servers, ({ one, many }) => ({
     channels: many(channels),
@@ -46,24 +40,18 @@ export const serversRelations = relations(servers, ({ one, many }) => ({
     }),
 }));
 
-export const channels = createTable(
-    "channel",
-    {
-        id: uuid("id").defaultRandom().primaryKey(),
-        name: varchar("name", { length: 256 }).notNull(),
-        createdAt: timestamp("created_at", { withTimezone: true })
-            .default(sql`CURRENT_TIMESTAMP`)
-            .notNull(),
-        type: channelsTypes("type").notNull(),
-        categoryId: uuid("category_id")
-            .default("00000000-0000-0000-0000-000000000000")
-            .notNull(),
-        serverId: uuid("server_id").notNull(),
-    },
-    (example) => ({
-        nameIndex: index("channel_idx").on(example.name),
-    }),
-);
+export const channels = createTable("channel", {
+    id: uuid("id").defaultRandom().primaryKey(),
+    name: varchar("name", { length: 256 }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+        .default(sql`CURRENT_TIMESTAMP`)
+        .notNull(),
+    type: channelsTypes("type").notNull(),
+    categoryId: uuid("category_id")
+        .default("00000000-0000-0000-0000-000000000000")
+        .notNull(),
+    serverId: uuid("server_id").notNull(),
+});
 
 export const channelsRelations = relations(channels, ({ one, many }) => ({
     users: many(users),
@@ -89,23 +77,17 @@ export const deleteChannelSchema = insertChannelSchema.pick({
     id: true,
 });
 
-export const messages = createTable(
-    "message",
-    {
-        id: uuid("id").defaultRandom().primaryKey(),
-        channelId: uuid("channel_id").notNull(),
-        content: varchar("content", { length: 2000 }).notNull(),
-        createdAt: timestamp("created_at", { withTimezone: true })
-            .default(sql`CURRENT_TIMESTAMP`)
-            .notNull(),
-        updatedAt: timestamp("updated_at", { withTimezone: true }),
-        sendAt: timestamp("send_at", { withTimezone: true }).notNull(),
-        authorId: varchar("author_id", { length: 32 }).notNull(),
-    },
-    (example) => ({
-        channelIdIndex: index("message_idx").on(example.channelId),
-    }),
-);
+export const messages = createTable("message", {
+    id: uuid("id").defaultRandom().primaryKey(),
+    channelId: uuid("channel_id").notNull(),
+    content: varchar("content", { length: 2000 }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+        .default(sql`CURRENT_TIMESTAMP`)
+        .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }),
+    sendAt: timestamp("send_at", { withTimezone: true }).notNull(),
+    authorId: uuid("author_id").notNull(),
+});
 
 export const insertMessageSchema = createInsertSchema(messages);
 
@@ -124,20 +106,14 @@ export const messagesRelations = relations(messages, ({ one }) => ({
     }),
 }));
 
-export const categories = createTable(
-    "category",
-    {
-        id: uuid("id").defaultRandom().primaryKey(),
-        name: varchar("name", { length: 256 }).notNull(),
-        createdAt: timestamp("created_at", { withTimezone: true })
-            .default(sql`CURRENT_TIMESTAMP`)
-            .notNull(),
-        serverId: uuid("server_id").notNull(),
-    },
-    (example) => ({
-        nameIndex: index("category_idx").on(example.name),
-    }),
-);
+export const categories = createTable("category", {
+    id: uuid("id").defaultRandom().primaryKey(),
+    name: varchar("name", { length: 256 }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+        .default(sql`CURRENT_TIMESTAMP`)
+        .notNull(),
+    serverId: uuid("server_id").notNull(),
+});
 
 export const categoriesRelations = relations(categories, ({ one, many }) => ({
     channels: many(channels),
@@ -147,22 +123,17 @@ export const categoriesRelations = relations(categories, ({ one, many }) => ({
     }),
 }));
 
-export const users = createTable(
-    "user",
-    {
-        id: varchar("id", { length: 32 }).primaryKey().unique(),
-        name: varchar("name", { length: 256 }).notNull(),
-        avatarUrl: varchar("avatar_url", { length: 256 }).notNull(),
-        createdAt: timestamp("created_at", { withTimezone: true })
-            .default(sql`CURRENT_TIMESTAMP`)
-            .notNull(),
-        discordId: varchar("discord_id", { length: 256 }).notNull(),
-        voiceChannelId: uuid("voice_channel_id"),
-    },
-    (example) => ({
-        nameIndex: index("user_idx").on(example.name),
-    }),
-);
+export const users = createTable("user", {
+    id: uuid("id").defaultRandom().primaryKey().unique(),
+    displayName: varchar("display_name", { length: 256 }).notNull(),
+    username: varchar("username", { length: 16 }).notNull(),
+    avatarUrl: varchar("avatar_url", { length: 256 }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+        .default(sql`CURRENT_TIMESTAMP`)
+        .notNull(),
+    discordId: varchar("discord_id", { length: 18 }).notNull().unique(),
+    voiceChannelId: uuid("voice_channel_id"),
+});
 
 export const usersRelations = relations(users, ({ one }) => ({
     voiceChannel: one(channels, {
