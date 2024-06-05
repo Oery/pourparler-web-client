@@ -50,7 +50,7 @@ export default function Chat({ channelId }: Props) {
 
     useEffect(() => {
         if (!socket || !session) return;
-        socket.emit('clerk:auth', {
+        socket.emit('user:auth', {
             sessionId: session.id,
             userId: session.userId,
         });
