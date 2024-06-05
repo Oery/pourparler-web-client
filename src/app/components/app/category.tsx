@@ -13,6 +13,11 @@ interface Props {
     isAdmin: boolean;
 }
 
+const channelTypeMap = {
+    text: TextChannel,
+    voice: VoiceChannel,
+} as const;
+
 export default function CategoryComponent({ category, isAdmin }: Props) {
     const [showChannels, setShowChannels] = useState(true);
 
@@ -35,19 +40,10 @@ export default function CategoryComponent({ category, isAdmin }: Props) {
 
             {showChannels &&
                 channels.map((channel) =>
-                    channel.type === "voice" ? (
-                        <VoiceChannel
-                            key={channel.id}
-                            channel={channel}
-                            isAdmin={isAdmin}
-                        />
-                    ) : (
-                        <TextChannel
-                            key={channel.id}
-                            channel={channel}
-                            isAdmin={isAdmin}
-                        />
-                    ),
+                    channelTypeMap[channel.type]({
+                        channel,
+                        isAdmin,
+                    }),
                 )}
         </div>
     );
