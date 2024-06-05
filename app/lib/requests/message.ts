@@ -1,6 +1,7 @@
 'use client';
 
 import { deleteMessageSchema } from '@lib/db/schema';
+import { apiUrl } from '@lib/requests/api';
 
 async function deleteMessage(formData: FormData, sessionId: string) {
     const { id } = deleteMessageSchema.parse({
@@ -8,7 +9,7 @@ async function deleteMessage(formData: FormData, sessionId: string) {
     });
 
     try {
-        await fetch('http://localhost:8000/event/message', {
+        await fetch(`${apiUrl}/event/message`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

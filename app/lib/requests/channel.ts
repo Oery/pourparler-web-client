@@ -1,6 +1,7 @@
 'use client';
 
 import { createChannelSchema, deleteChannelSchema } from '@lib/db/schema';
+import { apiUrl } from '@lib/requests/api';
 
 interface Response {
     data?: { channelId: string };
@@ -19,7 +20,7 @@ async function createChannel(
     });
 
     try {
-        const response = await fetch('http://localhost:8000/event/channel', {
+        const response = await fetch(`${apiUrl}/event/channel`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -40,7 +41,7 @@ async function deleteChannel(formData: FormData, sessionId: string) {
     });
 
     try {
-        await fetch('http://localhost:8000/event/channel', {
+        await fetch(`${apiUrl}/event/channel`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

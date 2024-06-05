@@ -22,7 +22,7 @@ export const useSocket = () => {
 };
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
-    const socket = useMemo(() => io('127.0.0.1:8000'), []);
+    const socket = useMemo(() => io(process.env.NEXT_PUBLIC_API_URL ?? ''), []);
     const router = useRouter();
     const dispatch = useDispatch();
 
