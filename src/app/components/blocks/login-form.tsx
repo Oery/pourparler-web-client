@@ -1,4 +1,5 @@
 import { Button } from "~/app/components/ui/button";
+import { DiscordLogoIcon } from "@radix-ui/react-icons";
 import {
     Card,
     CardHeader,
@@ -16,7 +17,10 @@ export function LoginForm() {
             </CardHeader>
             <CardContent>
                 <Button variant="outline" className="w-full">
-                    Log in with Discord
+                    <a href={"/login/discord"} className="flex gap-3">
+                        <DiscordLogoIcon className="h-5 w-5" />
+                        Login with Discord
+                    </a>
                 </Button>
             </CardContent>
         </Card>
