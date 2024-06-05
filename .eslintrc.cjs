@@ -13,6 +13,7 @@ const config = {
     rules: {
         "react-compiler/react-compiler": 2,
         "@next/next/no-img-element": "off",
+        "@typescript-eslint/no-empty-interface": "off",
         "@typescript-eslint/array-type": "off",
         "@typescript-eslint/consistent-type-definitions": "off",
         "@typescript-eslint/consistent-type-imports": [
