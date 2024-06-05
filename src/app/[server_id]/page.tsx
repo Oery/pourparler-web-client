@@ -11,6 +11,6 @@ export default async function ServerPage({ params }: Props) {
         with: { channels: true },
     });
 
-    if (!server?.channels[0]) return <h1>Server not found</h1>;
+    if (!server?.channels[0]) return <h1>No Channels</h1>;
     redirect(`/${server.id}/${server.channels[0].id}`);
 }
