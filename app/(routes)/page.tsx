@@ -1,3 +1,4 @@
+import { Button } from '@/ui/shadcn/button';
 import { db } from '@lib/db';
 import { isWhitelisted } from '@lib/utils/whitelist';
 import { validateRequest } from '@services/auth';
@@ -13,20 +14,34 @@ export default async function HomePage() {
     const servers = await db.query.servers.findMany();
 
     return (
-        <>
-            <div>User is logged in: {user.id}</div>
-            <div>Discord ID: {user.discordId}</div>
-            <div>Username: {user.username}</div>
-            <div>Display Name: {user.displayName}</div>
-            <img src={user.avatarUrl} alt='Avatar' />
+        <main className='flex flex-col items-center justify-center h-screen'>
+            <h1 className='text-3xl font-semibold mb-8'>
+                Bienvenue {user.displayName}
+            </h1>
+            <img
+                src={user.avatarUrl}
+                alt='User Avatar'
+                height={224}
+                className='rounded-full w-56'
+            />
 
-            <div>
+            <div className='mt-8'>
                 {servers.map((server) => (
-                    <Link href={`/${server.id}`} key={server.id}>
-                        {server.name}
-                    </Link>
+                    <Button key={server.id} variant='outline'>
+                        <Link href={`/${server.id}`} key={server.id}>
+                            Accéder à {server.name}
+                        </Link>
+                    </Button>
                 ))}
             </div>
-        </>
+
+            <div className='absolute bottom-8'>
+                <h1 className='text-xl font-semibold'>Debug</h1>
+                <div>User ID: {user.id}</div>
+                <div>Discord ID: {user.discordId}</div>
+                <div>Username: {user.username}</div>
+                <div>Display Name: {user.displayName}</div>
+            </div>
+        </main>
     );
 }
