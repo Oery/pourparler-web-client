@@ -52,7 +52,7 @@ export async function GET(request: Request): Promise<Response> {
                 discordId: discordUser.id.toString(),
                 username: discordUser.username,
                 displayName: discordUser.global_name,
-                avatarUrl: `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.webp?size=128`,
+                avatarUrl: `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.webp?size=512`,
             })
             .returning({ id: users.id });
 
