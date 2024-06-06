@@ -2,6 +2,7 @@
 
 import type { SerializedMessage } from '@lib/types/message';
 import ChatMessage from '@ui/chat/chat-message';
+import ChatScrollButton from '@ui/chat/chat-scroll-button';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -42,6 +43,11 @@ export default function ChatMessageContainer({ messages }: Props) {
         if (isBottom !== newIsBottom) setIsBottom(newIsBottom);
     };
 
+    const handleClick = () => {
+        scrollToBottom();
+        setIsBottom(true);
+    };
+
     useEffect(() => {
         if (messages.length > messagesLength) {
             if (isBottom) scrollToBottom();
@@ -55,11 +61,12 @@ export default function ChatMessageContainer({ messages }: Props) {
 
     return (
         <div
-            className='scrollbar-hide relative flex grow basis-px flex-col overflow-y-scroll p-5 pb-7'
+            className='scrollbar-hide relative flex grow basis-px flex-col overflow-y-scroll '
             onWheel={handleScroll}
             ref={containerRef}
         >
-            <div className='flex flex-col gap-4'>
+            <ChatScrollButton handleClick={handleClick} isBottom={isBottom} />
+            <div className='flex flex-col gap-4 p-5 pb-7'>
                 {messages.map((message) => (
                     <ChatMessage
                         key={message.id ?? message.clientId}
