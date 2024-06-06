@@ -6,6 +6,7 @@ await import('./app/env.js');
 
 /** @type {import("next").NextConfig} */
 const config = {
+    reactStrictMode: false,
     bundlePagesRouterDependencies: true,
     experimental: {
         reactCompiler: true,
