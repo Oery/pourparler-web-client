@@ -11,6 +11,7 @@ import { setChannels } from '@stores/channels';
 import { setMembers } from '@stores/members';
 import { setMessages } from '@stores/messages';
 import { setServers } from '@stores/servers';
+import { SocketProvider } from '@stores/use-socket';
 import { useRef } from 'react';
 import { Provider } from 'react-redux';
 
@@ -45,5 +46,9 @@ export default function PourparlerClient({ children, appData }: Props) {
         storeRef.current.dispatch(setChannels(channelsWithoutMessages));
     }
 
-    return <Provider store={storeRef.current}>{children}</Provider>;
+    return (
+        <Provider store={storeRef.current}>
+            <SocketProvider>{children}</SocketProvider>
+        </Provider>
+    );
 }
