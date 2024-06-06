@@ -17,7 +17,11 @@ export default function TextChannel({ channel, isAdmin }: Props) {
         'flex cursor-pointer items-center gap-3 truncate rounded-md px-4 py-1 text-base font-light transition-all hover:translate-x-2 hover:bg-stone-200';
 
     return (
-        <Link href={`./${channel.id}`} className='flex justify-between'>
+        <Link
+            href={`./${channel.id}`}
+            prefetch={true}
+            className='flex justify-between'
+        >
             <ChannelContextMenu channel={channel} isAdmin={isAdmin}>
                 <div className={`${isActive && 'bg-stone-200'} ${styles}`}>
                     <HashIcon className='inline-block h-4 min-h-4 w-4 min-w-4' />
