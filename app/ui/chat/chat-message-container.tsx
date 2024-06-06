@@ -2,6 +2,7 @@
 
 import type { SerializedMessage } from '@lib/types/message';
 import ChatMessage from '@ui/chat/chat-message';
+import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 interface Props {
@@ -11,47 +12,62 @@ interface Props {
 export default function ChatMessageContainer({ messages }: Props) {
     const lastMessageRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-    const [height, setHeight] = useState(0);
+    const [messagesLength, setMessagesLength] = useState(messages.length);
+    const [isBottom, setIsBottom] = useState(true);
+    const path = usePathname();
+
+    const scrollToBottom = (smooth = true) => {
+        if (!lastMessageRef.current) return;
+
+        containerRef.current?.scrollTo({
+            top: containerRef.current.scrollHeight + 1000000,
+            behavior: smooth ? 'smooth' : 'auto',
+        });
+
+        // Work around to scroll again after an image loads
+        // Could be fixed by setting a heigh in the markdown img
+        setTimeout(() => {
+            containerRef.current?.scrollTo({
+                top: containerRef.current.scrollHeight + 1000,
+                behavior: smooth ? 'smooth' : 'auto',
+            });
+        }, 100);
+    };
+
+    const handleScroll = () => {
+        if (!containerRef.current) return;
+        const { scrollHeight, scrollTop, clientHeight } = containerRef.current;
+        // +50 Makes it so the user doesn't have to be pixel perfect to anchor
+        const newIsBottom = scrollTop + clientHeight + 50 >= scrollHeight;
+        if (isBottom !== newIsBottom) setIsBottom(newIsBottom);
+    };
 
     useEffect(() => {
-        const updateHeight = () => {
-            const container = containerRef.current;
-            if (!container) return;
+        if (messages.length > messagesLength) {
+            if (isBottom) scrollToBottom();
+            setMessagesLength(messages.length);
+        }
+    }, [isBottom, messages, messagesLength]);
 
-            const messageContainer = container.children[1];
-            if (!messageContainer) return;
-
-            setHeight(messageContainer.clientHeight);
-        };
-
-        updateHeight();
-        window.addEventListener('resize', updateHeight);
-
-        lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
-
-        return () => {
-            window.removeEventListener('resize', updateHeight);
-        };
-    }, [messages]);
+    useEffect(() => {
+        scrollToBottom(false);
+    }, [path]);
 
     return (
-        <div className='scrollbar-hide relative flex grow basis-px flex-col overflow-y-scroll p-5 pb-7'>
-            <div
-                style={{
-                    minHeight: `calc(100% - ${height}px)`,
-                }}
-            />
-            <div className='flex flex-col gap-4' ref={containerRef}>
-                {/* This is a hack to make the last message scroll into view */}
+        <div
+            className='scrollbar-hide relative flex grow basis-px flex-col overflow-y-scroll p-5 pb-7'
+            onWheel={handleScroll}
+            ref={containerRef}
+        >
+            <div className='flex flex-col gap-4'>
                 {messages.map((message) => (
                     <ChatMessage
                         key={message.id ?? message.clientId}
                         message={message}
                     />
                 ))}
+                <div ref={lastMessageRef} />
             </div>
-            <div ref={lastMessageRef} />
-            {/* This is a hack to make the last message scroll into view */}
         </div>
     );
 }
