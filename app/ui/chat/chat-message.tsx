@@ -1,5 +1,6 @@
 import ChatMessageEditor from './chat-message-editor';
 import type { Message } from '@lib/types/message';
+import { formatMessage } from '@lib/utils/message';
 import { appStateSelector } from '@stores/app-state';
 import { membersSelector } from '@stores/members';
 import MessageContextMenu from '@ui/context-menus/message.cm';
@@ -64,7 +65,7 @@ export default function ChatMessage({ message }: Props) {
                             <Markdown
                                 className={'markdown whitespace-pre-wrap'}
                             >
-                                {message.content}
+                                {formatMessage(message.content)}
                             </Markdown>
                             {message.updatedAt &&
                                 message.updatedAt !== message.sendAt && (
