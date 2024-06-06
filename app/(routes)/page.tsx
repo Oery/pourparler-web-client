@@ -14,28 +14,29 @@ export default async function HomePage() {
     const servers = await db.query.servers.findMany();
 
     return (
-        <main className='flex flex-col items-center justify-center h-screen'>
-            <h1 className='text-3xl font-semibold mb-8'>
-                Bienvenue {user.displayName}
-            </h1>
-            <img
-                src={user.avatarUrl}
-                alt='User Avatar'
-                height={224}
-                className='rounded-full w-56'
-            />
-
-            <div className='mt-8'>
-                {servers.map((server) => (
-                    <Button key={server.id} variant='outline'>
-                        <Link href={`/${server.id}`} key={server.id}>
-                            Accéder à {server.name}
-                        </Link>
-                    </Button>
-                ))}
+        <main className='flex flex-col items-center justify-between h-screen'>
+            <div className='mt-40'>
+                <h1 className='text-3xl font-semibold mb-8'>
+                    Bienvenue {user.displayName}
+                </h1>
+                <img
+                    src={user.avatarUrl}
+                    alt='User Avatar'
+                    height={224}
+                    className='rounded-full w-56'
+                />
+                <div className='mt-8'>
+                    {servers.map((server) => (
+                        <Button key={server.id} variant='outline'>
+                            <Link href={`/${server.id}`} key={server.id}>
+                                Accéder à {server.name}
+                            </Link>
+                        </Button>
+                    ))}
+                </div>
             </div>
 
-            <div className='absolute bottom-8'>
+            <div className='absolute bottom-8 text-sm'>
                 <h1 className='text-xl font-semibold'>Debug</h1>
                 <div>User ID: {user.id}</div>
                 <div>Discord ID: {user.discordId}</div>
