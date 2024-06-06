@@ -1,13 +1,13 @@
 'use client';
 
-import type { SerializedMessage } from '@lib/types/message';
+import type { Message } from '@lib/types/message';
 import ChatMessage from '@ui/chat/chat-message';
 import ChatScrollButton from '@ui/chat/chat-scroll-button';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 interface Props {
-    messages: SerializedMessage[];
+    messages: Message[];
 }
 
 export default function ChatMessageContainer({ messages }: Props) {

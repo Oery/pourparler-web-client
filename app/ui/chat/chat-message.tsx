@@ -1,4 +1,4 @@
-import type { SerializedMessage } from '@lib/types/message';
+import type { Message } from '@lib/types/message';
 import { membersSelector } from '@stores/members';
 import MessageContextMenu from '@ui/context-menus/message.cm';
 import { useMemo } from 'react';
@@ -6,7 +6,7 @@ import Markdown from 'react-markdown';
 import { useSelector } from 'react-redux';
 
 interface Props {
-    message: SerializedMessage;
+    message: Message;
 }
 
 export default function ChatMessage({ message }: Props) {

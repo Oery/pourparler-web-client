@@ -24,7 +24,7 @@ export const channelsTypes = pgEnum('CHANNEL_TYPES', ['text', 'voice']);
 export const servers = createTable('server', {
     id: uuid('id').defaultRandom().primaryKey(),
     name: varchar('name', { length: 256 }).notNull(),
-    createdAt: timestamp('created_at', { withTimezone: true })
+    createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' })
         .default(sql`CURRENT_TIMESTAMP`)
         .notNull(),
     ownerId: uuid('owner_id').notNull(),
@@ -42,7 +42,7 @@ export const serversRelations = relations(servers, ({ one, many }) => ({
 export const channels = createTable('channel', {
     id: uuid('id').defaultRandom().primaryKey(),
     name: varchar('name', { length: 256 }).notNull(),
-    createdAt: timestamp('created_at', { withTimezone: true })
+    createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' })
         .default(sql`CURRENT_TIMESTAMP`)
         .notNull(),
     type: channelsTypes('type').notNull(),
@@ -80,11 +80,17 @@ export const messages = createTable('message', {
     id: uuid('id').defaultRandom().primaryKey(),
     channelId: uuid('channel_id').notNull(),
     content: varchar('content', { length: 2000 }).notNull(),
-    createdAt: timestamp('created_at', { withTimezone: true })
+    createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' })
         .default(sql`CURRENT_TIMESTAMP`)
         .notNull(),
-    updatedAt: timestamp('updated_at', { withTimezone: true }),
-    sendAt: timestamp('send_at', { withTimezone: true }).notNull(),
+    updatedAt: timestamp('updated_at', {
+        withTimezone: true,
+        mode: 'string',
+    }).default(sql`CURRENT_TIMESTAMP`),
+    sendAt: timestamp('send_at', {
+        withTimezone: true,
+        mode: 'string',
+    }).notNull(),
     authorId: uuid('author_id').notNull(),
 });
 
@@ -108,7 +114,7 @@ export const messagesRelations = relations(messages, ({ one }) => ({
 export const categories = createTable('category', {
     id: uuid('id').defaultRandom().primaryKey(),
     name: varchar('name', { length: 256 }).notNull(),
-    createdAt: timestamp('created_at', { withTimezone: true })
+    createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' })
         .default(sql`CURRENT_TIMESTAMP`)
         .notNull(),
     serverId: uuid('server_id').notNull(),
@@ -127,7 +133,7 @@ export const users = createTable('user', {
     displayName: varchar('display_name', { length: 256 }).notNull(),
     username: varchar('username', { length: 16 }).notNull(),
     avatarUrl: varchar('avatar_url', { length: 256 }).notNull(),
-    createdAt: timestamp('created_at', { withTimezone: true })
+    createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' })
         .default(sql`CURRENT_TIMESTAMP`)
         .notNull(),
     discordId: varchar('discord_id', { length: 32 }).notNull().unique(),

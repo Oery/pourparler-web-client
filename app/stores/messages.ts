@@ -1,15 +1,15 @@
-import type { MessageEdit, SerializedMessage } from '@lib/types/message';
+import type { Message } from '@lib/types/message';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '@stores/_store';
 
 export const messageSlice = createSlice({
     name: 'messages',
-    initialState: [] as SerializedMessage[],
+    initialState: [] as Message[],
     reducers: {
-        setMessages: (_state, action: PayloadAction<SerializedMessage[]>) => {
+        setMessages: (_state, action: PayloadAction<Message[]>) => {
             return action.payload;
         },
-        addMessage: (state, action: PayloadAction<SerializedMessage>) => {
+        addMessage: (state, action: PayloadAction<Message>) => {
             const message = state.find(
                 (message) => message.clientId === action.payload.clientId,
             );
@@ -28,7 +28,7 @@ export const messageSlice = createSlice({
         removeMessage: (state, action: PayloadAction<string>) => {
             return state.filter((message) => message.id !== action.payload);
         },
-        editMessage: (state, action: PayloadAction<MessageEdit>) => {
+        editMessage: (state, action: PayloadAction<Message>) => {
             const message = state.find(
                 (message) => message.id === action.payload.id,
             );
@@ -36,7 +36,6 @@ export const messageSlice = createSlice({
             if (!message) return;
 
             message.content = action.payload.content;
-            message.wasEdited = true;
 
             return state.map((message) =>
                 message.id === action.payload.id ? message : message,

@@ -1,5 +1,5 @@
 import { deleteMessage } from '@lib/requests/message';
-import type { SerializedMessage } from '@lib/types/message';
+import type { Message } from '@lib/types/message';
 import { appStateSelector } from '@stores/app-state';
 import { channelsSelector } from '@stores/channels';
 import { serversSelector } from '@stores/servers';
@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 
 interface Props {
     children: React.ReactNode;
-    message: SerializedMessage;
+    message: Message;
 }
 
 function MessageContextMenu({ children, message }: Props) {

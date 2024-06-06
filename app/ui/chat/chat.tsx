@@ -1,9 +1,13 @@
 'use client';
 
 import type { Message } from '@lib/types/message';
-import { serializeMessage } from '@lib/utils/message';
 import { appStateSelector } from '@stores/app-state';
-import { addMessage, messagesSelector, removeMessage } from '@stores/messages';
+import {
+    addMessage,
+    editMessage,
+    messagesSelector,
+    removeMessage,
+} from '@stores/messages';
 import { useSocket } from '@stores/use-socket';
 import ChatInput from '@ui/chat/chat-input';
 import ChatMessageContainer from '@ui/chat/chat-message-container';
@@ -26,8 +30,14 @@ export default function Chat({ channelId }: Props) {
 
     const handleMessageReception = useCallback(
         (message: Message) => {
-            const serializedMessage = serializeMessage(message);
-            dispatch(addMessage(serializedMessage));
+            dispatch(addMessage(message));
+        },
+        [dispatch],
+    );
+
+    const handleMessageEdit = useCallback(
+        (message: Message) => {
+            dispatch(editMessage(message));
         },
         [dispatch],
     );

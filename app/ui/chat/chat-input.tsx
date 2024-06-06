@@ -1,6 +1,6 @@
 'use client';
 
-import { serializeMessage, removeUselessNewlines } from '@lib/utils/message';
+import { removeUselessNewlines } from '@lib/utils/message';
 import { appStateSelector } from '@stores/app-state';
 import { addMessage } from '@stores/messages';
 import { useSocket } from '@stores/use-socket';
@@ -31,7 +31,7 @@ export default function ChatInput({ channelId }: { channelId: string }) {
             e.preventDefault();
             if (!socket || !user || !message) return;
 
-            const sendAt = new Date();
+            const sendAt = new Date().toISOString();
             const clientId = uuidv4();
 
             const content = removeUselessNewlines(message);
@@ -44,17 +44,17 @@ export default function ChatInput({ channelId }: { channelId: string }) {
                 content,
             });
 
-            const serializedMessage = serializeMessage({
-                id: '',
-                clientId,
-                isSending: true,
-                content,
-                sendAt,
-                channelId,
-                authorId: user.id,
-            });
-
-            dispatch(addMessage(serializedMessage));
+            dispatch(
+                addMessage({
+                    id: '',
+                    clientId,
+                    isSending: true,
+                    content,
+                    sendAt,
+                    channelId,
+                    authorId: user.id,
+                }),
+            );
 
             setMessage('');
         },

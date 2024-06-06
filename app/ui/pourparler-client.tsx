@@ -5,7 +5,6 @@ import type { Channel } from '@lib/types/channel';
 import type { Message } from '@lib/types/message';
 import type { Server } from '@lib/types/server';
 import type { User } from '@lib/types/user';
-import { serializeMessage } from '@lib/utils/message';
 import { makeStore, type AppStore } from '@stores/_store';
 import { setAppState } from '@stores/app-state';
 import { setChannels } from '@stores/channels';
@@ -35,17 +34,13 @@ export default function PourparlerClient({ children, appData }: Props) {
     if (!storeRef.current) {
         storeRef.current = makeStore();
 
-        const serializedMessages = messages.map((message: Message) =>
-            serializeMessage(message),
-        );
-
         const channelsWithoutMessages: Channel[] = channels.map((channel) => {
             return { ...channel, messages: [] };
         });
 
         storeRef.current.dispatch(setAppState(appState));
         storeRef.current.dispatch(setMembers(users));
-        storeRef.current.dispatch(setMessages(serializedMessages));
+        storeRef.current.dispatch(setMessages(messages));
         storeRef.current.dispatch(setServers([server]));
         storeRef.current.dispatch(setChannels(channelsWithoutMessages));
     }
