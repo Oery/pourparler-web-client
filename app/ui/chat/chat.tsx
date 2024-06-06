@@ -51,12 +51,19 @@ export default function Chat({ channelId }: Props) {
         if (!socket) return;
         socket.on('message:send', handleMessageReception);
         socket.on('message:delete', handleMessageDeletion);
+        socket.on('message:edit', handleMessageEdit);
 
         return () => {
             socket.off('message:send');
             socket.off('message:delete');
+            socket.off('message:edit');
         };
-    }, [socket, handleMessageReception, handleMessageDeletion]);
+    }, [
+        socket,
+        handleMessageReception,
+        handleMessageDeletion,
+        handleMessageEdit,
+    ]);
 
     useEffect(() => {
         if (!socket || !session) return;
