@@ -47,6 +47,15 @@ export const messageSlice = createSlice({
                 (message) => message.channelId !== action.payload,
             );
         },
+        errorMessage: (state, action: PayloadAction<string>) => {
+            const message = state.find(
+                (message) => message.clientId === action.payload,
+            );
+
+            if (!message) return;
+
+            message.status = 'error';
+        },
     },
 });
 
@@ -56,6 +65,7 @@ export const {
     removeMessage,
     editMessage,
     purgeMessages,
+    errorMessage,
 } = messageSlice.actions;
 
 export const messagesSelector = (state: RootState) => state.messages;

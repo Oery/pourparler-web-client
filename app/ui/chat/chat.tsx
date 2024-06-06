@@ -5,6 +5,7 @@ import { appStateSelector } from '@stores/app-state';
 import {
     addMessage,
     editMessage,
+    errorMessage,
     messagesSelector,
     removeMessage,
 } from '@stores/messages';
@@ -47,14 +48,25 @@ export default function Chat({ channelId }: Props) {
         [dispatch],
     );
 
+    const handleMessageSendError = useCallback(
+        (data: { error: string; clientId: string }) => {
+            const { clientId } = data;
+            console.log('Failed to send message', data);
+            dispatch(errorMessage(clientId));
+        },
+        [dispatch],
+    );
+
     useEffect(() => {
         if (!socket) return;
         socket.on('message:send', handleMessageReception);
+        socket.on('message:send:error', handleMessageSendError);
         socket.on('message:delete', handleMessageDeletion);
         socket.on('message:edit', handleMessageEdit);
 
         return () => {
             socket.off('message:send');
+            socket.off('message:send:error');
             socket.off('message:delete');
             socket.off('message:edit');
         };
@@ -63,6 +75,7 @@ export default function Chat({ channelId }: Props) {
         handleMessageReception,
         handleMessageDeletion,
         handleMessageEdit,
+        handleMessageSendError,
     ]);
 
     useEffect(() => {

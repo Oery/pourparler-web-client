@@ -48,7 +48,7 @@ export default function ChatInput({ channelId }: { channelId: string }) {
                 addMessage({
                     id: '',
                     clientId,
-                    isSending: true,
+                    status: 'sending',
                     content,
                     sendAt,
                     channelId,

@@ -43,7 +43,7 @@ export default function ChatMessage({ message }: Props) {
                     />
                 </aside>
                 <div
-                    className={`w-full ${message.isSending ? 'opacity-50' : ''}`}
+                    className={`w-full ${message.status === 'sending' ? 'opacity-50' : ''}`}
                 >
                     <div className='flex flex-row items-center gap-1 font-semibold text-red-600'>
                         {author?.displayName ?? 'Unknown User'}
@@ -58,7 +58,7 @@ export default function ChatMessage({ message }: Props) {
                         />
                     ) : (
                         <div
-                            className='text-base text-stone-600'
+                            className={`text-base  ${message.status === 'error' ? 'text-red-500' : 'text-stone-600'}`}
                             style={{ wordBreak: 'break-word' }}
                             onDoubleClick={handleDoubleClick}
                         >
@@ -67,6 +67,11 @@ export default function ChatMessage({ message }: Props) {
                             >
                                 {formatMessage(message.content)}
                             </Markdown>
+                            {message.status === 'error' && (
+                                <span className='text-xs'>
+                                    Failed to send message
+                                </span>
+                            )}
                             {message.updatedAt &&
                                 message.updatedAt !== message.sendAt && (
                                     <span className='text-xs text-stone-500 dark:text-stone-400'>

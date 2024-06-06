@@ -4,7 +4,7 @@ export interface Message {
     sendAt: string;
     updatedAt?: string | null;
     channelId: string;
-    isSending?: boolean;
+    status: 'sent' | 'sending' | 'error';
     clientId?: string;
     authorId: string;
 }
