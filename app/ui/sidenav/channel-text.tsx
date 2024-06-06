@@ -11,7 +11,7 @@ interface Props {
 
 export default function TextChannel({ channel, isAdmin }: Props) {
     const pathname = usePathname();
-    const isActive = pathname === `/${channel.id}`;
+    const isActive = pathname.endsWith(`/${channel.id}`);
 
     const styles =
         'flex cursor-pointer items-center gap-3 truncate rounded-md px-4 py-1 text-base font-light transition-all hover:translate-x-2 hover:bg-stone-200';
