@@ -1,7 +1,9 @@
+import ChatMessageEditor from './chat-message-editor';
 import type { Message } from '@lib/types/message';
+import { appStateSelector } from '@stores/app-state';
 import { membersSelector } from '@stores/members';
 import MessageContextMenu from '@ui/context-menus/message.cm';
-import { useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import Markdown from 'react-markdown';
 import { useSelector } from 'react-redux';
 
@@ -10,17 +12,14 @@ interface Props {
 }
 
 export default function ChatMessage({ message }: Props) {
-    // let media = null;
+    const [isEditing, setIsEditing] = useState(false);
+    const { user } = useSelector(appStateSelector);
 
-    //  TODO: Turn this into a custom markdown component
-    // if (message.content.startsWith("https://c.tenor.com/")) {
-    //     media = (
-    //         <img
-    //             src={message.content}
-    //             className="mt-2 aspect-auto h-56 rounded-lg"
-    //         />
-    //     );
-    // }
+    const handleDoubleClick = useCallback(() => {
+        console.log('double click');
+        console.log(message.authorId, user?.id);
+        if (message.authorId === user?.id) setIsEditing(true);
+    }, [message, user]);
 
     const author = useSelector(membersSelector).find(
         (user) => user.id === message.authorId,
@@ -42,21 +41,42 @@ export default function ChatMessage({ message }: Props) {
                         height={40}
                     />
                 </aside>
-                <div className={message.isSending ? 'opacity-50' : ''}>
+                <div
+                    className={`w-full ${message.isSending ? 'opacity-50' : ''}`}
+                >
                     <div className='flex flex-row items-center gap-1 font-semibold text-red-600'>
                         {author?.displayName ?? 'Unknown User'}
                         <span className='align-baseline text-xs font-normal leading-5 text-gray-400'>
                             {dateString}
                         </span>
                     </div>
-                    <div
-                        className='text-base text-stone-600'
-                        style={{ wordBreak: 'break-word' }}
-                    >
-                        <Markdown className={'markdown whitespace-pre-wrap'}>
-                            {message.content}
-                        </Markdown>
-                    </div>
+                    {isEditing ? (
+                        <ChatMessageEditor
+                            message={message}
+                            setIsEditing={setIsEditing}
+                        />
+                    ) : (
+                        <div
+                            className='text-base text-stone-600'
+                            style={{ wordBreak: 'break-word' }}
+                            onDoubleClick={handleDoubleClick}
+                        >
+                            <Markdown
+                                className={'markdown whitespace-pre-wrap'}
+                            >
+                                {message.content}
+                            </Markdown>
+                            {message.updatedAt &&
+                                message.updatedAt !== message.sendAt && (
+                                    <span className='text-xs text-stone-500 dark:text-stone-400'>
+                                        Edited at{' '}
+                                        {new Date(
+                                            message.updatedAt,
+                                        ).toLocaleTimeString()}
+                                    </span>
+                                )}
+                        </div>
+                    )}
                 </div>
             </div>
         </MessageContextMenu>

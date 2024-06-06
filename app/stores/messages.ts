@@ -36,8 +36,9 @@ export const messageSlice = createSlice({
             if (!message) return;
 
             message.content = action.payload.content;
+            message.updatedAt = action.payload.updatedAt;
 
-            return state.map((message) =>
+            state.map((message) =>
                 message.id === action.payload.id ? message : message,
             );
         },
