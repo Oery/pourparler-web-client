@@ -15,7 +15,7 @@ export function removeUselessNewlines(message: string) {
 function replaceImageURLs(message: string) {
     return message.replace(
         /\bhttps?:\/\/\S+\.(png|jpg|jpeg|gif|webp)\b/gi,
-        (url) => `![](${url})`,
+        (url) => `![Image](${url})`,
     );
 }
 
