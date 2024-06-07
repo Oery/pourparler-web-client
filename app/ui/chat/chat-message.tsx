@@ -17,8 +17,6 @@ export default function ChatMessage({ message }: Props) {
     const { user } = useSelector(appStateSelector);
 
     const handleDoubleClick = useCallback(() => {
-        console.log('double click');
-        console.log(message.authorId, user?.id);
         if (message.authorId === user?.id) setIsEditing(true);
     }, [message, user]);
 
