@@ -10,10 +10,6 @@ export async function GET(request: Request): Promise<Response> {
     const state = url.searchParams.get('state');
     const storedState = cookies().get('discord_oauth_state')?.value ?? null;
 
-    console.log('CODE', code);
-    console.log('STATE', state);
-    console.log('STORED STATE', storedState);
-
     if (!code || !state || !storedState || state !== storedState) {
         return new Response(null, { status: 400 });
     }
