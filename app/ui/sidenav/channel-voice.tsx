@@ -1,24 +1,27 @@
 import type { Channel, VoiceChannel } from '@lib/types/channel';
-import { appStateSelector } from '@stores/app-state';
+import type { User } from '@lib/types/user';
 import { userLeftVoiceChannel, userJoinedVoiceChannel } from '@stores/channels';
-import { membersSelector } from '@stores/members';
 import ChannelContextMenu from '@ui/context-menus/channel-cm';
 import MicIcon from '@ui/icons/icon-mic';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 interface Props {
     channel: Channel;
     isAdmin: boolean;
+    user: User;
+    members: User[];
 }
 
-export default function VoiceChannel({ channel, isAdmin }: Props) {
+export default function VoiceChannel({
+    channel,
+    isAdmin,
+    user,
+    members,
+}: Props) {
     const styles =
         'flex cursor-pointer items-center gap-3 truncate rounded-md px-4 py-1 text-base font-light transition-all hover:translate-x-2 hover:bg-stone-200';
 
-    const { user } = useSelector(appStateSelector);
     const dispatch = useDispatch();
-
-    const members = useSelector(membersSelector);
 
     const handleJoin = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.button !== 0) return;

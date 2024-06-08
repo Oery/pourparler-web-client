@@ -1,7 +1,10 @@
 'use client';
 
+import type { AppState } from '@lib/types/app-state';
 import type { Category } from '@lib/types/category';
+import { appStateSelector } from '@stores/app-state';
 import { channelsSelector } from '@stores/channels';
+import { membersSelector } from '@stores/members';
 import CreateChannelModal from '@ui/modals/create-channel';
 import TextChannel from '@ui/sidenav/channel-text';
 import VoiceChannel from '@ui/sidenav/channel-voice';
@@ -13,17 +16,15 @@ interface Props {
     isAdmin: boolean;
 }
 
-const channelTypeMap = {
-    text: TextChannel,
-    voice: VoiceChannel,
-} as const;
-
 export default function CategoryComponent({ category, isAdmin }: Props) {
     const [showChannels, setShowChannels] = useState(true);
 
     const channels = useSelector(channelsSelector).filter(
         (channel) => channel.categoryId === category.id,
     );
+
+    const { user } = useSelector(appStateSelector) as Required<AppState>;
+    const members = useSelector(membersSelector);
 
     return (
         <div className='flex select-none flex-col gap-2 pt-2'>
@@ -40,10 +41,21 @@ export default function CategoryComponent({ category, isAdmin }: Props) {
 
             {showChannels &&
                 channels.map((channel) =>
-                    channelTypeMap[channel.type]({
-                        channel,
-                        isAdmin,
-                    }),
+                    channel.type === 'voice' ? (
+                        <VoiceChannel
+                            key={channel.id}
+                            channel={channel}
+                            isAdmin={isAdmin}
+                            user={user}
+                            members={members}
+                        />
+                    ) : (
+                        <TextChannel
+                            key={channel.id}
+                            channel={channel}
+                            isAdmin={isAdmin}
+                        />
+                    ),
                 )}
         </div>
     );
