@@ -1,8 +1,10 @@
 'use client';
 
+import type { AppState } from '@lib/types/app-state';
 import type { Category } from '@lib/types/category';
 import { appStateSelector } from '@stores/app-state';
 import { channelsSelector } from '@stores/channels';
+import { membersSelector } from '@stores/members';
 import { serversSelector } from '@stores/servers';
 import SideNavContextMenu from '@ui/context-menus/sidenav-cm';
 import CategoryComponent from '@ui/sidenav/category';
@@ -16,7 +18,8 @@ export default function SideNav({ serverId }: { serverId: string }) {
     )!;
 
     const channels = useSelector(channelsSelector);
-    const { user } = useSelector(appStateSelector);
+    const { user } = useSelector(appStateSelector) as Required<AppState>;
+    const members = useSelector(membersSelector);
 
     const channelsByCategory = server.categories.map((category: Category) => {
         const thisCategoryChannels = channels.filter(
@@ -51,6 +54,8 @@ export default function SideNav({ serverId }: { serverId: string }) {
                                 key={channel.id}
                                 channel={channel}
                                 isAdmin={isAdmin}
+                                members={members}
+                                user={user}
                             />
                         ) : (
                             <TextChannel
